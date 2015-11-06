@@ -1,0 +1,419 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 17: Liste linkate</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap18.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap16.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 17</h2>
+
+
+
+<h1>Liste linkate</h1>
+
+<a name=1></a>
+<h3>17.1 Riferimenti interni</h3>
+<p>
+Abbiamo visto esempi di attributi che si riferiscono ad altri oggetti (<b>riferimenti interni</b>, vedi <a href="chap12.htm#8">sezione 12.8</a>).  Una struttura di dati piuttosto comune, la <b>lista linkata</b>, fa uso di questa caratteristica.
+<p>
+Le liste linkate sono costituite da <b>nodi</b> ed ognuno di questi nodi contiene il riferimento al successivo nodo della lista ed un'unità di dati utili chiamata <b>contenuto</b>.
+<p>
+Una lista linkata è considerata una <b>struttura di dati ricorsiva</b> perché la sua definizione è di per sé ricorsiva:
+<p>
+<i><blockquote>Una lista linkata è:
+<ul>
+<li>una lista vuota, rappresentata da <span class=code>None</span>, oppure</li>
+<li>un nodo che contiene un oggetto "contenuto" ed un riferimento ad una lista linkata.</li>
+</ul>
+</blockquote>
+</i>
+<p>
+Le strutture di dati di tipo ricorsivo sono gestite da metodi ricorsivi.
+
+<a name=2></a>
+<h3>17.2 La classe <span class=code>Nodo</span> </h3>
+<p>
+Come abbiamo già visto in occasione della scrittura di nuove classi, cominciamo a scrivere la classe Nodo dalla sua inizializzazione e dal metodo <span class=code>__str__</span> così da poter testare immediatamente il meccanismo di creazione e visualizzazione del nuovo tipo:
+
+<p><span class=code><span class=keyword>class</span> Nodo:
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__init__</span>(self, Contenuto=None, ProssimoNodo=None):
+<br>&nbsp; &nbsp; self.Contenuto = Contenuto
+<br>&nbsp; &nbsp; self.ProssimoNodo&nbsp; = ProssimoNodo
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__str__</span>(self):
+<br>&nbsp; &nbsp; <span class=keyword>return</span> str(self.Contenuto)
+<br></span></p>
+
+<p>
+Abbiamo definito come opzionali i parametri per il metodo di inizializzazione: di default sia <span class=code>Contenuto</span>  che il link <span class=code>ProssimoNodo</span>  hanno valore <span class=code>None</span>.
+<p>
+La rappresentazione a stringa del nodo è solo la stampa del suo contenuto: dato che alla funzione <span class=code>str</span> può essere passato qualsiasi tipo di valore possiamo memorizzare nella lista ogni tipo di dato.
+<p>
+Per testare l'implementazione possiamo creare un <span class=code>Nodo</span> e stamparne il valore:
+
+<p><span class=code>&gt;&gt;&gt; Nodo1 = Nodo(<span class=quote>"test"</span>)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Nodo1
+<br>test
+<br></span></p>
+
+<p>
+Per rendere il tutto più interessante abbiamo bisogno di una lista che contiene più di un nodo:
+
+<p><span class=code>&gt;&gt;&gt; Nodo1 = Nodo(1)
+<br>&gt;&gt;&gt; Nodo2 = Nodo(2)
+<br>&gt;&gt;&gt; Nodo3 = Nodo(3)
+<br></span></p>
+
+<p>
+Questo codice crea tre nodi ma non siamo in presenza di una lista dato che questi nodi non sono <b>linkati</b> (collegati uno all'altro).  Il diagramma di stato in questo caso è:
+
+<p align="center"><img src="illustrations/i_link1.png"></p>
+<p>
+Per linkare i nodi dobbiamo fare in modo che il primo si riferisca al secondo, ed il secondo al terzo:
+
+<p><span class=code>&gt;&gt;&gt; Nodo1.ProssimoNodo = Nodo2
+<br>&gt;&gt;&gt; Nodo2.ProssimoNodo = Nodo3
+<br></span></p>
+
+<p>
+Il riferimento del terzo nodo è <span class=code>None</span> e questo indica che ci troviamo alla fine della lista. Ecco il nuovo diagramma di stato:
+
+<p align="center"><img src="illustrations/i_link2.png"></p>
+<p>
+Ora sai come creare nodi e come linkarli in liste. Ciò che probabilmente è meno chiaro è il motivo per cui questo possa rivelarsi utile.
+
+<a name=3></a>
+<h3>17.3 Liste come collezioni</h3>
+<p>
+Le liste sono utili perché forniscono un modo per assemblare più oggetti in una entità singola talvolta chiamata <b>collezione</b>.  Nell'esempio che abbiamo visto il primo nodo serve come riferimento all'intera lista dato che ne rappresenta il punto di partenza.
+<p>
+Per passare una lista di questo tipo come parametro ad una funzione dobbiamo passare quindi soltanto il riferimento al suo primo nodo. Per fare un esempio, la funzione <span class=code>StampaLista</span> prende un singolo nodo come argomento, considerandolo l'inizio della lista e stampa il contenuto di ogni nodo finché non viene raggiunta la fine della lista:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>StampaLista</span>(Nodo):
+<br>&nbsp; <span class=keyword>while</span> Nodo:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> Nodo,
+<br>&nbsp; &nbsp; Nodo = Nodo.ProssimoNodo
+<br>&nbsp; <span class=keyword>print</span>
+<br></span></p>
+
+<p>
+Per invocare questo metodo passiamo un riferimento al primo nodo:
+
+<p><span class=code>&gt;&gt;&gt; StampaLista(Nodo1)
+<br>1 2 3
+<br></span></p>
+
+<p>
+All'interno di <span class=code>StampaLista</span> abbiamo un riferimento al primo nodo della lista ma non c'è alcuna variabile che si riferisce agli altri nodi: per passare da un nodo al successivo usiamo il valore <span class=code>Nodo.ProssimoNodo</span>, usando la variabile <span class=code>Nodo</span> per riferirsi ad ognuno dei nodi in successione.
+<p>
+Questo diagramma mostra il valore di <span class=code>Lista</span> ed il valore assunto da <span class=code>Nodo</span>:
+
+<p align="center"><img src="illustrations/i_link3.png"></p>
+
+<blockquote><i>Esercizio: per convenzione le liste sono stampate tra parentesi quadrate con virgole che ne separano gli elementi, come in <span class=code>[1, 2, 3]</span>.  Modifica <span class=code>StampaLista</span> così da generare una stampa in questo formato.</i>
+</blockquote>
+
+<a name=4></a>
+<h3>17.4 Liste e ricorsione</h3>
+<p>
+Data la sua natura ricorsiva è intuitivo esprimere molte operazioni sulle liste con metodi ricorsivi. Questo è un algoritmo per stampare una lista a partire dall'ultimo elemento:
+
+<ol>
+<li>Separa la lista in due parti: il primo nodo (chiamato testa) ed il resto (la coda).</li>
+<li>Stampa la coda in ordine inverso.</li>
+<li>Stampa la testa.</li>
+</ol>
+<p>
+Logicamente il passo 2, la chiamata ricorsiva, parte dal presupposto che ci sia un metodo per stampare la lista al contrario. Se partiamo dal presupposto che la chiamata ricorsiva funziona correttamente questo algoritmo lavora in modo corretto.
+<p>
+Tutto ciò di cui abbiamo bisogno è un caso base  ed un modo per verificare che per ogni tipo di lista riusciremo ad arrivare al caso base per interrompere la serie di chiamate ricorsive. Data la definizione ricorsiva della lista un caso base intuitivo è la lista vuota, rappresentata da <span class=code>None</span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>StampaInversa</span>(Lista):
+<br>&nbsp; <span class=keyword>if</span> Lista == None: <span class=keyword>return</span>
+<br>&nbsp; Testa = Lista
+<br>&nbsp; Coda = Lista.ProssimoNodo
+<br>&nbsp; StampaInversa(Coda)
+<br>&nbsp; <span class=keyword>print</span> Testa,
+<br></span></p>
+
+<p>
+La prima riga gestisce il caso base senza fare niente. Le due righe successive dividono la lista in due parti (<span class=code>Testa</span> e <span class=code>Coda</span>). Le ultime due righe stampano la lista. Ricorda che la virgola alla fine del <span class=code><span class=keyword>print</span></span> evita la stampa del ritorno a capo tra un nodo e l'altro.
+<p>
+Invochiamo questo metodo come abbiamo fatto con <span class=code>StampaLista</span>:
+
+<p><span class=code>&gt;&gt;&gt; StampaInversa(Nodo1)
+<br>3 2 1
+<br></span></p>
+
+<p>
+Potresti chiederti perché <span class=code>StampaLista</span> e <span class=code>StampaInversa</span> sono funzioni e non metodi nella classe <span class=code>Nodo</span>.  La ragione è che vogliamo usare il valore <span class=code>None</span> per rappresentare la lista vuota e non è lecito invocare un metodo su <span class=code>None</span>.  Questa limitazione in effetti rende poco pulito il codice, costringendo alla sua implementazione senza poter fare uso di uno stile orientato agli oggetti.
+
+<a name=5></a>
+<h3>17.5 Liste infinite</h3>
+<p>
+Possiamo provare che <span class=code>StampaInversa</span> giungerà sempre alla fine, raggiungendo il caso base? La risposta è no e infatti la sua chiamata causerà un errore in esecuzione nel caso in cui la lista passata come parametro sia di tipo particolare.
+<p>
+Non c'è nulla che vieti ad un nodo di fare riferimento ad un nodo precedente della lista o addirittura a se stesso. Questa figura mostra una lista di due nodi ognuno dei quali si riferisce a se stesso:
+
+<p align="center"><img src="illustrations/i_link4.png"></p>
+<p>
+Se invocassimo <span class=code>StampaLista</span> o <span class=code>StampaInversa</span> su questa lista si creerebbe una ricorsione infinita: questo tipo di comportamento rende particolarmente difficile lavorare con le liste...
+<p>
+Ciononostante le liste infinite possono rivelarsi molto utili in (poche) occasioni particolari, come quando vogliamo rappresentare un numero come lista di cifre usando una lista infinita per la descrizione della parte decimale periodica.
+<p>
+Ci rimane comunque il problema che non possiamo dimostrare che <span class=code>StampaLista</span>
+e <span class=code>StampaInversa</span> raggiungono sempre il caso base.  Il meglio che possiamo fare è stabilire una <b>precondizione</b>, assumendo che "se non sono presenti anelli all'interno della lista questi metodi termineranno". La precondizione impone una limitazione ai parametri e descrive il comportamento di un metodo nel caso essa venga soddisfatta. Vediamo subito qualche esempio.
+
+<a name=6></a>
+<h3>17.6 Il teorema dell'ambiguità fondamentale</h3>
+<p>
+Una parte di <span class=code>StampaInversa</span> aveva qualcosa di sospetto:
+
+<p><span class=code>&nbsp; &nbsp; Testa = Lista
+<br>&nbsp; &nbsp; Coda = Lista.ProssimoNodo
+<br></span></p>
+
+<p>
+Dopo la prima assegnazione <span class=code>Testa</span> e <span class=code>Lista</span> hanno lo stesso tipo e lo stesso valore. Perché dunque abbiamo creato una nuova variabile?
+<p>
+La ragione è che le due variabili giocano ruoli differenti. Pensiamo a <span class=code>Testa</span> come riferimento ad un singolo nodo e a <span class=code>Lista</span> come riferimento al primo nodo della lista. Questi "ruoli" non sono espressamente necessari al programma, ma sono molto utili per chiarire il concetto al programmatore.
+<p>
+In generale non possiamo dire quale ruolo giochi una variabile semplicemente guardando un programma. Spesso si usano nomi come <span class=code>Nodo</span> e <span class=code>Lista</span> per documentare l'uso della variabile e si introducono variabili addizionali solo per rendere meno ambiguo il codice al momento della lettura.
+<p>
+Avremmo anche potuto scrivere <span class=code>StampaInversa</span> senza <span class=code>Testa</span>
+e <span class=code>Coda</span>. Il risultato sarebbe stato più conciso, ma decisamente meno chiaro:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>StampaInversa</span>(Lista) :
+<br>&nbsp; <span class=keyword>if</span> Lista == None : <span class=keyword>return</span>
+<br>&nbsp; StampaInversa(Lista.ProssimoNodo)
+<br>&nbsp; <span class=keyword>print</span> Lista,
+<br></span></p>
+
+<p>
+Con un'attenzione alle due chiamate di funzione è necessario ricordarci che <span class=code>StampaInversa</span> tratta il suo argomento <span class=code>Lista</span> come una collezione e <span class=code><span class=keyword>print</span></span> il proprio come un oggetto singolo.
+<p>
+Il <b>teorema dell'ambiguità fondamentale</b> descrive l'ambiguità inerente al riferimento ad un nodo:
+
+<blockquote><b>Una variabile che si riferisce ad un nodo può trattare il nodo come oggetto singolo o come primo elemento di una lista di nodi linkati.</b>
+</blockquote>
+
+<a name=7></a>
+<h3>17.7 Modifica delle liste</h3>
+<p>
+Ci sono due modi per modificare una lista linkata: possiamo cambiare il contenuto di uno dei nodi o aggiungere, rimuovere o riordinare i nodi.
+<p>
+Come esempio scriviamo un metodo per rimuovere il secondo nodo di una lista, ritornando un riferimento al nodo rimosso:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>RimuoviSecondo</span>(Lista):
+<br>&nbsp; <span class=keyword>if</span> Lista == None: <span class=keyword>return</span>
+<br>&nbsp; Primo = Lista
+<br>&nbsp; Secondo = Lista.ProssimoNodo
+<br>&nbsp; <span class=comment># il primo nodo deve riferirsi al terzo
+</span><br>&nbsp; Primo.ProssimoNodo = Secondo.ProssimoNodo
+<br>&nbsp; <span class=comment># separa il secondo nodo dal resto della lista
+</span><br>&nbsp; Secondo.ProssimoNodo = None
+<br>&nbsp; <span class=keyword>return</span> Secondo
+<br></span></p>
+
+<p>
+Ancora una volta abbiamo usato delle variabili temporanee per rendere il codice più leggibile. Ecco come usare questo metodo:
+
+<p><span class=code>&gt;&gt;&gt; StampaLista(Nodo1)
+<br>1 2 3
+<br>&gt;&gt;&gt; Rimosso = RimuoviSecondo(Nodo1)
+<br>&gt;&gt;&gt; StampaLista(Rimosso)
+<br>2
+<br>&gt;&gt;&gt; StampaLista(Nodo1)
+<br>1 3
+<br></span></p>
+
+<p>
+Questo diagramma di stato mostra l'effetto dell'operazione:
+
+<p align="center"><img src="illustrations/i_link5.png"></p>
+<p>
+Cosa succede se invochi questo metodo e passi una lista composta da un solo elemento (<b>elemento singolo</b>)?  Cosa succede se passi come argomento una lista vuota? C'è una precondizione per questo metodo? Se esiste riscrivi il metodo per gestire gli eventuali problemi.
+
+<a name=8></a>
+<h3>17.8 Metodi contenitore e aiutante</h3>
+<p>
+Spesso è utile dividere un'operazione su una lista in due metodi. Per esempio per stampare una lista al contrario secondo il formato convenzionale <span class=code>[3, 2, 1]</span> possiamo usare il metodo <span class=code>StampaInversa</span> per stampare <span class=code>3, 2,</span> ma abbiamo bisogno di un metodo diverso per stampare le parentesi ed il primo nodo.
+Chiamiamo questo metodo <span class=code>StampaInversaFormato</span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>StampaInversaFormato</span>(Lista) :
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"["</span>,
+<br>&nbsp; <span class=keyword>if</span> Lista != None :
+<br>&nbsp; &nbsp; Testa = Lista
+<br>&nbsp; &nbsp; Coda = Lista.ProssimoNodo
+<br>&nbsp; &nbsp; StampaInversa(Coda)
+<br>&nbsp; &nbsp; <span class=keyword>print</span> Testa,
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"]"</span>,
+<br></span></p>
+
+<p>
+Ancora una volta è una buona idea testare questo metodo per vedere se funziona correttamente anche in casi particolari, quando cioè una lista è vuota o composta da un solo elemento.
+<p>
+Quando usiamo questo metodo da qualche parte nel programma invochiamo direttamente <span class=code>StampaInversaFormato</span> e questa invoca a sua volta <span class=code>StampaInversa</span>.  In questo senso <span class=code>StampaInversaFormato</span> agisce come un <b>contenitore</b> che usa <span class=code>StampaInversa</span> come <b>aiutante</b>.
+
+<a name=9></a>
+<h3>17.9 La classe <span class=code>ListaLinkata</span></h3>
+<p>
+Dal modo in cui abbiamo implementato le liste sorgono dei problemi concettuali piuttosto sottili. Procedendo in modo diverso dal consueto proporremo un'implementazione alternativa spiegando solo in seguito quali problemi vengono risolti da questa nuova versione.
+<p>
+Creiamo innanzitutto una nuova classe chiamata <span class=code>ListaLinkata</span>.  I suoi attributi sono un intero che contiene la lunghezza della lista e il riferimento al primo nodo. Gli oggetti <span class=code>ListaLinkata</span> ci serviranno per gestire liste di oggetti <span class=code>Nodo</span>:
+
+<p><span class=code><span class=keyword>class</span> ListaLinkata:
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__init__</span>(self) :
+<br>&nbsp; &nbsp; self.Lunghezza = 0
+<br>&nbsp; &nbsp; self.Testa = None
+<br></span></p>
+
+<p>
+Una cosa positiva per quanto concerne la classe <span class=code>ListaLinkata</span> è che fornisce un posto naturale dove inserire funzioni contenitore quale <span class=code>StampaInversaFormato</span> e che possiamo far diventare metodi della classe:
+
+<p><span class=code><span class=keyword>class</span> ListaLinkata:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>StampaInversa</span>(self):
+<br>&nbsp; &nbsp; <span class=keyword>print</span> <span class=quote>"["</span>,
+<br>&nbsp; &nbsp; <span class=keyword>if</span> self.Testa != None:
+<br>&nbsp; &nbsp; &nbsp; self.Testa.StampaInversa()
+<br>&nbsp; &nbsp; <span class=keyword>print</span> <span class=quote>"]"</span>,
+<br>
+<br><span class=keyword>class</span> Nodo:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>StampaInversa</span>(self):
+<br>&nbsp; &nbsp; <span class=keyword>if</span> self.ProssimoNodo != None:
+<br>&nbsp; &nbsp; &nbsp; Coda = self.ProssimoNodo
+<br>&nbsp; &nbsp; &nbsp; Coda.StampaInversa()
+<br>&nbsp; &nbsp; <span class=keyword>print</span> self.Contenuto,
+<br></span></p>
+
+<p>
+Per rendere le cose più interessanti, rinominiamo 
+<span class=code>StampaInversaFormato</span>. Ora abbiamo due metodi chiamati 
+<span class=code>StampaInversa</span>: quello nella classe <span class=code>Nodo</span> che è l'aiutante
+e quello nella classe <span class=code>ListaLinkata</span> che è il contenitore. Quando 
+il metodo contenitore invoca <span class=code>self.Testa.StampaInversa</span> sta in effetti 
+invocando l'aiutante dato che <span class=code>self.Testa</span> è un oggetto di tipo <span class=code>Nodo</span>.
+<p>
+Un altro beneficio della classe <span class=code>ListaLinkata</span> è che rende semplice aggiungere o rimuovere il primo elemento di una lista. <span class=code>AggiuntaPrimo</span> è il metodo di <span class=code>ListaLinkata</span> per aggiungere un contenuto all'inizio di una lista:
+
+<p><span class=code><span class=keyword>class</span> ListaLinkata:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>AggiuntaPrimo</span>(self, Contenuto):
+<br>&nbsp; &nbsp; NodoAggiunto = Nodo(Contenuto)
+<br>&nbsp; &nbsp; NodoAggiunto.ProssimoNodo = self.Testa
+<br>&nbsp; &nbsp; self.Testa = NodoAggiunto
+<br>&nbsp; &nbsp; self.Lunghezza = self.Lunghezza + 1
+<br></span></p>
+
+<p>
+Come sempre occorre verificare che questo codice funzioni correttamente anche nel caso di liste speciali: cosa succede se la lista è inizialmente vuota?
+
+<a name=10></a>
+<h3>17.10 Invarianti</h3>
+<p>
+Alcune liste sono "ben formate" mentre altre non lo sono.  Se una lista contiene un anello questo può creare problemi a un certo numero dei nostri metodi, tanto che potremmo richiedere solo liste che non contengono anelli al loro interno. Un altro prerequisito è che il valore di <span class=code>Lunghezza</span> nell'oggetto <span class=code>ListaLinkata</span> corrisponda sempre al numero di nodi della lista.
+<p>
+Prerequisiti come questi sono chiamati <b>invarianti</b> perché dovrebbero essere sempre verificati in ogni momento per ogni oggetto della classe. Specificare gli invarianti degli oggetti è una pratica di programmazione molto indicata in quanto consente di rendere molto più facile la verifica del codice, il controllo dell'integrità delle strutture e il riconoscimento degli errori.
+<p>
+Una cosa che può rendere confusi per quanto riguarda gli invarianti è che a volte i prerequisiti che essi rappresentano possono essere violati, anche se solo temporaneamente: nel metodo <span class=code>AggiungiPrimo</span>, dopo aver aggiunto il nodo ma prima di avere aggiornato <span class=code>Lunghezza</span>, il prerequisito invariante non è soddisfatto.
+Questo tipo di violazione è accettabile, dato che spesso è impossibile modificare un oggetto senza violare un invariante almeno per un breve istante.
+Normalmente richiediamo che qualsiasi metodo che si trovi a violare un invariante lo ripristini non appena possibile.
+<p>
+Se l'invariante è violato in una parte significativa del codice è molto importante commentare questo comportamento anomalo per evitare che, anche a distanza di tempo, possano essere richieste delle operazioni che dipendono dall'integrità dei dati proprio dove questi dati non sono corretti.
+
+<a name=11></a>
+<h3>17.11 Glossario</h3>
+
+<dl>
+<dt>Riferimento interno</dt>
+<dd>riferimento depositato in un attributo di un oggetto.</dd>
+<dt>Lista linkata</dt>
+<dd>struttura di dati che implementa una collezione usando una sequenza di nodi linkati.</dd>
+<dt>Nodo</dt>
+<dd>elemento di una lista solitamente implementato come un oggetto che contiene un riferimento ad un altro oggetto dello stesso tipo.</dd>
+<dt>Contenuto</dt>
+<dd>insieme dei dati utili contenuti in un nodo.</dd>
+<dt>Link</dt>
+<dd>riferimento interno ad un oggetto usato per legarlo ad un altro oggetto.</dd>
+<dt>Precondizione</dt>
+<dd>condizione che deve essere vera per permettere ad un metodo di funzionare in modo corretto.</dd>
+<dt>Teorema dell'ambiguità fondamentale</dt>
+<dd>il riferimento ad un nodo di una lista può essere considerato sia un singolo oggetto che il primo di una lista di nodi.</dd>
+<dt>Elemento singolo</dt>
+<dd>lista linkata composta da un singolo nodo.</dd>
+<dt>Contenitore</dt>
+<dd>metodo che agisce da interfaccia tra una funzione chiamante e un metodo aiutante, spesso semplificando l'uso del metodo aiutante o rendendo l'invocazione più immune da errori.</dd>
+<dt>Aiutante</dt>
+<dd>metodo che non è invocato direttamente da una funzione chiamate ma che è usato da un altro metodo per portare a termine una parte di un'operazione.</dd>
+<dt>Invariante</dt>
+<dd>condizione che deve essere vera per un oggetto in ogni momento, con l'unica eccezione degli istanti in cui l'oggetto è in fase di modifica.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap18.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap16.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

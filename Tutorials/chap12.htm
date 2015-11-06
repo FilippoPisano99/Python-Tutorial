@@ -1,0 +1,412 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 12: Classi e oggetti</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap13.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap11.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 12</h2>
+
+
+
+<h1>Classi e oggetti</h1>
+
+<a name=1></a>
+<h3>12.1 Tipi composti definiti dall'utente</h3>
+<p>
+Abbiamo usato alcuni dei tipi composti predefiniti e ora siamo pronti per crearne uno tutto nostro: il tipo <span class=code>Punto</span>.
+<p>
+Considerando il concetto matematico di punto nelle due dimensioni, il punto è definito da una coppia di numeri (le coordinate). In notazione matematica le coordinate dei punti sono spesso scritte tra parentesi con una virgola posta a separare i due valori. Per esempio <tt>(0, 0)</tt> rappresenta l'origine e <tt>(x, y)</tt> il punto che si trova <tt>x</tt> unità a destra e <tt>y</tt> unità in alto rispetto all'origine.
+<p>
+Un modo naturale di rappresentare un punto in Python è una coppia di numeri in virgola mobile e la questione che ci rimane da definire è in che modo raggruppare questa coppia di valori in un oggetto composto: un sistema veloce anche se poco elegante sarebbe l'uso di una tupla, anche se possiamo fare di meglio.
+<p>
+Un modo alternativo è quello di definire un nuovo tipo composto chiamato <b>classe</b>.  Questo tipo di approccio richiede un po' di sforzo iniziale, ma i suoi benefici saranno subito evidenti.
+<p>
+Una definizione di classe ha questa sintassi:
+
+<p><span class=code><span class=keyword>class</span> Punto:
+<br>&nbsp; <span class=keyword>pass</span>
+<br></span></p>
+
+<p>
+Le definizioni di classe possono essere poste in qualsiasi punto di un programma ma solitamente per questioni di leggibilità sono poste all'inizio, subito sotto le istruzioni <span class=code><span class=keyword>import</span></span>.
+Le regole di sintassi per la definizione di una classe sono le stesse degli altri tipi composti: la definizione dell'esempio crea una nuova classe chiamata <span class=code>Punto</span>.  L'istruzione <b>pass</b> non ha effetti: è stata usata per il solo fatto che la definizione prevede un corpo che deve ancora essere scritto.
+<p>
+Creando la classe <span class=code>Punto</span> abbiamo anche creato un nuovo tipo di dato chiamato con lo stesso nome. I membri di questo tipo sono detti <b>istanze</b> del tipo o <b>oggetti</b>.  La creazione di una nuova istanza è detta <b>istanziazione</b>: solo al momento dell'istanziazione parte della memoria è riservata per depositare il valore dell'oggetto.  Per creare un oggetto di tipo <span class=code>Punto</span> viene chiamata una funzione chiamata <span class=code>Punto</span>:
+
+<p><span class=code>P1 = Punto()
+<br></span></p>
+
+<p>
+Alla variabile <span class=code>P1</span> è assegnato il riferimento ad un nuovo oggetto <span class=code>Punto</span>.  Una funzione come <span class=code>Punto</span>, che crea nuovi oggetti e riserva quindi della memoria per depositarne i valori, è detta <b>costruttore</b>.
+
+<a name=2></a>
+<h3>12.2 Attributi</h3>
+<p>
+Possiamo aggiungere un nuovo dato ad un'istanza usando la notazione punto:
+
+<p><span class=code>&gt;&gt;&gt; P1.x = 3.0
+<br>&gt;&gt;&gt; P1.y = 4.0
+<br></span></p>
+
+<p>
+Questa sintassi è simile a quella usata per la selezione di una variabile appartenente ad un modulo, tipo <span class=code>math.pi</span> e <span class=code>string.uppercase</span>.
+In questo caso stiamo selezionando una voce da un'istanza e queste voci che fanno parte dell'istanza sono dette <b>attributi</b>.
+<p>
+Questo diagramma di stato mostra il risultato delle assegnazioni:
+
+<p align="center"><img src="illustrations/i_point.png"></p>
+<p>
+La variabile <span class=code>P1</span> si riferisce ad un oggetto Punto che contiene due attributi ed ogni attributo (una coordinata) si riferisce ad un numero in virgola mobile.
+<p>
+Possiamo leggere il valore di un attributo con la stessa sintassi:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> P1.y
+<br>4.0
+<br>&gt;&gt;&gt; x = P1.x
+<br>&gt;&gt;&gt; <span class=keyword>print</span> x
+<br>3.0
+<br></span></p>
+
+<p>
+L'espressione <span class=code>P1.x</span> significa "vai all'oggetto puntato da <span class=code>P1</span> e ottieni il valore del suo attributo <span class=code>x</span>". In questo caso assegniamo il valore ad una variabile chiamata <span class=code>x</span>: non c'è conflitto tra la variabile locale <span class=code>x</span> e l'attributo <span class=code>x</span> di <span class=code>P1</span>: lo scopo della notazione punto è proprio quello di identificare la variabile cui ci si riferisce evitando le ambiguità.
+<p>
+Puoi usare la notazione punto all'interno di ogni espressione così che le istruzioni proposte di seguito sono a tutti gli effetti perfettamente lecite:
+
+<p><span class=code><span class=keyword>print</span> <span class=quote>'('</span> + str(P1.x) + <span class=quote>', '</span> + str(P1.y) + <span class=quote>')'</span>
+<br>DistanzaAlQuadrato = P1.x * P1.x + P1.y * P1.y
+<br></span></p>
+
+<p>
+La prima riga stampa <span class=code>(3.0, 4.0)</span>; la seconda calcola il valore 25.0.
+<p>
+Potresti essere tentato di stampare direttamente il valore di <span class=code>P1</span>:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> P1
+<br>&lt;__main__.Punto instance at 80f8e70&gt;
+<br></span></p>
+
+<p>
+Il risultato indica che <span class=code>P1</span> è un'istanza della classe <span class=code>Punto</span> e che è stato definito in <span class=code>__main__</span>.  <span class=code>80f8e70</span> è l'identificatore univoco dell'oggetto, scritto in base 16 (esadecimale). Probabilmente questo non è il modo più pratico di mostrare un oggetto <span class=code>Punto</span> ma vedrai subito come renderlo più comprensibile.
+
+<blockquote><i>Esercizio: crea e stampa un oggetto <span class=code>Punto</span> e poi usa <span class=code>id</span> per stampare l'identificatore univoco dell'oggetto. Traduci la forma esadecimale dell'identificatore in decimale e verifica che i due valori trovati coincidono.</i>
+</blockquote>
+
+<a name=3></a>
+<h3>12.3 Istanze come parametri</h3>
+<p>
+Puoi passare un'istanza come parametro ad una funzione nel solito modo:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>StampaPunto</span>(Punto):
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>'('</span> + str(Punto.x) + <span class=quote>', '</span> + str(Punto.y) + <span class=quote>')'</span>
+<br></span></p>
+
+<p>
+<span class=code>StampaPunto</span> prende un oggetto <span class=code>Punto</span> come argomento e ne stampa gli attributi in forma standard. Se chiami <span class=code>StampaPunto(P1)</span> la stampa è <span class=code>(3.0, 4.0)</span>.
+
+<blockquote><i>Esercizio: riscrivi la funzione <span class=code>DistanzaTraDuePunti</span> che abbiamo già visto alla <a href="chap05.htm#2">sezione 5.2</a> così da accettare due oggetti di tipo <span class=code>Punto</span> invece di quattro numeri.</i>
+</blockquote>
+
+<a name=4></a>
+<h3>12.4 Uguaglianza</h3>
+<p>
+La parola "uguale" sembra così intuitiva che probabilmente non hai mai pensato più di tanto a cosa significa veramente.
+<p>
+Quando dici "Alberto ed io abbiamo la stessa auto" naturalmente vuoi dire che entrambi possedete un'auto dello stesso modello ed è sottinteso che stai parlando di due auto diverse e non di una soltanto. Se dici "Alberto ed io abbiamo la stessa madre" è sottinteso che la madre è la stessa e voi siete fratelli <a href="javascript:fn('Non tutte le lingue soffrono di questa ambiguità: per esempio il tedesco ha parole diverse per indicare tipi diversi di similarità: "la stessa auto" in questo contesto è traducibile con "gleiche Auto" e "la stessa madre" con "selbe Mutter".')">* Note</a>.  L'idea stessa di uguaglianza dipende quindi dal contesto.
+<p>
+Quando parli di oggetti abbiamo la stessa ambiguità: se due oggetti di tipo <span class=code>Punto</span> sono gli stessi, significa che hanno semplicemente gli stessi dati (coordinate) o che si sta parlando di un medesimo oggetto?
+<p>
+Per vedere se due riferimenti fanno capo allo stesso oggetto usa l'operatore <span class=code>==</span>:
+
+<p><span class=code>&gt;&gt;&gt; P1 = Punto()
+<br>&gt;&gt;&gt; P1.x = 3
+<br>&gt;&gt;&gt; P1.y = 4
+<br>&gt;&gt;&gt; P2 = Punto()
+<br>&gt;&gt;&gt; P2.x = 3
+<br>&gt;&gt;&gt; P2.y = 4
+<br>&gt;&gt;&gt; P1 == P2
+<br>0
+<br></span></p>
+
+<p>
+Anche se <span class=code>P1</span> e <span class=code>P2</span> hanno le stesse coordinate non fanno riferimento allo stesso oggetto ma a due oggetti diversi. Se assegniamo <span class=code>P1</span> a <span class=code>P2</span>
+allora le due variabili sono alias dello stesso oggetto:
+
+<p><span class=code>&gt;&gt;&gt; P2 = P1
+<br>&gt;&gt;&gt; P1 == P2
+<br>1
+<br></span></p>
+
+<p>
+Questo tipo di uguaglianza è detta <b>uguaglianza debole</b> perché si limita a confrontare solo i riferimenti delle variabili e non il contenuto degli oggetti.
+<p>
+Per confrontare il contenuto degli oggetti (<b>uguaglianza forte</b>) possiamo scrivere una funzione chiamata <span class=code>StessoPunto</span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>StessoPunto</span>(P1, P2) :
+<br>&nbsp; <span class=keyword>return</span> (P1.x == P2.x) <span class=keyword>and</span> (P1.y == P2.y)
+<br></span></p>
+
+<p>
+Se creiamo due differenti oggetti che contengono gli stessi dati possiamo ora usare <span class=code>StessoPunto</span> per verificare se entrambi rappresentano lo stesso punto:
+
+<p><span class=code>&gt;&gt;&gt; P1 = Punto()
+<br>&gt;&gt;&gt; P1.x = 3
+<br>&gt;&gt;&gt; P1.y = 4
+<br>&gt;&gt;&gt; P2 = Punto()
+<br>&gt;&gt;&gt; P2.x = 3
+<br>&gt;&gt;&gt; P2.y = 4
+<br>&gt;&gt;&gt; StessoPunto(P1, P2)
+<br>1
+<br></span></p>
+
+<p>
+Logicamente se le due variabili si riferiscono allo stesso punto e sono alias l'una dell'altra allo stesso tempo garantiscono l'uguaglianza debole e quella forte.
+
+<a name=5></a>
+<h3>12.5 Rettangoli</h3>
+<p>
+Se volessimo creare una classe per rappresentare un rettangolo quali informazioni dovremmo fornire per specificarlo in modo univoco? Per rendere le cose più semplici partiremo con un rettangolo orientato lungo gli assi.
+<p>
+Ci sono poche possibilità tra cui scegliere: potremmo specificare il centro del rettangolo e le sue dimensioni (altezza e larghezza); oppure specificare un angolo di riferimento e le dimensioni (ancora altezza e larghezza); o ancora specificare le coordinate di due punti opposti. Una scelta convenzionale abbastanza comune è quella di specificare il punto in alto a sinistra e le dimensioni.
+<p>
+Definiamo la nuova classe:
+
+<p><span class=code><span class=keyword>class</span> Rettangolo:
+<br>&nbsp; <span class=keyword>pass</span>
+<br></span></p>
+
+<p>
+Per istanziare un nuovo oggetto rettangolo:
+
+<p><span class=code>Rett = Rettangolo()
+<br>Rett.Larghezza = 100.0
+<br>Rett.Altezza = 200.0
+<br></span></p>
+
+<p>
+Questo codice crea un nuovo oggetto <span class=code>Rettangolo</span> con due attributi in virgola mobile. Ci manca solo il punto di riferimento in alto a sinistra e per specificarlo possiamo inserire un oggetto all'interno di un altro oggetto:
+
+<p><span class=code>Rett.AltoSinistra = Punto()
+<br>Rett.AltoSinistra.x = 0.0;
+<br>Rett.AltoSinistra.y = 0.0;
+<br></span></p>
+
+<p>
+L'operatore punto è usato per comporre l'espressione: <span class=code>Rett.AltoSinistra.x</span> significa "vai all'oggetto cui si riferisce <span class=code>Rett</span> e seleziona l'attributo chiamato <span class=code>AltoSinistra</span>; poi vai all'oggetto cui si riferisce <span class=code>AltoSinistra</span> e seleziona l'attributo chiamato <span class=code>x</span>."
+<p>
+La figura mostra lo stato di questo oggetto:
+
+<p align="center"><img src="illustrations/i_rectangle.png"></p>
+
+<a name=6></a>
+<h3>12.6 Istanze come valori di ritorno</h3>
+<p>
+Le funzioni possono ritornare istanze. Possiamo quindi scrivere una funzione <span class=code>TrovaCentro</span> che prende un oggetto <span class=code>Rettangolo</span> come argomento e restituisce un oggetto <span class=code>Punto</span> che contiene le coordinate del centro del rettangolo:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>TrovaCentro</span>(Rettangolo):
+<br>&nbsp; P = Punto()
+<br>&nbsp; P.x = Rettangolo.AltoSinistra.x + Rettangolo.Larghezza/2.0
+<br>&nbsp; P.y = Rettangolo.AltoSinistra.y + Rettangolo.Altezza/2.0
+<br>&nbsp; <span class=keyword>return</span> P
+<br></span></p>
+
+<p>
+Per chiamare questa funzione passa <span class=code>Rett</span> come argomento e assegna il risultato ad una variabile:
+
+<p><span class=code>&gt;&gt;&gt; Centro = TrovaCentro(Rett)
+<br>&gt;&gt;&gt; StampaPunto(Centro)
+<br>(50.0, 100.0)
+<br></span></p>
+
+
+<a name=7></a>
+<h3>12.7 Gli oggetti sono mutabili</h3>
+<p>
+Possiamo cambiare lo stato di un oggetto facendo un'assegnazione ad uno dei suoi attributi. Per fare un esempio possiamo cambiare le dimensioni di <span class=code>Rett</span>:
+
+<p><span class=code>Rett.Larghezza = Rett.Larghezza + 50
+<br>Rett.Altezza = Rett.Altezza + 100
+<br></span></p>
+
+<p>
+Incapsulando questo codice in un metodo e generalizzandolo diamo la possibilità di aumentare le dimensioni di qualsiasi rettangolo:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>AumentaRettangolo</span>(Rettangolo, AumentoLargh, AumentoAlt) :
+<br>&nbsp; Rettangolo.Larghezza = Rettangolo.Larghezza + AumentoLargh;
+<br>&nbsp; Rettangolo.Altezza = Rettangolo.Altezza + AumentoAlt;
+<br></span></p>
+
+<p>
+Le variabili <span class=code>AumentoLargh</span> e <span class=code>AumentoAlt</span> indicano di quanto devono essere aumentate le dimensioni del rettangolo. Invocare questo metodo ha lo stesso effetto di modificare il <span class=code>Rettangolo</span> che è passato come argomento.
+<p>
+Creiamo un nuovo rettangolo chiamato <span class=code>R1</span> e passiamolo a <span class=code>AumentaRettangolo</span>:
+
+<p><span class=code>&gt;&gt;&gt; R1 = Rettangolo()
+<br>&gt;&gt;&gt; R1.Larghezza = 100.0
+<br>&gt;&gt;&gt; R1.Altezza = 200.0
+<br>&gt;&gt;&gt; R1.AltoSinistra = Punto()
+<br>&gt;&gt;&gt; R1.AltoSinistra.x = 0.0;
+<br>&gt;&gt;&gt; R1.AltoSinistra.y = 0.0;
+<br>&gt;&gt;&gt; AumentaRettangolo(R1, 50, 100)
+<br></span></p>
+
+<p>
+Mentre stiamo eseguendo <span class=code>AumentaRettangolo</span> il parametro <span class=code>Rettangolo</span> è un alias per <span class=code>R1</span>.  Ogni cambiamento apportato a <span class=code>Rettangolo</span> modifica direttamente <span class=code>R1</span> e viceversa.
+
+<blockquote><i>Esercizio: scrivi una funzione chiamata <span class=code>MuoviRettangolo</span> che prende come parametri un <span class=code>Rettangolo</span> e due valori <span class=code>dx</span> e <span class=code>dy</span>.  La funzione deve spostare le coordinate del punto in alto a sinistra sommando alla posizione x il valore <span class=code>dx</span> e alla posizione y il valore <span class=code>dy</span>.</i>
+</blockquote>
+
+<a name=8></a>
+<h3>12.8 Copia</h3>
+<p>
+Abbiamo già visto che gli alias possono rendere il programma difficile da leggere perché una modifica può cambiare il valore di variabili che apparentemente non hanno nulla a che vedere con quelle modificate. Man mano che le dimensioni del programma crescono diventa difficile tenere a mente quali variabili si riferiscano ad un dato oggetto.
+<p>
+La copia di un oggetto è spesso  una comoda alternativa all'alias. Il modulo <span class=code>copy</span> contiene una funzione <span class=code>copy</span> che permette di duplicare qualsiasi oggetto:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>import</span> copy
+<br>&gt;&gt;&gt; P1 = Punto()
+<br>&gt;&gt;&gt; P1.x = 3
+<br>&gt;&gt;&gt; P1.y = 4
+<br>&gt;&gt;&gt; P2 = copy.copy(P1)
+<br>&gt;&gt;&gt; P1 == P2
+<br>0
+<br>&gt;&gt;&gt; StessoPunto(P1, P2)
+<br>1
+<br></span></p>
+
+<p>
+Dopo avere importato il modulo <span class=code>copy</span> possiamo usare il metodo <span class=code>copy</span> in esso contenuto per creare un nuovo oggetto <span class=code>Punto</span>.  <span class=code>P1</span> e <span class=code>P2</span> non solo sono lo stesso punto ma contengono gli stessi dati.
+<p>
+Per copiare un semplice oggetto come <span class=code>Punto</span> che non contiene altri oggetti al proprio interno <span class=code>copy</span> è sufficiente.  Questa è chiamata <b>copia debole</b>:
+
+<p><span class=code>&gt;&gt;&gt; Punto2 = copy.copy(Punto1)
+<br></span></p>
+
+<p>
+Quando abbiamo a che fare con un <span class=code>Rettangolo</span> che contiene al proprio interno un riferimento ad un altro oggetto <span class=code>Punto</span>, <span class=code>copy</span> non lavora come ci si aspetta dato che viene copiato il riferimento a <span class=code>Punto</span> così che sia il vecchio che il nuovo <span class=code>Rettangolo</span> si riferiscono allo stesso oggetto invece di averne uno proprio per ciascuno.
+<p>
+Se creiamo il rettangolo <span class=code>R1</span> nel solito modo e ne facciamo una copia <span class=code>R2</span> usando <span class=code>copy</span> il diagramma di stato risultante sarà:
+
+<p align="center"><img src="illustrations/i_rectangle2.png"></p>
+<p>
+Quasi certamente non è questo ciò che vogliamo. In questo caso, invocando 
+<span class=code>AumentaRettangolo</span> su uno dei rettangoli non si cambieranno le 
+dimensioni dell'altro, ma <span class=code>MuoviRettangolo</span> sposterà entrambi! 
+Questo comportamento genera parecchia confusione e porta facilmente 
+a commettere errori.
+<p>
+Fortunatamente il modulo <span class=code>copy</span> contiene un altro metodo chiamato <span class=code>deepcopy</span> che copia correttamente non solo l'oggetto ma anche gli eventuali oggetti presenti al suo interno:
+
+<p><span class=code>&gt;&gt;&gt; Oggetto2 = copy.deepcopy(Oggetto1)
+<br></span></p>
+
+<p>
+Ora <span class=code>Oggetto1</span> e <span class=code>Oggetto2</span> sono oggetti completamente separati e occupano diverse zone di memoria.
+<p>
+Possiamo usare <span class=code>deepcopy</span> per riscrivere completamente <span class=code>AumentaRettangolo</span> così da non cambiare il <span class=code>Rettangolo</span> originale ma restituire una copia con le nuove dimensioni:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>AumentaRettangolo</span>(Rettangolo, AumentoLargh, AumentoAlt) :
+<br>&nbsp; <span class=keyword>import</span> copy
+<br>&nbsp; NuovoRett = copy.deepcopy(Rettangolo)
+<br>&nbsp; NuovoRett.Larghezza = NuovoRett.Larghezza + AumentoLargh
+<br>&nbsp; NuovoRett.Altezza = NuovoRett.Altezza + AumentoAlt;
+<br>&nbsp; <span class=keyword>return</span> NuovoRett
+<br></span></p>
+
+
+<blockquote><i>Esercizio: riscrivi <span class=code>MuoviRettangolo</span> per creare e restituire un nuovo rettangolo invece di modificare quello originale.</i>
+</blockquote>
+
+<a name=9></a>
+<h3>12.9 Glossario</h3>
+
+<dl>
+<dt>Classe</dt>
+<dd>tipo di dato composto definito dall'utente.</dd>
+<dt>Istanziare</dt>
+<dd>creare un'istanza di una determinata classe.</dd>
+<dt>Istanza</dt>
+<dd>oggetto che appartiene ad una classe.</dd>
+<dt>Oggetto</dt>
+<dd>tipo di dato composto che è spesso usato per definire un concetto o una cosa del mondo reale.</dd>
+<dt>Costruttore</dt>
+<dd>metodo usato per definire nuovi oggetti.</dd>
+<dt>Attributo</dt>
+<dd>uno dei componenti che costituiscono un'istanza.</dd>
+<dt>Uguaglianza debole</dt>
+<dd>uguaglianza di riferimenti che si verifica quando due variabili si riferiscono allo stesso oggetto.</dd>
+<dt>Uguaglianza forte</dt>
+<dd>uguaglianza di valori che si verifica quando due variabili si riferiscono a oggetti che hanno lo stesso valore.</dd>
+<dt>Copia debole</dt>
+<dd>copia del contenuto di un oggetto includendo ogni riferimento ad eventuali oggetti interni, realizzata con la funzione <span class=code>copy</span>
+del modulo <span class=code>copy</span>.</dd>
+<dt>Copia forte</dt>
+<dd>copia sia del contenuto di un oggetto che degli eventuali oggetti interni e degli oggetti eventualmente contenuti in essi; è realizzata dalla funzione <span class=code>deepcopy</span> del modulo <span class=code>copy</span>.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap13.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap11.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

@@ -1,0 +1,445 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 9: Tuple</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap10.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap08.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 9</h2>
+
+
+
+<h1>Tuple</h1>
+
+<a name=1></a>
+<h3>9.1 Mutabilità e tuple</h3>
+<p>
+Finora hai visto due tipi composti: le stringhe (sequenze di caratteri) e le liste (sequenze di elementi di tipo qualsiasi).
+Una delle differenze che abbiamo notato è che le gli elementi di una lista possono essere modificati, mentre non possono
+essere alterati i caratteri in una stringa: le stringhe sono infatti <b>immutabili</b> mentre le liste sono <b>mutabili</b>.
+<p>
+C'è un altro tipo di dati in Python, simile alla lista eccetto per il fatto che è immutabile: la <b>tupla</b>.
+La tupla è una lista di valori separati da virgole:
+
+<p><span class=code>&gt;&gt;&gt; tupla = <span class=quote>'a'</span>, <span class=quote>'b'</span>, <span class=quote>'c'</span>, <span class=quote>'d'</span>, <span class=quote>'e'</span>
+<br></span></p>
+
+<p>
+Sebbene non sia necessario, è convenzione racchiudere le tuple tra parentesi tonde per ragioni di chiarezza:
+
+<p><span class=code>&gt;&gt;&gt; tupla = (<span class=quote>'a'</span>, <span class=quote>'b'</span>, <span class=quote>'c'</span>, <span class=quote>'d'</span>, <span class=quote>'e'</span>)
+<br></span></p>
+
+<p>
+Per creare una tupla con un singolo elemento dobbiamo aggiungere la virgola finale dopo l'elemento:
+
+<p><span class=code>&gt;&gt;&gt; t1 = (<span class=quote>'a'</span>,)
+<br>&gt;&gt;&gt; type(t1)
+<br>&lt;type <span class=quote>'tuple'</span>&gt;
+<br></span></p>
+
+<p>
+Senza la virgola, infatti, Python tratterebbe <span class=code>(<span class=quote>'a'</span>)</span> come una stringa tra parentesi:
+
+<p><span class=code>&gt;&gt;&gt; t2 = (<span class=quote>'a'</span>)
+<br>&gt;&gt;&gt; type(t2)
+<br>&lt;type <span class=quote>'string'</span>&gt;
+<br></span></p>
+
+<p>
+Sintassi a parte le operazioni sulle tuple sono identiche a quelle sulle liste. L'operatore indice
+seleziona un elemento dalla tupla:
+
+<p><span class=code>&gt;&gt;&gt; tupla = (<span class=quote>'a'</span>, <span class=quote>'b'</span>, <span class=quote>'c'</span>, <span class=quote>'d'</span>, <span class=quote>'e'</span>)
+<br>&gt;&gt;&gt; tupla[0]
+<br><span class=quote>'a'</span>
+<br></span></p>
+
+<p>
+e l'operatore porzione seleziona una serie di elementi consecutivi:
+
+<p><span class=code>&gt;&gt;&gt; tupla[1:3]
+<br>(<span class=quote>'b'</span>, <span class=quote>'c'</span>)
+<br></span></p>
+
+<p>
+A differenza delle liste se cerchiamo di modificare gli elementi di una tupla otteniamo un messaggio d'errore:
+
+<p><span class=code>&gt;&gt;&gt; tupla[0] = <span class=quote>'A'</span>
+<br>TypeError: object doesn't support item assignment
+<br></span></p>
+
+<p>
+Naturalmente anche se non possiamo modificare gli elementi di una tupla possiamo sempre rimpiazzarla con una sua copia modificata:
+
+<p><span class=code>&gt;&gt;&gt; tupla = (<span class=quote>'A'</span>,) + tupla[1:]
+<br>&gt;&gt;&gt; tupla
+<br>(<span class=quote>'A'</span>, <span class=quote>'b'</span>, <span class=quote>'c'</span>, <span class=quote>'d'</span>, <span class=quote>'e'</span>)
+<br></span></p>
+
+
+<a name=2></a>
+<h3>9.2 Assegnazione di tuple</h3>
+<p>
+Di tanto in tanto può essere necessario scambiare i valori di due variabili.
+Con le istruzioni di assegnazione convenzionali dobbiamo usare una variabile temporanea.
+Per esempio per scambiare <span class=code>a</span> e <span class=code>b</span>:
+
+<p><span class=code>&gt;&gt;&gt; temp = a
+<br>&gt;&gt;&gt; a = b
+<br>&gt;&gt;&gt; b = temp
+<br></span></p>
+
+<p>
+Questo approccio è poco intuitivo e l'uso dell'<b>assegnazione di tuple</b> lo rende decisamente più comprensibile:
+
+<p><span class=code>&gt;&gt;&gt; a, b = b, a
+<br></span></p>
+
+<p>
+La parte sinistra dell'assegnazione è una tupla di variabili; la parte destra una tupla di valori.
+Ogni valore è assegnato alla rispettiva variabile. Tutte le espressioni sulla destra sono valutate prima delle assegnazioni.
+Questa caratteristica rende le tuple estremamente versatili.
+<p>
+Ovviamente il numero di variabili sulla sinistra deve corrispondere al numero di valori sulla destra:
+
+<p><span class=code>&gt;&gt;&gt; a, b, c, d = 1, 2, 3
+<br>ValueError: unpack tuple of wrong size
+<br></span></p>
+
+
+<a name=3></a>
+<h3>9.3 Tuple come valori di ritorno</h3>
+<p>
+Le funzioni possono ritornare tuple. Per fare un esempio possiamo scrivere una funzione che scambia due valori:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Scambia</span>(x, y):
+<br>&nbsp; <span class=keyword>return</span> y, x
+<br></span></p>
+
+<p>
+e in seguito possiamo assegnare il valore di ritorno della funzione ad una tupla di due variabili:
+
+<p><span class=code>a, b = Scambia(a, b)
+<br></span></p>
+
+<p>
+In questo caso non c'è una grande utilità nel rendere <span class=code>Scambia</span> una funzione. Anzi occorre stare attenti ad uno dei pericoli insiti nell'incapsulamento di <span class=code>Scambia</span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Scambia</span>(x, y):&nbsp; &nbsp; &nbsp; <span class=comment># versione non corretta
+</span><br>&nbsp; x, y = y, x
+<br></span></p>
+
+<p>
+Se chiamiamo la funzione con:
+
+<p><span class=code>Scambia(a, b)
+<br></span></p>
+
+<p>
+apparentemente tutto sembra corretto, ma quando controlliamo i valori di <span class=code>a</span> e <span class=code>b</span> prima e dopo lo "scambio" in realtà ci accorgiamo che questi non sono cambiati. Perché? Perché quando chiamiamo questa funzione non vengono passate le variabili <span class=code>a</span> e <span class=code>b</span> come argomenti, ma i loro valori. Questi valori vengono assegnati a <span class=code>x</span> e <span class=code>y</span>; al termine della funzione, quando <span class=code>x</span> e <span class=code>y</span> vengono rimosse perché variabili locali, qualsiasi valore in esse contenuto viene irrimediabilmente perso.
+<p>
+Questa funzione non produce messaggi d'errore ma ciononostante non fa ciò che noi volevamo farle fare: questo è un esempio di errore di semantica.
+
+<blockquote><i>Esercizio: disegna il diagramma di stato della funzione <span class=code>Scambia</span> così da capire perché non funziona.</i>
+</blockquote>
+
+<a name=4></a>
+<h3>9.4 Numeri casuali</h3>
+<p>
+La maggior parte dei programmi fanno la stessa cosa ogni volta che vengono eseguiti e sono detti per questo <b>deterministici</b>.  Di solito un programma deterministico è una cosa voluta in quanto a parità di dati in ingresso ci attendiamo lo stesso risultato. Per alcune applicazioni, invece, abbiamo bisogno che l'esecuzione sia imprevedibile: i videogiochi sono un esempio lampante, ma ce ne sono tanti altri.
+<p>
+Creare un programma realmente non deterministico (e quindi imprevedibile) è una cosa piuttosto difficile, ma ci sono dei sistemi per renderlo abbastanza casuale da soddisfare la maggior parte delle esigenze in tal senso. Uno dei sistemi è quello di generare dei numeri casuali ed usarli per determinare i risultati prodotti dal programma. Python fornisce delle funzioni di base che generano numeri <b>pseudocasuali</b>: questi numeri non sono realmente casuali in senso matematico ma per i nostri scopi saranno più che sufficienti.
+<p>
+Il modulo <span class=code>random</span> contiene una funzione chiamata <span class=code>random</span> che restituisce un numero in virgola mobile compreso tra 0.0 (compreso) e 1.0 (escluso).  Ad ogni chiamata di <span class=code>random</span> si ottiene il numero seguente di una lunga serie di numeri pseudocasuali. Per vedere un esempio prova ad eseguire questo ciclo:
+
+<p><span class=code><span class=keyword>import</span> random
+<br>
+<br><span class=keyword>for</span> i <span class=keyword>in</span> range(10):
+<br>&nbsp; x = random.random()
+<br>&nbsp; <span class=keyword>print</span> x
+<br></span></p>
+
+<p>
+Per generare un numero casuale (lo chiameremo così d'ora in poi, anche se è sottinteso che la casualità ottenuta non è assoluta) compreso tra 0.0 (compreso) ed un limite superiore <span class=code>Limite</span> (escluso) moltiplica <span class=code>x</span> per <span class=code>Limite</span>.
+
+<blockquote><i>Esercizio: tenta di generare un numero casuale compreso tra il \linebreak 
+<span class=code>LimiteInferiore</span> 
+(compreso) ed il <span class=code>LimiteSuperiore</span> (escluso).</i>
+</blockquote>
+
+<blockquote><i>Esercizio addizionale: genera un numero intero compreso tra il \linebreak
+<span class=code>LimiteInferiore</span> ed il <span class=code>LimiteSuperiore</span> comprendendo entrambi questi limiti.</i>
+</blockquote>
+
+<a name=5></a>
+<h3>9.5 Lista di numeri casuali</h3>
+<p>
+Proviamo a scrivere un programma che usa i numeri casuali, iniziando con la costruzione di una lista di questi numeri.
+<span class=code>ListaCasuale</span> prende un parametro intero <span class=code>Lungh</span> e ritorna una lista di questa lunghezza composta di numeri casuali. Iniziamo con una lista di <span class=code>Lungh</span> zeri e sostituiamo in un ciclo un elemento alla volta con un numero casuale:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>ListaCasuale</span>(Lungh):
+<br>&nbsp; s = [0] * Lungh
+<br>&nbsp; <span class=keyword>for</span> i <span class=keyword>in</span> range(Lungh):
+<br>&nbsp; &nbsp; s[i] = random.random()
+<br>&nbsp; <span class=keyword>return</span> s
+<br></span></p>
+
+<p>
+Testiamo la funzione generando una lista di otto elementi: per poter controllare i programmi è sempre bene partire con insiemi di dati molto piccoli.
+
+<p><span class=code>&gt;&gt;&gt; ListaCasuale(8)
+<br>[0.11421081445000203, 0.38367479346590505, 0.16056841528993915, 
+<br>0.29204721527340882, 0.75201663462563095, 0.31790165552578986, 
+<br>0.43858231029411354, 0.27749268689939965]
+<br></span></p>
+
+<p>
+I numeri casuali generati da <span class=code>random</span> si ritengono distribuiti uniformemente tanto che ogni valore è egualmente probabile.
+<p>
+Se dividiamo la gamma dei valori generati in intervalli della stessa grandezza e contiamo il numero di valori casuali che cadono in ciascun intervallo dovremmo ottenere, approssimativamente, la stessa cifra in ciascuno, sempre che l'esperimento sia effettuato un buon numero di volte.
+<p>
+Possiamo testare questa affermazione scrivendo un programma per dividere la gamma dei valori in intervalli e contare il numero di valori in ciascuno di essi.
+
+<a name=6></a>
+<h3>9.6 Conteggio</h3>
+<p>
+Un buon approccio a questo tipo di problemi è quello di dividere il problema in sottoproblemi e applicare a ciascun sottoproblema uno schema di soluzione già visto in precedenza.
+<p>
+In questo caso vogliamo attraversare una lista di numeri e contare il numero di volte in cui un valore cade in un determinato intervallo. Questo suona familiare: nella <a href="chap07.htm#8">sezione 7.8</a> abbiamo già scritto un programma che attraversa una stringa e conta il numero di volte in cui appare una determinata lettera. Possiamo allora copiare il vecchio programma e adattarlo al problema corrente. Il programma originale era:
+
+<p><span class=code>Conteggio = 0
+<br><span class=keyword>for</span> Carattere <span class=keyword>in</span> Frutto:
+<br>&nbsp; <span class=keyword>if</span> Carattere == <span class=quote>'a'</span>:
+<br>&nbsp; &nbsp; Conteggio = Conteggio + 1
+<br><span class=keyword>print</span> Conteggio
+<br></span></p>
+
+<p>
+Il primo passo è quello di sostituire <span class=code>Frutto</span> con <span class=code>Lista</span> e
+<span class=code>Carattere</span> con <span class=code>Numero</span>.  Questo non cambia il programma ma semplicemente lo rende più leggibile.
+<p>
+Il secondo passo è quello di cambiare la condizione dato che siamo interessati a verificare se <span class=code>Numero</span> cade tra <span class=code>LimiteInferiore</span> e <span class=code>LimiteSuperiore</span>.
+
+<p><span class=code>Conteggio = 0
+<br><span class=keyword>for</span> Numero <span class=keyword>in</span> Lista
+<br>&nbsp; <span class=keyword>if</span> LimiteInferiore &lt; Numero &lt; LimiteSuperiore:
+<br>&nbsp; &nbsp; Conteggio = Conteggio + 1
+<br><span class=keyword>print</span> Conteggio
+<br></span></p>
+
+<p>
+L'ultimo passo è quello di incapsulare questo codice in una funzione chiamata <span class=code>NellIntervallo</span>.  I parametri della funzione sono la lista da controllare ed i valori <span class=code>LimiteInferiore</span> and <span class=code>LimiteSuperiore</span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>NellIntervallo</span>(Lista, LimiteInferiore, LimiteSuperiore):
+<br>&nbsp; Conteggio = 0
+<br>&nbsp; <span class=keyword>for</span> Numero <span class=keyword>in</span> Lista:
+<br>&nbsp; &nbsp; <span class=keyword>if</span> LimiteInferiore &lt; Numero &lt; LimiteSuperiore:
+<br>&nbsp; &nbsp; &nbsp; Conteggio = Conteggio + 1
+<br>&nbsp; <span class=keyword>return</span> Conteggio
+<br></span></p>
+
+<p>
+Copiando e modificando un programma esistente siamo stati capaci di scrivere questa funzione velocemente risparmiando un bel po' di tempo di test. Questo tipo di piano di sviluppo è chiamato <b>pattern matching</b>: se devi cercare una soluzione a un problema che hai già risolto riusa una soluzione che avevi già trovato, modificandola per adattarla quel tanto che serve in base alle nuove circostanze.
+
+<a name=7></a>
+<h3>9.7 Aumentare il numero degli intervalli</h3>
+<p>
+A mano a mano che il numero degli intervalli cresce <span class=code>NellIntervallo</span>
+diventa poco pratica da gestire. Con due soli intervalli ce la caviamo ancora
+bene:
+
+<p><span class=code>Intervallo1 = NellIntervallo(a, 0.0, 0.5)
+<br>Intervallo2 = NellIntervallo(a, 0.5, 1.0)
+<br></span></p>
+
+<p>
+ma con quattro intervalli è facile commettere errori sia nel calcolo dei limiti sia nella battitura dei numeri:
+
+<p><span class=code>Intervallo1 = NellIntervallo(a, 0.0, 0.25)
+<br>Intervallo2 = NellIntervallo(a, 0.25, 0.5)
+<br>Intervallo3 = NellIntervallo(a, 0.5, 0.75)
+<br>Intervallo4 = NellIntervallo(a, 0.75, 1.0)
+<br></span></p>
+
+<p>
+Ci sono due ordini di problemi: il primo è che dobbiamo creare un nome di variabile per ciascun risultato; il secondo è che dobbiamo calcolare a mano i limiti inferiore e superiore per ciascun intervallo prima di chiamare la funzione.
+<p>
+Risolveremo innanzitutto questo secondo problema: se il numero degli intervalli che vogliamo considerare è <span class=code>NumIntervalli</span> allora l'ampiezza di ogni intervallo è <span class=code>1.0 / NumIntervalli</span>.
+<p>
+Possiamo usare un ciclo per calcolare i limiti inferiore e superiore per ciascun intervallo, usando <span class=code>i</span> come indice del ciclo da 0 a <span class=code>NumIntervalli</span>-1:
+
+<p><span class=code>AmpiezzaIntervallo = 1.0 / NumIntervalli
+<br><span class=keyword>for</span> i <span class=keyword>in</span> range(NumIntervalli):
+<br>&nbsp; LimiteInferiore = i * AmpiezzaIntervallo
+<br>&nbsp; LimiteSuperiore = LimiteInferiore + AmpiezzaIntervallo
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"da"</span>, LimiteInferiore, <span class=quote>"a"</span>, LimiteSuperiore
+<br></span></p>
+
+<p>
+Per calcolare il limite inferiore di ogni intervallo abbiamo moltiplicato l'indice del ciclo per l'ampiezza di ciascun intervallo; per ottenere il limite superiore abbiamo sommato al limite inferiore la stessa ampiezza.
+<p>
+Con <span class=code>NumIntervalli = 8</span> il risultato è:
+
+<p><span class=code>da 0.0 a 0.125
+<br>da 0.125 a 0.25
+<br>da 0.25 a 0.375
+<br>da 0.375 a 0.5
+<br>da 0.5 a 0.625
+<br>da 0.625 a 0.75
+<br>da 0.75 a 0.875
+<br>da 0.875 a 1.0
+<br></span></p>
+
+<p>
+Puoi vedere come ogni intervallo sia della stessa ampiezza, come tutta la gamma da 0.0 a 1.0 sia presente e come non ci siano intervalli che si sovrappongono.
+<p>
+Ora torniamo al primo problema: abbiamo bisogno di memorizzare 8 interi senza dover creare variabili distinte. Le liste ci vengono in aiuto e l'indice del ciclo sembra essere un ottimo sistema per selezionare di volta in volta un elemento della lista.
+<p>
+Creiamo la lista dei conteggi all'esterno del ciclo dato che la dobbiamo creare una sola volta (e non ad ogni ciclo). All'interno del ciclo chiameremo ripetutamente <span class=code>NellIntervallo</span> e aggiorneremo l'<span class=code>i</span>-esimo elemento della lista dei conteggi:
+
+<p><span class=code>NumIntervalli = 8
+<br>Conteggio = [0] * NumIntervalli
+<br>AmpiezzaIntervallo = 1.0 / NumIntervalli
+<br><span class=keyword>for</span> i <span class=keyword>in</span> range(NumIntervalli):
+<br>&nbsp; LimiteInferiore = i * AmpiezzaIntervallo
+<br>&nbsp; LimiteSuperiore = LimiteInferiore + AmpiezzaIntervallo
+<br>&nbsp; Conteggio[i] = NellIntervallo(Lista, LimiteInferiore, \
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;LimiteSuperiore)
+<br><span class=keyword>print</span> Conteggio
+<br></span></p>
+
+<p>
+Con una lista di 1000 valori questo programma produce una lista di conteggi di questo tipo:
+
+<p><span class=code>[138, 124, 128, 118, 130, 117, 114, 131]
+<br></span></p>
+
+<p>
+Ci aspettavamo per ogni intervallo un valore medio di 125 (1000 numeri divisi per 8 intervalli) ed in effetti ci siamo andati abbastanza vicini da poter affermare che il generatore di numeri casuali si comporta in modo sufficientemente realistico.
+
+<blockquote><i>Esercizio: prova questa funzione con liste più lunghe per vedere se il conteggio di valori in ogni intervallo tende o meno a livellarsi (maggiore è il numero di prove più i valori dovrebbero diventare simili).</i>
+</blockquote>
+
+<a name=8></a>
+<h3>9.8 Una soluzione in una sola passata</h3>
+<p>
+Anche se il programma funziona correttamente non è ancora sufficientemente efficiente. Ogni volta che il ciclo chiama <span class=code>NellIntervallo</span> viene attraversata l'intera lista. A mano a mano che il numero di intervalli cresce questo implica un gran numero di attraversamenti di liste.
+<p>
+Sarebbe meglio riuscire a fare un singolo attraversamento della lista ed elaborare direttamente in quale intervallo cade ogni elemento, incrementando il contatore opportuno.
+<p>
+Nella sezione precedente abbiamo preso un indice <span class=code>i</span> e lo abbiamo moltiplicato per <span class=code>AmpiezzaIntervallo</span> per trovare il limite inferiore di un determinato intervallo. Quello che vogliamo fare ora è ricavare direttamente l'indice dell'intervallo cui un valore appartiene.
+<p>
+Questo problema è esattamente l'inverso del precedente: dobbiamo indovinare in quale intervallo cade un valore dividendo quest'ultimo per <span class=code>AmpiezzaIntervallo</span> invece di moltiplicare un indice per <span class=code>AmpiezzaIntervallo</span>.
+<p>
+Dal momento che <span class=code>AmpiezzaIntervallo = 1.0 / NumIntervalli</span>, dividere per 
+<span class=code>AmpiezzaIntervallo</span> è lo stesso di moltiplicare per <span class=code>NumIntervalli</span>.  Se moltiplichiamo un numero nella gamma da 0.0 a 1.0 per <span class=code>NumIntervalli</span> otteniamo un numero compreso tra 0.0 e <span class=code>NumIntervalli</span>.  Se arrotondiamo questo risultato all'intero inferiore otteniamo proprio quello che stavamo cercando: l'indice dell'intervallo dove cade il valore.
+
+<p><span class=code>NumIntervalli = 8
+<br>Conteggio = [0] * NumIntervalli
+<br><span class=keyword>for</span> i <span class=keyword>in</span> Lista:
+<br>&nbsp; Indice = int(i * NumIntervalli)
+<br>&nbsp; Conteggio[Indice] = Conteggio[Indice] + 1
+<br></span></p>
+
+<p>
+Abbiamo usato la funzione <span class=code>int</span> per convertire un numero in virgola mobile in un intero.
+
+<blockquote><i>Esercizio:
+È possibile per questo calcolo produrre un indice che sia fuori 
+dalla gamma di numeri ammessa (negativo o più grande di <span class=code>len(Conteggio)-1</span>)?</i>
+</blockquote>
+<p>
+Una lista come <span class=code>Conteggi</span> che contiene il numero dei valori per una serie di intervalli è chiamata <b>istogramma</b>.
+
+<blockquote><i>Esercizio: scrivi una funzione chiamata <span class=code>Istogramma</span> che prende una lista ed il numero di intervalli da considerare e ritorna l'istogramma della distribuzione dei valori per ciascun intervallo.</i>
+</blockquote>
+
+<a name=9></a>
+<h3>9.9 Glossario</h3>
+
+<dl>
+<dt>Tipo immutabile</dt>
+<dd>tipo in cui i singoli elementi non possono essere modificati. L'operazione di assegnazione ad elementi o porzioni produce un errore.</dd>
+<dt>Tipo mutabile</dt>
+<dd>tipo di dati in cui gli elementi possono essere modificati. Liste e dizionari sono mutabili; stringhe e tuple non lo sono.</dd>
+<dt>Tupla</dt>
+<dd>tipo di sequenza simile alla lista con la differenza di essere immutabile. Le tuple possono essere usate dovunque serva un tipo immutabile, per esempio come chiave in un dizionario.</dd>
+<dt>Assegnazione ad una tupla</dt>
+<dd>assegnazione di tutti gli elementi della tupla usando un'unica istruzione di assegnazione.</dd>
+<dt>Programma deterministico</dt>
+<dd>programma che esegue le stesse operazioni ogni volta che è eseguito.</dd>
+<dt>Pseudocasuale</dt>
+<dd>sequenza di numeri che sembra essere casuale ma in realtà è il risultato di un'elaborazione deterministica.</dd>
+<dt>Istogramma</dt>
+<dd>lista di interi in cui ciascun elemento conta il numero di volte in cui una determinata condizione si verifica.</dd>
+<dt>Pattern matching</dt>
+<dd>piano di sviluppo del programma che consiste nell'identificare un tracciato di elaborazione già visto e modificarlo per ottenere la soluzione di un problema simile.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap10.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap08.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

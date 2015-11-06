@@ -1,0 +1,493 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 16: Ereditarietà</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap17.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap15.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 16</h2>
+
+
+
+<h1>Ereditarietà</h1>
+
+<a name=1></a>
+<h3>16.1  Ereditarietà</h3>
+<p>
+La caratteristica più frequentemente associata alla programmazione ad oggetti è l'<b>ereditarietà</b> che è la capacità di definire una nuova classe
+come versione modificata di una classe già esistente.
+<p>
+Il vantaggio principale dell'ereditarietà è che si possono aggiungere nuovi metodi ad una classe senza dover modificare la definizione originale. È chiamata "ereditarietà" perché la nuova classe "eredita" tutti i metodi della classe originale. Estendendo questa metafora la classe originale è spesso definita "genitore" e la classe derivata "figlia" o "sottoclasse".
+<p>
+L'ereditarietà è una caratteristica potente e alcuni programmi possono essere scritti in modo molto più semplice e conciso grazie ad essa, dando inoltre la possibilità di personalizzare il comportamento di una classe senza modificare l'originale. Il fatto stesso che la struttura dell'ereditarietà possa riflettere quella del problema può rendere in qualche caso il programma più semplice da capire.
+<p>
+D'altro canto l'ereditarietà può rendere più difficile la lettura del programma, visto che quando si invoca un metodo non è sempre chiaro dove questo sia stato definito (se all'interno del genitore o delle classi da questo derivate) con il codice che deve essere rintracciato all'interno di più moduli invece che essere in un unico posto ben definito. Molte delle cose che possono essere fatte con l'ereditarietà possono essere di solito gestite elegantemente anche senza di essa, ed è quindi il caso di usarla solo se la struttura del problema la richiede: se usata nel momento sbagliato può arrecare più danni che apportare benefici.
+<p>
+In questo capitolo mostreremo l'uso dell'ereditarietà come parte di un programma che gioca a Old Maid, un gioco di carte piuttosto meccanico e semplice. Anche se implementeremo un gioco particolare uno dei nostri scopi è quello di scrivere del codice che possa essere riutilizzato per implementare altri tipi di giochi di carte.
+
+<a name=2></a>
+<h3>16.2 Una mano</h3>
+<p>
+Per la maggior parte dei giochi di carte abbiamo la necessità di rappresentare una mano di carte. La mano è simile al mazzo, dato che entrambi sono insiemi di carte e richiedono metodi per aggiungere e rimuovere carte. Inoltre abbiamo bisogno sia per la mano che per il mazzo di poter mescolare le carte.
+<p>
+La mano si differenzia dal mazzo perché, a seconda del gioco, possiamo avere la necessità di effettuare su una mano alcuni tipi di operazioni che per un mazzo non avrebbero senso: nel poker posso avere l'esigenza di classificare una mano (full, colore, ecc.) o confrontarla con un'altra mano mentre nel bridge devo poter calcolare il punteggio di una mano per poter effettuare una puntata.
+<p>
+Questa situazione suggerisce l'uso dell'ereditarietà: se creiamo <span class=code>Mano</span> come sottoclasse di <span class=code>Mazzo</span> avremo immediatamente disponibili tutti i metodi di <span class=code>Mazzo</span> con la possibilità di riscriverli o di aggiungerne altri.
+<p>
+Nella definizione della classe figlia il nome del genitore compare tra parentesi:
+
+<p><span class=code><span class=keyword>class</span> Mano(Mazzo):
+<br>&nbsp; <span class=keyword>pass</span>
+<br></span></p>
+
+<p>
+Questa istruzione indica che la nuova classe <span class=code>Mano</span> eredita dalla classe già esistente <span class=code>Mazzo</span>.
+<p>
+Il costruttore <span class=code>Mano</span> inizializza gli attributi della mano, che sono il <span class=code>Nome</span> e le <span class=code>Carte</span>.  La stringa <span class=code>Nome</span> identifica la mano ed è probabilmente il nome del giocatore che la sta giocando: è un parametro opzionale che per default è una stringa vuota. <span class=code>Carte</span> è la lista delle carte nella mano, inizializzata come lista vuota:
+
+<p><span class=code><span class=keyword>class</span> Mano(Mazzo):
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__init__</span>(self, Nome=<span class=quote>""</span>):
+<br>&nbsp; &nbsp; self.Carte = []
+<br>&nbsp; &nbsp; self.Nome = Nome
+<br></span></p>
+
+<p>
+In quasi tutti i giochi di carte è necessario poter aggiungere e rimuovere carte dalla mano. Della rimozione ce ne siamo già occupati, dato che <span class=code>Mano</span> eredita immediatamente <span class=code>RimuoviCarta</span> da <span class=code>Mazzo</span>.
+Dobbiamo invece scrivere <span class=code>AggiungeCarta</span>:
+
+<p><span class=code><span class=keyword>class</span> Mano(Mazzo):
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__init__</span>(self, Nome=<span class=quote>""</span>):
+<br>&nbsp; &nbsp; self.Carte = []
+<br>&nbsp; &nbsp; self.Nome = Nome
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>AggiungeCarta</span>(self,Carta) :
+<br>&nbsp; &nbsp; self.Carte.append(Carta)
+<br></span></p>
+
+<p>
+Il metodo di lista <span class=code>append</span> aggiunge una nuova carta alla fine della lista di carte.
+
+<a name=3></a>
+<h3>16.3 Distribuire le carte</h3>
+<p>
+Ora che abbiamo una classe <span class=code>Mano</span> vogliamo poter spostare delle carte dal <span class=code>Mazzo</span> alle singole mani.  Non è immediatamente ovvio se questo metodo debba essere inserito nella classe <span class=code>Mano</span> o nella classe <span class=code>Mazzo</span> ma dato che opera su un mazzo singolo e (probabilmente) su più mani è più naturale inserirlo in <span class=code>Mazzo</span>.
+<p>
+Il metodo <span class=code>Distribuisci</span> dovrebbe essere abbastanza generale da poter essere usato in vari giochi e deve permettere la distribuzione tanto dell'intero mazzo che di una singola carta.
+<p>
+<span class=code>Distribuisci</span> prende due argomenti: una lista (o tupla) di mani e il numero totale di carte da distribuire. Se non ci sono carte sufficienti per la distribuzione il metodo distribuisce quelle in suo possesso e poi si ferma:
+
+<p><span class=code><span class=keyword>class</span> Mazzo:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>Distribuisci</span>(self, ListaMani, NumCarte=999):
+<br>&nbsp; &nbsp; NumMani = len(ListaMani)
+<br>&nbsp; &nbsp; <span class=keyword>for</span> i <span class=keyword>in</span> range(NumCarte):
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>if</span> self.EVuoto(): <span class=keyword>break</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class=comment># si ferma se non ci sono 
+</span><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class=comment># ulteriori carte
+</span><br>&nbsp; &nbsp; &nbsp; Carta = self.PrimaCarta()&nbsp; &nbsp; &nbsp; &nbsp;<span class=comment># prende la carta superiore 
+</span><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class=comment># del mazzo
+</span><br>&nbsp; &nbsp; &nbsp; Mano = ListaMani[i % NumMani]&nbsp; &nbsp;<span class=comment># di chi e' il prossimo 
+</span><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class=comment># turno?
+</span><br>&nbsp; &nbsp; &nbsp; Mano.AggiungeCarta(Carta)&nbsp; &nbsp; &nbsp; &nbsp;<span class=comment># aggiungi la carta alla 
+</span><br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class=comment># mano
+</span><br></span></p>
+
+<p>
+Il secondo parametro, <span class=code>NumCarte</span>, è opzionale; il valore di default è molto grande per essere certi che vengano distribuite tutte le carte del mazzo.
+<p>
+La variabile del ciclo <span class=code>i</span> va da <span class=code>0</span> a <span class=code>NumCarte-1</span>.  Ogni volta che viene eseguito il corpo del ciclo, la prima carta del mazzo viene rimossa usando il metodo di lista <span class=code>pop</span> che rimuove e ritorna l'ultimo valore di una lista.
+<p>
+L'operatore modulo (<span class=code>%</span>) ci permette di distribuire le carte in modo corretto, una carta alla volta per ogni mano: quando <span class=code>i</span> è uguale al numero delle mani nella lista l'espressione <span class=code>i % NumMani</span> restituisce 0 permettendo di ricominciare dal primo elemento della lista delle mani.
+
+<a name=4></a>
+<h3>16.4 Stampa di una mano</h3>
+<p>
+Per stampare il contenuto di una mano possiamo avvantaggiarci dei metodi <span class=code>StampaMazzo</span> e <span class=code>__str__</span> ereditati da <span class=code>Mazzo</span>.  Per esempio:
+
+<p><span class=code>&gt;&gt;&gt; Mazzo1 = Mazzo()
+<br>&gt;&gt;&gt; Mazzo1.Mescola()
+<br>&gt;&gt;&gt; Mano1 = Mano(<span class=quote>"pippo"</span>)
+<br>&gt;&gt;&gt; Mazzo1.Distribuisci([Mano1], 5)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Mano1
+<br>2 di Picche
+<br> 3 di Picche
+<br>&nbsp; 4 di Picche
+<br>&nbsp; &nbsp;Asso di Cuori
+<br>&nbsp; &nbsp; 9 di Fiori
+<br></span></p>
+
+<p>
+Anche se è comodo ereditare da metodi esistenti può essere necessario modificare il metodo <span class=code>__str__</span> nella classe <span class=code>Mano</span> per aggiungere qualche informazione, ridefinendo il metodo omonimo ereditato dalla classe <span class=code>Mazzo</span>:
+
+<p><span class=code><span class=keyword>class</span> Mano(Mazzo)
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__str__</span>(self):
+<br>&nbsp; &nbsp; s = <span class=quote>"La mano di "</span> + self.Nome
+<br>&nbsp; &nbsp; <span class=keyword>if</span> self.EVuoto():
+<br>&nbsp; &nbsp; &nbsp; s = s + <span class=quote>" e' vuota\n"</span>
+<br>&nbsp; &nbsp; <span class=keyword>else</span>:
+<br>&nbsp; &nbsp; &nbsp; s = s + <span class=quote>" contiene queste carte:\n"</span>
+<br>&nbsp; &nbsp; <span class=keyword>return</span> s + Mazzo.__str__(self)
+<br></span></p>
+
+<p>
+<span class=code>s</span> è una stringa che inizialmente indica chi è il proprietario della mano. Se la mano è vuota vengono aggiunte ad <span class=code>s</span> le parole <span class=code><span class=quote>"e' vuota"</span></span> e viene ritornata <span class=code>s</span>. IN caso contrario vengono aggiunte le parole <span class=code><span class=quote>"contiene queste carte"</span></span> e la rappresentazione della mano sotto forma di stringa già vista in <span class=code>Mazzo</span>, elaborata invocando il metodo <span class=code>__str__</span> della classe <span class=code>Mazzo</span> su <span class=code>self</span>.
+<p>
+Potrebbe sembrarti strano il fatto di usare <span class=code>self</span>, che si riferisce alla mano corrente, con un metodo appartenente alla classe <span class=code>Mazzo</span>: ricorda che <span class=code>Mano</span> è un tipo di <span class=code>Mazzo</span>.  Gli oggetti <span class=code>Mano</span> possono fare qualsiasi cosa di cui è capace <span class=code>Mazzo</span> e così è legale invocare un metodo <span class=code>Mazzo</span> con la mano <span class=code>self</span>.
+<p>
+In genere è sempre legale usare un'istanza di una sottoclasse invece di un'istanza della classe genitore.
+
+<a name=5></a>
+<h3>16.5 La classe <span class=code>GiocoDiCarte</span></h3>
+<p>
+La classe <span class=code>GiocoDiCarte</span> si occupa delle operazioni comuni in tutti i giochi di carte, quali possono essere la creazione del mazzo ed il mescolamento delle sue carte:
+
+<p><span class=code><span class=keyword>class</span> GiocoDiCarte:
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__init__</span>(self):
+<br>&nbsp; &nbsp; self.Mazzo = Mazzo()
+<br>&nbsp; &nbsp; self.Mazzo.Mescola()
+<br></span></p>
+
+<p>
+In questo primo caso abbiamo visto come il metodo di inizializzazione non si limiti ad assegnare dei valori agli attributi, ma esegua una elaborazione significativa.
+<p>
+Per implementare dei giochi specifici possiamo successivamente ereditare da <span class=code>GiocoDiCarte</span> e aggiungere a questa classe le caratteristiche del nuovo gioco. Per fare un esempio scriveremo una simulazione di Old Maid.
+<p>
+L'obiettivo di Old Maid è quello di riuscire a sbarazzarsi di tutte le carte che si hanno in mano. Questo viene fatto eliminando coppie di carte che hanno lo stesso rango e colore: il 4 di fiori viene eliminato con il 4 di picche perché entrambi i segni sono neri; il jack di cuori con il jack di quadri perché entrambi sono rossi.
+<p>
+Per iniziare il gioco la Regina di Fiori è tolta dal mazzo per fare in modo che la Regina di Picche non possa essere eliminata durante la partita. Le 51 carte sono poi tutte distribuite una alla volta in senso orario ai giocatori e dopo la distribuzione tutti i giocatori scartano immediatamente quante più carte possibili eliminando le coppie presenti nella mano appena distribuita.
+<p>
+Quando non si possono più scartare carte il gioco ha inizio. A turno ogni giocatore pesca senza guardarla una carta dal giocatore che, in senso orario, ha ancora delle carte in mano. Se la carta scelta elimina una carta in mano la coppia viene rimossa. In caso contrario la carta scelta rimane in mano.
+<p>
+Alla fine della partita tutte le eliminazioni saranno state fatte ed il perdente è chi rimane con la Regina di Picche in mano.
+<p>
+Nella nostra simulazione del gioco il computer giocherà tutte le mani. Sfortunatamente alcune sottigliezze del gioco verranno perse: nel gioco reale chi si trova in mano la Regina di Picche farà di tutto per fare in modo che questa venga scelta da un vicino, disponendola in modo da facilitare un successo in tal senso. Il computer invece sceglierà le carte completamente a caso.
+
+<a name=6></a>
+<h3>16.6 Classe <span class=code>ManoOldMaid</span></h3>
+<p>
+Una mano per giocare a Old Maid richiede alcune capacità che vanno 
+oltre rispetto a quelle fornite da <span class=code>Mano</span>.  Sarà opportuno quindi
+definire una nuova 
+classe <span class=code>ManoOldMaid</span>, che erediterà i metodi da <span class=code>Mano</span> e a 
+questi metodi ne verrà aggiunto uno (<span class=code>RimuoveCoppie</span>) per 
+rimuovere le coppie di carte:
+
+<p><span class=code><span class=keyword>class</span> ManoOldMaid(Mano):
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>RimuoveCoppie</span>(self):
+<br>&nbsp; &nbsp; Conteggio = 0
+<br>&nbsp; &nbsp; CarteOriginali = self.Carte[:]
+<br>&nbsp; &nbsp; <span class=keyword>for</span> CartaOrig <span class=keyword>in</span> CarteOriginali:
+<br>&nbsp; &nbsp; &nbsp; CartaDaCercare = Carta(3-CartaOrig.Seme, CartaOrig.Rango)
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>if</span> CartaDaCercare <span class=keyword>in</span> self.Carte:
+<br>&nbsp; &nbsp; &nbsp; &nbsp; self.Carte.remove(CartaOrig)
+<br>&nbsp; &nbsp; &nbsp; &nbsp; self.Carte.remove(CartaDaCercare)
+<br>&nbsp; &nbsp; &nbsp; &nbsp; <span class=keyword>print</span> <span class=quote>"Mano di %s : %s elimina %s"</span> %
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; (self.Nome,CartaOrig,CartaDaCercare)
+<br>&nbsp; &nbsp; &nbsp; &nbsp; Conteggio = Conteggio + 1
+<br>&nbsp; &nbsp; <span class=keyword>return</span> Conteggio
+<br></span></p>
+
+<p>
+Iniziamo facendo una copia della lista di carte, così da poter attraversare la copia finché non rimuoviamo l'originale: dato che <span class=code>self.Carte</span> viene modificata durante l'attraversamento, non possiamo di certo usarla per controllare tutti i suoi elementi. Python potrebbe essere confuso dal fatto di veder cambiare la lista che sta attraversando!
+<p>
+Per ogni carta della mano andiamo a controllare se quella che la elimina è presente nella stessa mano. La carta "eliminante" ha lo stesso rango e l'altro seme dello stesso colore di quella "eliminabile": l'espressione <span class=code>3-Carta.Seme</span> serve proprio a trasformare una carta di Fiori (seme 0) in Picche (seme 3) e viceversa; una carta di Quadri (seme 1) in Cuori (seme 2) e viceversa.
+<p>
+Se entrambe le carte sono presenti sono rimosse con <span class=code>RimuoveCoppie</span>:
+
+<p><span class=code>&gt;&gt;&gt; Partita = GiocoDiCarte()
+<br>&gt;&gt;&gt; Mano1 = ManoOldMaid(<span class=quote>"Franco"</span>)
+<br>&gt;&gt;&gt; Partita.Mazzo.Mescola([Mano1], 13)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Mano1
+<br>La mano di Franco contiene queste carte:
+<br>Asso di Picche
+<br> 2 di Quadri
+<br>&nbsp; 7 di Picche
+<br>&nbsp; &nbsp;8 di Fiori
+<br>&nbsp; &nbsp; 6 di Cuori
+<br>&nbsp; &nbsp; &nbsp;8 di Picche
+<br>&nbsp; &nbsp; &nbsp; 7 di Fiori
+<br>&nbsp; &nbsp; &nbsp; &nbsp;Regina di Fiori
+<br>&nbsp; &nbsp; &nbsp; &nbsp; 7 di Quadri
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;5 di Fiori
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Jack di Quadri
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;10 di Quadri
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 10 di Cuori
+<br>
+<br>&gt;&gt;&gt; Mano1.RimuoveCoppie()
+<br>Mano di Franco: 7 di Picche elimina 7 di Fiori
+<br>Mano di Franco: 8 di Picche elimina 8 di Fiori
+<br>Mano di Franco: 10 di Quadri elimina 10 di Cuori
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Mano1
+<br>La mano di Franco contiene queste carte:
+<br>Asso di Picche
+<br> 2 di Quadri
+<br>&nbsp; 6 di Cuori
+<br>&nbsp; &nbsp;Regina di Fiori
+<br>&nbsp; &nbsp; 7 di Quadri
+<br>&nbsp; &nbsp; &nbsp;5 di Fiori
+<br>&nbsp; &nbsp; &nbsp; Jack di Quadri
+<br></span></p>
+
+<p>
+Nota che non c'è un metodo di inizializzazione <span class=code>__init__</span> per la classe <br>
+<span class=code>ManoOldMaid</span> dato che l'abbiamo ereditato da <span class=code>Mano</span>.
+
+<a name=7></a>
+<h3>16.7 Classe <span class=code>GiocoOldMaid</span></h3>
+<p>
+Ora possiamo dedicarci al gioco vero e proprio: <span class=code>GiocoOldMaid</span> è una sottoclasse di <span class=code>GiocoDiCarte</span> con un metodo <span class=code>Giocatori</span> che prende una lista di giocatori come parametro.
+<p>
+Dato che <span class=code>__init__</span> è ereditato da <span class=code>GiocoDiCarte</span> un nuovo oggetto <span class=code>GiocoOldMaid</span> contiene un mazzo già mescolato:
+
+<p><span class=code><span class=keyword>class</span> GiocoOldMaid(GiocoDiCarte):
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>Partita</span>(self, Nomi):
+<br>
+<br>&nbsp; &nbsp; <span class=comment># rimozione della regina di fiori
+</span><br>&nbsp; &nbsp; self.Mazzo.RimuoviCarta(Carta(0,12))
+<br>
+<br>&nbsp; &nbsp; <span class=comment># creazione di una mano per ogni giocatore
+</span><br>&nbsp; &nbsp; self.Mani = []
+<br>&nbsp; &nbsp; <span class=keyword>for</span> Nome <span class=keyword>in</span> Nomi:
+<br>&nbsp; &nbsp; &nbsp; self.Mani.append(ManoOldMaid(Nome))
+<br>
+<br>&nbsp; &nbsp; <span class=comment># distribuzione delle carte
+</span><br>&nbsp; &nbsp; self.Mazzo.Distribuisci(self.Mani)
+<br>&nbsp; &nbsp; <span class=keyword>print</span> <span class=quote>"---------- Le carte sono state distribuite"</span>
+<br>&nbsp; &nbsp; self.StampaMani()
+<br>
+<br>&nbsp; &nbsp; <span class=comment># toglie le coppie iniziali
+</span><br>&nbsp; &nbsp; NumCoppie = self.RimuoveTutteLeCoppie()
+<br>&nbsp; &nbsp; <span class=keyword>print</span> <span class=quote>"---------- Coppie scartate, inizia la partita"</span>
+<br>&nbsp; &nbsp; self.StampaMani()
+<br>
+<br>&nbsp; &nbsp; <span class=comment># gioca finche' non sono state fatte 25 coppie
+</span><br>&nbsp; &nbsp; Turno = 0
+<br>&nbsp; &nbsp; NumMani = len(self.Mani)
+<br>&nbsp; &nbsp; <span class=keyword>while</span> NumCoppie &lt; 25:
+<br>&nbsp; &nbsp; &nbsp; NumCoppie = NumCoppie + self.GiocaUnTurno(Turno)
+<br>&nbsp; &nbsp; &nbsp; Turno = (Turno + 1) % NumMani
+<br>
+<br>&nbsp; &nbsp; <span class=keyword>print</span> <span class=quote>"---------- La partita e' finita"</span>
+<br>&nbsp; &nbsp; self.StampaMani()
+<br></span></p>
+
+<p>
+Alcuni dei passi della partita sono stati separati in metodi singoli per ragioni di chiarezza anche se dal punto di vista del programma questo non era strettamente necessario.
+<p>
+<span class=code>RimuoveTutteLeCoppie</span> attraversa la lista di mani e invoca <span class=code>RimuoveCoppie</span> su ognuna:
+
+<p><span class=code><span class=keyword>class</span> GiocoOldMaid(GiocoDiCarte):
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>RimuoveTutteLeCoppie</span>(self):
+<br>&nbsp; &nbsp; Conteggio = 0
+<br>&nbsp; &nbsp; <span class=keyword>for</span> Mano <span class=keyword>in</span> self.Mani:
+<br>&nbsp; &nbsp; &nbsp; Conteggio = Conteggio + Mano.RimuoveCoppie()
+<br>&nbsp; &nbsp; <span class=keyword>return</span> Conteggio
+<br></span></p>
+
+
+<blockquote><i>Esercizio: scrivi <span class=code>StampaMani</span> che attraversa <span class=code>self.Mani</span> e stampa ciascuna mano.</i>
+</blockquote>
+<p>
+<span class=code>Conteggio</span> è un accumulatore che tiene traccia del numero di coppie rimosse dall'inizio della partita: quando il numero totale di coppie raggiunge 25 sono state rimosse dalle mani esattamente 50 carte, e ciò significa che è rimasta solo una carta (la Regina di Picche) ed il gioco è finito.
+<p>
+La variabile <span class=code>Turno</span> tiene traccia di quale giocatore debba giocare. Parte da 0 e viene incrementata di 1 ad ogni mano. Quando arriva a <span class=code>NumMani</span> l'operatore modulo <span class=code>%</span> la riporta a 0.
+<p>
+Il metodo <span class=code>GiocaUnTurno</span> prende un parametro dal giocatore che sta giocando. Il valore ritornato è il numero di coppie rimosse durante il turno:
+
+<p><span class=code><span class=keyword>class</span> GiocoOldMaid(GiocoDiCarte):
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>GiocaUnTurno</span>(self, Giocatore):
+<br>&nbsp; &nbsp; <span class=keyword>if</span> self.Mani[Giocatore].EVuoto():
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>return</span> 0
+<br>&nbsp; &nbsp; Vicino = self.TrovaVicino(Giocatore)
+<br>&nbsp; &nbsp; CartaScelta = self.Mani[Vicino].PrimaCarta()
+<br>&nbsp; &nbsp; self.Mani[Giocatore].AggiungeCarta(CartaScelta)
+<br>&nbsp; &nbsp; <span class=keyword>print</span> <span class=quote>"Mano di"</span>, self.Mani[Giocatore].Nome, \
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class=quote>": scelta"</span>, CartaScelta
+<br>&nbsp; &nbsp; Conteggio = self.Mani[Giocatore].RimuoveCoppie()
+<br>&nbsp; &nbsp; self.Mani[Giocatore].Mescola()
+<br>&nbsp; &nbsp; <span class=keyword>return</span> Conteggio
+<br></span></p>
+
+<p>
+Se la mano di un giocatore è vuota quel giocatore è fuori dal gioco e non fa nulla. Il valore di ritorno in questo caso è 0.
+<p>
+In caso contrario un turno consiste nel trovare il primo giocatore in senso orario che abbia delle carte in mano, prendergli una carta e cercare coppie da rimuovere dopo avere aggiunto la carta scelta alla mano. Prima di tornare le carte in mano devono essere mescolate così che la scelta del prossimo giocatore sia ancora una volta casuale.
+<p>
+Il metodo <span class=code>TrovaVicino</span> inizia con il giocatore all'immediata sinistra e continua in senso orario finché non trova qualcuno che ha ancora carte in mano:
+
+<p><span class=code><span class=keyword>class</span> GiocoOldMaid(GiocoDiCarte):
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>TrovaVicino</span>(self, Giocatore):
+<br>&nbsp; &nbsp; NumMani = len(self.Mani)
+<br>&nbsp; &nbsp; <span class=keyword>for</span> Prossimo <span class=keyword>in</span> range(1,NumMani):
+<br>&nbsp; &nbsp; &nbsp; Vicino = (Giocatore + Prossimo) % NumMani
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>if not</span> self.Mani[Vicino].EVuoto():
+<br>&nbsp; &nbsp; &nbsp; &nbsp; <span class=keyword>return</span> Vicino
+<br></span></p>
+
+<p>
+Se <span class=code>TrovaVicino</span> dovesse effettuare un giro completo dei giocatori senza trovare qualcuno con delle carte in mano tornerebbe <span class=code>None</span> e causerebbe un errore da qualche parte del programma. Fortunatamente possiamo provare che questo non succederà mai, sempre che la condizione di fine partita sia riconosciuta correttamente.
+<p>
+Abbiamo omesso il metodo <span class=code>StampaMani</span> dato che puoi scriverlo tu senza problemi.
+<p>
+La stampa che mostriamo in seguito mostra una partita effettuata usando le sole quindici carte di valore più elevato (i 10, i jack, le regine ed i re), ed è stata ridotta per questioni di spazio. La partita ha visto come protagonisti tre giocatori: Allen, Jeff e Chris. Con un mazzo così piccolo il gioco si ferma dopo aver rimosso 7 coppie invece delle consuete 25.
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>import</span> Carte
+<br>&gt;&gt;&gt; Gioco = Carte.GiocoOldMaid()
+<br>&gt;&gt;&gt; Gioco.Partita([<span class=quote>"Allen"</span>,<span class=quote>"Jeff"</span>,<span class=quote>"Chris"</span>])
+<br>---------- Le carte sono state distribuite
+<br>La mano di Allen contiene queste carte:
+<br>Re di Cuori
+<br> Jack di Fiori
+<br>&nbsp; Regina di Picche
+<br>&nbsp; &nbsp;Re di Picche
+<br>&nbsp; &nbsp; 10 di Quadri
+<br>
+<br>La mano di Jeff contiene queste carte:
+<br>Regina di Cuori
+<br> Jack di Picche
+<br>&nbsp; Jack di Cuori
+<br>&nbsp; &nbsp;Re di Quadri
+<br>&nbsp; &nbsp; Regina di Quadri
+<br>
+<br>La mano di Chris contiene queste carte:
+<br>Jack di Quadri
+<br> Re di Fiori
+<br>&nbsp; 10 di Picche
+<br>&nbsp; &nbsp;10 di Cuori
+<br>&nbsp; &nbsp; 10 di Fiori
+<br>
+<br>Mano di Jeff: Regina di Cuori elimina Regina di Quadri
+<br>Mano di Chris: 10 di Picche elimina 10 di Fiori
+<br>---------- Coppie scartate, inizia la partita
+<br>La mano di Allen contiene queste carte:
+<br>Re di Cuori
+<br> Jack di Fiori
+<br>&nbsp; Regina di Picche
+<br>&nbsp; &nbsp;Re di Picche
+<br>&nbsp; &nbsp; 10 di Quadri
+<br>
+<br>La mano di Jeff contiene queste carte:
+<br>Jack di Picche
+<br> Jack di Cuori
+<br>&nbsp; Re di Quadri
+<br>
+<br>La mano di Chris contiene queste carte:
+<br>Jack di Quadri
+<br> Re di Fiori
+<br>&nbsp; 10 di Cuori
+<br>
+<br>Mano di Allen: scelta Re di Quadri
+<br>Mano di Allen: Re di Cuori elimina Re di Quadri
+<br>Mano di Jeff: scelta 10 di Cuori
+<br>Mano di Chris: scelta Jack di Fiori
+<br>Mano di Allen: scelta Jack di Cuori
+<br>Mano di Jeff: scelta Jack di Quadri
+<br>Mano di Chris: scelta Regina di Picche
+<br>Mano di Allen: scelta Jack di Quadri
+<br>Mano di Allen: Jack di Cuori elimina Jack di Quadri
+<br>Mano di Jeff: scelta Re di Fiori
+<br>Mano di Chris: scelta Re di Picche
+<br>Mano di Allen: scelta 10 di Cuori
+<br>Mano di Allen: 10 di Quadri elimina 10 di Cuori
+<br>Mano di Jeff: scelta Regina di Picche
+<br>Mano di Chris: scelta Jack di Picche
+<br>Mano di Chris: Jack di Fiori elimina Jack di Picche
+<br>Mano di Jeff: scelta Re di Picche
+<br>Mano di Jeff: Re di Fiori elimina Re di Picche
+<br>---------- La partita e<span class=quote>' finita
+<br>La mano di Allen e'</span> vuota
+<br>
+<br>La mano di Jack contiene queste carte:
+<br>Regina di Picche
+<br>
+<br>La mano di Chris e' vuota
+<br>
+<br></span></p>
+
+<p>
+Così Jeff ha perso.
+
+<a name=8></a>
+<h3>16.8 Glossario</h3>
+
+<dl>
+<dt>Ereditarietà</dt>
+<dd>capacità di definire una nuova classe come versione modificata di una classe precedentemente definita.</dd>
+ <dt>Classe genitore</dt>
+<dd>classe da cui si deriva un'altra classe.</dd>
+<dt>Classe figlia</dt>
+<dd>nuova classe creata derivandola da una classe già esistente; è anche chiamata "sottoclasse".</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap17.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap15.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

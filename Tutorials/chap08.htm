@@ -1,0 +1,675 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 8: Liste</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap09.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap07.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 8</h2>
+
+
+
+<h1>Liste</h1>
+<p>
+Una <b>lista</b> è una serie ordinata di valori, ognuno identificato da un indice. I valori che fanno parte della lista sono chiamati <b>elementi</b>. Le liste sono simili alle stringhe essendo insiemi ordinati di caratteri, fatta eccezione per il fatto che gli elementi di una lista possono essere di tipo qualsiasi. Liste e stringhe (e altri tipi di dati che si comportano da insiemi ordinati) sono chiamate <b>sequenze</b>.
+
+<a name=1></a>
+<h3>8.1 Valori della lista</h3>
+<p>
+Ci sono parecchi modi di creare una lista nuova, e quello più semplice è racchiudere i suoi elementi tra parentesi quadrate (<span class=code>[</span> e <span class=code>]</span>):
+
+<p><span class=code>[10, 20, 30, 40]
+<br>[<span class=quote>"Pippo"</span>, <span class=quote>"Pluto"</span>, <span class=quote>"Paperino"</span>]
+<br></span></p>
+
+<p>
+Il primo esempio è una lista di quattro interi, il secondo una lista di tre stringhe. Gli elementi di una stessa lista non devono necessariamente essere tutti dello stesso tipo. \
+Questa lista contiene una stringa, un numero in virgola mobile, un intero ed un'altra lista:
+
+<p><span class=code>[<span class=quote>"ciao"</span>, 2.0, 5, [10, 20]]
+<br></span></p>
+
+<p>
+Una lista all'interno di un'altra lista è detta <b>lista annidata</b>.
+<p>
+Le liste che contengono numeri interi consecutivi sono così comuni che Python fornisce un modo semplice per crearle:
+
+<p><span class=code>&gt;&gt;&gt; range(1,5)
+<br>[1, 2, 3, 4]
+<br></span></p>
+
+<p>
+La funzione <span class=code>range</span> prende due argomenti e ritorna una lista che contiene tutti gli interi a partire dal primo (incluso) fino al secondo (escluso).
+<p>
+Ci sono altre due forme per <span class=code>range</span>.  Con un solo argomento crea una lista a partire da 0:
+
+<p><span class=code>&gt;&gt;&gt; range(10)
+<br>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+<br></span></p>
+
+<p>
+Se è presente un terzo argomento questo specifica l'intervallo tra valori successivi, chiamato <b>passo</b>.  Questo esempio mostra come ottenere una stringa dei numeri dispari tra 1 e 10:
+
+<p><span class=code>&gt;&gt;&gt; range(1, 10, 2)
+<br>[1, 3, 5, 7, 9]
+<br></span></p>
+
+<p>
+Infine esiste una lista speciale che non contiene alcun elemento: è chiamata lista vuota ed è indicata da <span class=code>[]</span>.
+<p>
+Con tutti questi modi di creare liste sarebbe un peccato non poter variare il contenuto di una lista o poter passare liste come parametri di funzioni. Infatti entrambe queste cose possono essere fatte:
+
+<p><span class=code>&gt;&gt;&gt; Vocabolario = [<span class=quote>"amico"</span>, <span class=quote>"casa"</span>, <span class=quote>"telefono"</span>]
+<br>&gt;&gt;&gt; Numeri = [17, 123]
+<br>&gt;&gt;&gt; ListaVuota = []
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Vocabolario, Numeri, ListaVuota
+<br>[<span class=quote>'amico'</span>, <span class=quote>'casa'</span>, <span class=quote>'telefono'</span>] [17, 123] []
+<br></span></p>
+
+
+<a name=2></a>
+<h3>8.2 Accesso agli elementi di una lista</h3>
+<p>
+La sintassi per l'accesso agli elementi di una lista è la stessa che abbiamo già visto per i caratteri di una stringa: anche in questo caso facciamo uso dell'operatore porzione (<span class=code>[]</span>).  L'espressione tra parentesi quadrate specifica l'indice dell'elemento (non dimenticare che gli indici partono da 0!):
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> Numeri[0]
+<br>17
+<br>&gt;&gt;&gt; Numeri[1] = 5
+<br></span></p>
+
+<p>
+L'operatore porzione può comparire in qualsiasi posto di un'espressione: quando è alla sinistra di un'assegnazione cambia uno degli elementi della lista (nell'esempio appena visto l'elemento 123 è diventato 5).
+<p>
+Come indice possiamo inoltre usare qualsiasi espressione che produca un intero:
+
+<p><span class=code>&gt;&gt;&gt; Numeri[3-2]
+<br>5
+<br>&gt;&gt;&gt; Numeri[1.0]
+<br>TypeError: sequence index must be integer
+<br></span></p>
+
+<p>
+Provando a leggere o modificare un elemento che non esiste si ottiene un messaggio d'errore:
+
+<p><span class=code>&gt;&gt;&gt; Numeri[2] = 5
+<br>IndexError: list assignment index out of range
+<br></span></p>
+
+<p>
+Se un indice ha valore negativo il conteggio parte dalla fine della lista:
+
+<p><span class=code>&gt;&gt;&gt; Numeri[-1]
+<br>5
+<br>&gt;&gt;&gt; Numeri[-2]
+<br>17
+<br>&gt;&gt;&gt; Numeri[-3]
+<br>IndexError: list index out of range
+<br></span></p>
+
+<p>
+<span class=code>Numeri[-1]</span> è quindi l'ultimo elemento della lista, <span class=code>Numeri[-2]</span> il penultimo e <span class=code>Numeri[-3]</span> non esiste essendo la nostra lista composta di 2 soli elementi.
+<p>
+È comune usare una variabile di ciclo come indice di una lista:
+
+<p><span class=code>Squadre = [<span class=quote>"Juventus"</span>, <span class=quote>"Inter"</span>, <span class=quote>"Milan"</span>, <span class=quote>"Roma"</span>]
+<br>
+<br>i = 0
+<br><span class=keyword>while</span> i &lt; 4:
+<br>&nbsp; <span class=keyword>print</span> Squadre[i]
+<br>&nbsp; i = i + 1
+<br></span></p>
+
+<p>
+Questo ciclo <span class=code><span class=keyword>while</span></span> conta da 0 a 4: quando l'indice del ciclo <span class=code>i</span> vale 4 la condizione diventa falsa e il ciclo termina. Il corpo del ciclo è eseguito solo quando <span class=code>i</span> è 0, 1, 2 e 3.
+<p>
+Ad ogni ciclo la variabile <span class=code>i</span> è usata come indice della lista: questo tipo di elaborazione è chiamata <b>elaborazione trasversale di una lista</b> o <b>attraversamento di una lista</b>.
+
+<a name=3></a>
+<h3>8.3 Lunghezza di una lista</h3>
+<p>
+La funzione <span class=code>len</span> ritorna la lunghezza di una lista. È sempre bene usare <span class=code>len</span> per conoscere il limite superiore in un ciclo, piuttosto che usare un valore costante: in questo modo se la lunghezza della lista dovesse cambiare non dovrai scorrere il programma per modificarne i cicli, e sicuramente <span class=code>len</span> funzionerà correttamente per liste di ogni lunghezza:
+
+<p><span class=code>Squadre = [<span class=quote>"Juventus"</span>, <span class=quote>"Inter"</span>, <span class=quote>"Milan"</span>, <span class=quote>"Roma"</span>]
+<br>
+<br>i = 0
+<br><span class=keyword>while</span> i &lt; len(Squadre):
+<br>&nbsp; <span class=keyword>print</span> Squadre[i]
+<br>&nbsp; i = i + 1
+<br></span></p>
+
+<p>
+L'ultima volta che il ciclo è eseguito <span class=code>i</span> vale <span class=code>len(Squadre) - 1</span> che è l'indice dell'ultimo elemento della lista. Quando al successivo incremento <span class=code>i</span> diventa <span class=code>len(Squadre)</span> la condizione diventa falsa ed il corpo non è eseguito, dato che <span class=code>len(Squadre)</span> non è un indice valido.
+<p>
+Sebbene una lista possa contenere a sua volta un'altra lista questa lista annidata conta come un singolo elemento indipendentemente dalla sua lunghezza. La lunghezza della lista seguente è 4:
+
+<p><span class=code>[<span class=quote>'ciao!'</span>, 1, [<span class=quote>'mela'</span>, <span class=quote>'pera'</span>, <span class=quote>'banana'</span>], [1, 2, 3]]
+<br></span></p>
+
+
+<blockquote><i>Esercizio: scrivi un ciclo che attraversa la lista precedente e stampa la
+lunghezza di ogni elemento.</i>
+</blockquote>
+
+<a name=4></a>
+<h3>8.4 Appartenenza ad una lista</h3>
+<p>
+<span class=code><span class=keyword>in</span></span> è un operatore booleano (restituisce vero o falso) che controlla se un valore è presente in una lista. L'abbiamo già usato con le stringhe nella <a href="chap07.htm#10">sezione 7.10</a> ma funziona anche con le liste e con altri tipi di sequenze:
+
+<p><span class=code>&gt;&gt;&gt; Squadre = [<span class=quote>'Juventus'</span>, <span class=quote>'Inter'</span>, <span class=quote>'Milan'</span>, <span class=quote>'Roma'</span>]
+<br>&gt;&gt;&gt; <span class=quote>'Inter'</span> <span class=keyword>in</span> Squadre
+<br>1
+<br>&gt;&gt;&gt; <span class=quote>'Arsiero'</span> <span class=keyword>in</span> Squadre
+<br>0
+<br></span></p>
+
+<p>
+Dato che <span class=code>Inter</span> è un membro della lista <span class=code>Squadre</span> l'operatore <span class=code><span class=keyword>in</span></span>
+ritorna <i>vero</i>; <span class=code>Arsiero</span> non fa parte della lista e l'operazione <span class=code><span class=keyword>in</span></span> ritorna <i>falso</i>.
+<p>
+Possiamo usare <span class=code><span class=keyword>not</span></span> in combinazione con <span class=code><span class=keyword>in</span></span> per controllare se un elemento non fa parte di una lista:
+
+<p><span class=code>&gt;&gt;&gt; <span class=quote>'Arsiero'</span> <span class=keyword>not in</span> Squadre
+<br>1
+<br></span></p>
+
+
+<a name=5></a>
+<h3>8.5 Liste e cicli <span class=code><span class=keyword>for</span></span> </h3>
+<p>
+Il ciclo <span class=code><span class=keyword>for</span></span> che abbiamo visto nella <a href="chap07.htm#3">sezione 7.3</a> funziona anche con le liste. La sintassi generica per il ciclo <span class=code><span class=keyword>for</span></span> in questo caso è:
+
+<p><span class=code><span class=keyword>for</span> VARIABILE <span class=keyword>in</span> LISTA:
+<br>&nbsp; CORPO
+<br></span></p>
+
+<p>
+Questa istruzione è equivalente a:
+
+<p><span class=code>i = 0
+<br><span class=keyword>while</span> i &lt; len(LISTA):
+<br>&nbsp; VARIABILE = LISTA[i]
+<br>&nbsp; CORPO
+<br>&nbsp; i = i + 1
+<br></span></p>
+
+<p>
+Il ciclo <span class=code><span class=keyword>for</span></span> è più conciso perché possiamo eliminare l'indice del ciclo <span class=code>i</span>. Ecco il ciclo di uno degli esempi appena visti riscritto con il <span class=code><span class=keyword>for</span></span>:
+
+<p><span class=code><span class=keyword>for</span> Squadra <span class=keyword>in</span> Squadre:
+<br>&nbsp; <span class=keyword>print</span> Squadra
+<br></span></p>
+
+<p>
+Si legge quasi letteralmente: "Per (ciascuna) Squadra in (nella lista di) Squadre, stampa (il nome della) Squadra".
+<p>
+Nel ciclo <span class=code><span class=keyword>for</span></span> può essere usata qualsiasi espressione che produca una lista:
+
+<p><span class=code><span class=keyword>for</span> Numero <span class=keyword>in</span> range(20):
+<br>&nbsp; <span class=keyword>if</span> Numero % 2 == 0:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> Numero
+<br>
+<br><span class=keyword>for</span> Frutto <span class=keyword>in</span> [<span class=quote>"banana"</span>, <span class=quote>"mela"</span>, <span class=quote>"pera"</span>]:
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"Mi piace la"</span> + Frutto + <span class=quote>"!"</span>
+<br></span></p>
+
+<p>
+Il primo esempio stampa tutti i numeri pari tra 0 e 19. Il secondo esprime l'entusiasmo per la frutta.
+
+<a name=6></a>
+<h3>8.6 Operazioni sulle liste</h3>
+<p>
+L'operatore <span class=code>+</span> concatena le liste:
+
+<p><span class=code>&gt;&gt;&gt; a = [1, 2, 3]
+<br>&gt;&gt;&gt; b = [4, 5, 6]
+<br>&gt;&gt;&gt; c = a + b
+<br>&gt;&gt;&gt; <span class=keyword>print</span> c
+<br>[1, 2, 3, 4, 5, 6]
+<br></span></p>
+
+<p>
+L'operatore <span class=code>*</span> ripete una lista un dato numero di volte:
+
+<p><span class=code>&gt;&gt;&gt; [0] * 4
+<br>[0, 0, 0, 0]
+<br>&gt;&gt;&gt; [1, 2, 3] * 3
+<br>[1, 2, 3, 1, 2, 3, 1, 2, 3]
+<br></span></p>
+
+<p>
+Nel primo esempio abbiamo ripetuto <span class=code>[0]</span> quattro volte.  Nel secondo abbiamo ripetuto la lista <span class=code>[1, 2, 3]</span> tre volte.
+
+<a name=7></a>
+<h3>8.7 Porzioni di liste</h3>
+<p>
+Le porzioni che abbiamo già visto alla <a href="chap07.htm#4">sezione 7.4</a> lavorano anche con le liste:
+
+<p><span class=code>&gt;&gt;&gt; Lista = [<span class=quote>'a'</span>, <span class=quote>'b'</span>, <span class=quote>'c'</span>, <span class=quote>'d'</span>, <span class=quote>'e'</span>, <span class=quote>'f'</span>]
+<br>&gt;&gt;&gt; Lista[1:3]
+<br>[<span class=quote>'b'</span>, <span class=quote>'c'</span>]
+<br>&gt;&gt;&gt; Lista[:4]
+<br>[<span class=quote>'a'</span>, <span class=quote>'b'</span>, <span class=quote>'c'</span>, <span class=quote>'d'</span>]
+<br>&gt;&gt;&gt; Lista[3:]
+<br>[<span class=quote>'d'</span>, <span class=quote>'e'</span>, <span class=quote>'f'</span>]
+<br>&gt;&gt;&gt; Lista[:]
+<br>[<span class=quote>'a'</span>, <span class=quote>'b'</span>, <span class=quote>'c'</span>, <span class=quote>'d'</span>, <span class=quote>'e'</span>, <span class=quote>'f'</span>]
+<br></span></p>
+
+
+<a name=8></a>
+<h3>8.8 Le liste sono mutabili</h3>
+<p>
+A differenza delle stringhe le liste sono mutabili e ciò significa che gli elementi possono essere modificati. Usando l'operatore porzione nella parte sinistra dell'assegnazione possiamo aggiornare un elemento:
+
+<p><span class=code>&gt;&gt;&gt; Frutta = [<span class=quote>"banana"</span>, <span class=quote>"mela"</span>, <span class=quote>"susina"</span>]
+<br>&gt;&gt;&gt; Frutta[0] = <span class=quote>"pera"</span>
+<br>&gt;&gt;&gt; Frutta[-1] = <span class=quote>"arancia"</span>
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Frutta
+<br>[<span class=quote>'pera'</span>, <span class=quote>'mela'</span>, <span class=quote>'arancia'</span>]
+<br></span></p>
+
+<p>
+Con l'operatore porzione possiamo modificare più elementi alla volta:
+
+<p><span class=code>&gt;&gt;&gt; Lista = [<span class=quote>'a'</span>, <span class=quote>'b'</span>, <span class=quote>'c'</span>, <span class=quote>'d'</span>, <span class=quote>'e'</span>, <span class=quote>'f'</span>]
+<br>&gt;&gt;&gt; Lista[1:3] = [<span class=quote>'x'</span>, <span class=quote>'y'</span>]
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Lista
+<br>[<span class=quote>'a'</span>, <span class=quote>'x'</span>, <span class=quote>'y'</span>, <span class=quote>'d'</span>, <span class=quote>'e'</span>, <span class=quote>'f'</span>]
+<br></span></p>
+
+<p>
+Possiamo rimuovere elementi da una lista assegnando loro una lista vuota:
+
+<p><span class=code>&gt;&gt;&gt; Lista = [<span class=quote>'a'</span>, <span class=quote>'b'</span>, <span class=quote>'c'</span>, <span class=quote>'d'</span>, <span class=quote>'e'</span>, <span class=quote>'f'</span>]
+<br>&gt;&gt;&gt; Lista[1:3] = []
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Lista
+<br>[<span class=quote>'a'</span>, <span class=quote>'d'</span>, <span class=quote>'e'</span>, <span class=quote>'f'</span>]
+<br></span></p>
+
+<p>
+Possono essere aggiunti elementi ad una lista inserendoli in una porzione vuota nella posizione desiderata:
+
+<p><span class=code>&gt;&gt;&gt; Lista = [<span class=quote>'a'</span>, <span class=quote>'d'</span>, <span class=quote>'f'</span>]
+<br>&gt;&gt;&gt; Lista[1:1] = [<span class=quote>'b'</span>, <span class=quote>'c'</span>]
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Lista
+<br>[<span class=quote>'a'</span>, <span class=quote>'b'</span>, <span class=quote>'c'</span>, <span class=quote>'d'</span>, <span class=quote>'f'</span>]
+<br>&gt;&gt;&gt; Lista[4:4] = [<span class=quote>'e'</span>]
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Lista
+<br>[<span class=quote>'a'</span>, <span class=quote>'b'</span>, <span class=quote>'c'</span>, <span class=quote>'d'</span>, <span class=quote>'e'</span>, <span class=quote>'f'</span>]
+<br></span></p>
+
+
+<a name=9></a>
+<h3>8.9 Cancellazione di liste</h3>
+<p>
+Usare le porzioni per cancellare elementi delle liste non è poi così pratico ed è facile sbagliare. Python fornisce un'alternativa molto più leggibile.
+<p>
+<span class=code><span class=keyword>del</span></span> rimuove un elemento da una lista:
+
+<p><span class=code>&gt;&gt;&gt; a = [<span class=quote>'uno'</span>, <span class=quote>'due'</span>, <span class=quote>'tre'</span>]
+<br>&gt;&gt;&gt; <span class=keyword>del</span> a[1]
+<br>&gt;&gt;&gt; a
+<br>[<span class=quote>'uno'</span>, <span class=quote>'tre'</span>]
+<br></span></p>
+
+<p>
+Come puoi facilmente immaginare <span class=code><span class=keyword>del</span></span> gestisce anche gli indici negativi e avvisa con messaggio d'errore se l'indice è al di fuori dei limiti ammessi.
+<p>
+Puoi usare una porzione come indice di <span class=code><span class=keyword>del</span></span>:
+
+<p><span class=code>&gt;&gt;&gt; Lista = [<span class=quote>'a'</span>, <span class=quote>'b'</span>, <span class=quote>'c'</span>, <span class=quote>'d'</span>, <span class=quote>'e'</span>, <span class=quote>'f'</span>]
+<br>&gt;&gt;&gt; <span class=keyword>del</span> Lista[1:5]
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Lista
+<br>[<span class=quote>'a'</span>, <span class=quote>'f'</span>]
+<br></span></p>
+
+<p>
+Come abbiamo già visto la porzione indica tutti gli elementi a partire dal primo indice incluso fino al secondo indice escluso.
+
+<a name=10></a>
+<h3>8.10 Oggetti e valori</h3>
+<p>
+Se eseguiamo queste istruzioni
+
+<p><span class=code>a = <span class=quote>"banana"</span>
+<br>b = <span class=quote>"banana"</span>
+<br></span></p>
+
+<p>
+sappiamo che sia <span class=code>a</span> che <span class=code>b</span> si riferiscono ad una stringa contenente le lettere <span class=code><span class=quote>"banana"</span></span>.  A prima vista non possiamo dire se puntano alla <i>stessa stringa</i> in memoria.
+<p>
+I possibili casi sono due:
+
+<p align="center"><img src="illustrations/i_list1.png"></p>
+<p>
+Nel primo caso <span class=code>a</span> e <span class=code>b</span> si riferiscono a due diverse "cose" che hanno lo stesso valore. Nel secondo caso si riferiscono alla stessa "cosa". Queste "cose" hanno un nome: <b>oggetti</b>. Un oggetto è un qualcosa cui può far riferimento una variabile.
+<p>
+Ogni oggetto ha un <b>identificatore</b> unico che possiamo ricavare con la funzione <span class=code>id</span>.  Stampando l'identificatore di <span class=code>a</span> e di <span class=code>b</span> possiamo dire subito se le due variabili si riferiscono allo stesso oggetto:
+
+<p><span class=code>&gt;&gt;&gt; id(a)
+<br>135044008
+<br>&gt;&gt;&gt; id(b)
+<br>135044008
+<br></span></p>
+
+<p>
+Otteniamo lo stesso identificatore e ciò significa che Python ha creato in memoria un'unica stringa cui fanno riferimento entrambe le variabili <span class=code>a</span> e <span class=code>b</span>.
+<p>
+In questo ambito le liste si comportano diversamente dalle stringhe, dato che quando creiamo due liste queste sono sempre oggetti diversi:
+
+<p><span class=code>&gt;&gt;&gt; a = [1, 2, 3]
+<br>&gt;&gt;&gt; b = [1, 2, 3]
+<br>&gt;&gt;&gt; id(a)
+<br>135045528
+<br>&gt;&gt;&gt; id(b)
+<br>135041704
+<br></span></p>
+
+<p>
+Il diagramma di stato in questo caso è
+
+<p align="center"><img src="illustrations/i_list2.png"></p>
+<p>
+<span class=code>a</span> e <span class=code>b</span> hanno lo stesso valore ma non si riferiscono allo stesso oggetto.
+
+<a name=11></a>
+<h3>8.11 Alias</h3>
+<p>
+Dato che le variabili si riferiscono ad oggetti quando assegniamo una variabile ad un'altra entrambe le variabili si riferiscono allo stesso oggetto:
+
+<p><span class=code>&gt;&gt;&gt; a = [1, 2, 3]
+<br>&gt;&gt;&gt; b = a
+<br></span></p>
+
+<p>
+In questo caso il diagramma di stato è
+
+<p align="center"><img src="illustrations/i_list3.png"></p>
+<p>
+La stessa lista in questo caso ha due nomi differenti, <span class=code>a</span> e <span class=code>b</span>, e diciamo che questi sono due <b>alias</b>.  Dato che l'oggetto cui entrambi si riferiscono è lo stesso è indifferente quale degli alias si usi per effettuare un'elaborazione:
+
+<p><span class=code>&gt;&gt;&gt; b[0] = 5
+<br>&gt;&gt;&gt; <span class=keyword>print</span> a
+<br>[5, 2, 3]
+<br></span></p>
+
+<p>
+Sebbene questo comportamento possa essere desiderabile è nella maggior parte dei casi difficilmente controllabile e può portare a effetti indesiderati e inattesi. In generale è buona norma evitare gli alias in caso di oggetti mutabili, mentre per quelli immutabili non ci sono problemi. Ecco perché Python si permette di usare la stessa stringa con diversi alias quando si tratta di risparmiare memoria senza che questo fatto causi alcun problema. La stringa è un oggetto immutabile e quindi non può essere modificata: non c'è quindi il rischio di causare spiacevoli effetti collaterali.
+
+<a name=12></a>
+<h3>8.12 Clonare le liste</h3>
+<p>
+Se vogliamo modificare una lista e mantenere una copia dell'originale dobbiamo essere in grado di copiare il contenuto della lista e non solo di creare un suo alias. Questo processo è talvolta chiamato <b>clonazione</b> per evitare l'ambiguità insita nella parola "copia".
+<p>
+Il modo più semplice per clonare una lista è quello di usare l'operatore porzione:
+
+<p><span class=code>&gt;&gt;&gt; a = [1, 2, 3]
+<br>&gt;&gt;&gt; b = a[:]
+<br>&gt;&gt;&gt; <span class=keyword>print</span> b
+<br>[1, 2, 3]
+<br></span></p>
+
+<p>
+Il fatto di prendere una porzione di <span class=code>a</span> crea una nuova lista. In questo caso la porzione consiste degli elementi dell'intera lista, dato che non sono stati specificati gli indici iniziale e finale.
+<p>
+Ora siamo liberi di modificare <span class=code>b</span> senza doverci preoccupare di <span class=code>a</span>:
+
+<p><span class=code>&gt;&gt;&gt; b[0] = 5
+<br>&gt;&gt;&gt; <span class=keyword>print</span> a
+<br>[1, 2, 3]
+<br></span></p>
+
+
+<blockquote><i>Esercizio: disegna un diagramma di stato per <span class=code>a</span> e per <span class=code>b</span>
+prima e dopo questa modifica.</i>
+</blockquote>
+
+<a name=13></a>
+<h3>8.13 Parametri di tipo lista</h3>
+<p>
+Se passiamo una lista come parametro di funzione in realtà passiamo un suo riferimento e non una sua copia. Per esempio la funzione <span class=code>Testa</span> prende una lista come parametro e ne ritorna il primo elemento:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Testa</span>(Lista):
+<br>&nbsp; <span class=keyword>return</span> Lista[0]
+<br></span></p>
+
+<p>
+Ecco com'è usata:
+
+<p><span class=code>&gt;&gt;&gt; Numeri = [1, 2, 3]
+<br>&gt;&gt;&gt; Testa(Numeri)
+<br>1
+<br></span></p>
+
+<p>
+Il parametro <span class=code>Lista</span> e la variabile <span class=code>Numeri</span> sono alias dello stesso oggetto. Il loro diagramma di stato è
+
+<p align="center"><img src="illustrations/i_stack5.png"></p>
+<p>
+Dato che l'oggetto lista è condiviso da due frame l'abbiamo disegnato a cavallo di entrambi.
+<p>
+Se una funzione modifica una lista passata come parametro, viene modificata la lista stessa e non una sua copia.
+Per esempio <span class=code>CancellaTesta</span> rimuove il primo elemento da una lista:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>CancellaTesta</span>(Lista):
+<br>&nbsp; <span class=keyword>del</span> Lista[0]
+<br></span></p>
+
+<p>
+Ecco com'è usata <span class=code>CancellaTesta</span>:
+
+<p><span class=code>&gt;&gt;&gt; Numeri = [1, 2, 3]
+<br>&gt;&gt;&gt; CancellaTesta(Numeri)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Numeri
+<br>[2, 3]
+<br></span></p>
+
+<p>
+Quando una funzione ritorna una lista in realtà viene ritornato un riferimento alla lista stessa. Per esempio <span class=code>Coda</span> ritorna una lista che contiene tutti gli elementi di una lista a parte il primo:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Coda</span>(Lista):
+<br>&nbsp; <span class=keyword>return</span> Lista[1:]
+<br></span></p>
+
+<p>
+Ecco com'è usata <span class=code>Coda</span>:
+
+<p><span class=code>&gt;&gt;&gt; Numeri = [1, 2, 3]
+<br>&gt;&gt;&gt; Resto = Coda(Numeri)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Resto
+<br>[2, 3]
+<br></span></p>
+
+<p>
+Dato che il valore ritornato è stato creato con l'operatore porzione stiamo restituendo una nuova lista. La creazione di <span class=code>Resto</span> ed ogni suo successivo cambiamento non ha alcun effetto sulla lista originale <span class=code>Numeri</span>.
+
+<a name=14></a>
+<h3>8.14 Liste annidate</h3>
+<p>
+Una lista annidata è una lista che compare come elemento di un'altra lista. Nell'esempio seguente il quarto elemento della lista (ricorda che stiamo parlando dell'elemento numero 3 dato che il primo ha indice 0) è una lista:
+
+<p><span class=code>&gt;&gt;&gt; Lista = [<span class=quote>"ciao"</span>, 2.0, 5, [10, 20]]
+<br></span></p>
+
+<p>
+Se stampiamo <span class=code>Lista[3]</span> otteniamo <span class=code>[10, 20]</span>.  Per estrarre un elemento da una lista annidata possiamo procedere in due tempi:
+
+<p><span class=code>&gt;&gt;&gt; Elemento = Lista[3]
+<br>&gt;&gt;&gt; Elemento[0]
+<br>10
+<br></span></p>
+
+<p>
+O possiamo combinare i due passi in un'unica istruzione:
+
+<p><span class=code>&gt;&gt;&gt; Lista[3][0]
+<br>10
+<br></span></p>
+
+<p>
+L'operatore porzione viene valutato da sinistra verso destra così questa espressione ricava il quarto elemento (indice 3) di <span class=code>Lista</span> ed essendo questo una lista ne estrae il primo elemento (indice 0).
+
+<a name=15></a>
+<h3>8.15 Matrici</h3>
+<p>
+Le liste annidate sono spesso usate per rappresentare matrici. Per esempio la matrice
+
+<p align="center"><img src="illustrations/matrix.png"></p>
+<p>
+può essere rappresentata come
+
+<p><span class=code>&gt;&gt;&gt; Matrice = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+<br></span></p>
+
+<p>
+<span class=code>Matrice</span> è una lista di tre elementi dove ciascuno è una riga della matrice. Possiamo selezionare una singola riga nel solito modo:
+
+<p><span class=code>&gt;&gt;&gt; Matrice[1]
+<br>[4, 5, 6]
+<br></span></p>
+
+<p>
+O estrarre una singola cella usando il doppio indice:
+
+<p><span class=code>&gt;&gt;&gt; Matrice[1][1]
+<br>5
+<br></span></p>
+
+<p>
+Il primo indice seleziona la riga ed il secondo la colonna. Questo è un modo comune di rappresentare le matrici ma non è l'unico: una variante è quella di usare una lista di colonne invece che di righe. Vedremo in seguito un'alternativa completamente diversa quando avremo visto i dizionari.
+
+<a name=16></a>
+<h3>8.16 Stringhe e liste</h3>
+<p>
+Due delle funzioni più utili nel modulo <span class=code>string</span> hanno a che fare con le liste di stringhe. La funzione <span class=code>split</span> spezza una stringa in una lista di parole singole, considerando un qualsiasi carattere di spazio bianco come punto di interruzione tra parole consecutive:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>import</span> string
+<br>&gt;&gt;&gt; Verso = <span class=quote>"Nel mezzo del cammin..."</span>
+<br>&gt;&gt;&gt; string.split(Verso)
+<br>[<span class=quote>'Nel'</span>, <span class=quote>'mezzo'</span>, <span class=quote>'del'</span>, <span class=quote>'cammin...'</span>]
+<br></span></p>
+
+<p>
+Può anche essere usato un argomento opzionale per specificare quale debba essere il <b>delimitatore</b> da considerare. In questo esempio usiamo la stringa <span class=code>el</span> come delimitatore:
+
+<p><span class=code>&gt;&gt;&gt; string.split(Verso, <span class=quote>'el'</span>)
+<br>[<span class=quote>'N'</span>, <span class=quote>' mezzo d'</span>, <span class=quote>' cammin...'</span>]
+<br></span></p>
+
+<p>
+Il delimitatore non appare nella lista.
+<p>
+La funzione <span class=code>join</span> si comporta in modo inverso rispetto a <span class=code>split</span>: prende una lista di stringhe e ne concatena gli elementi inserendo uno spazio tra ogni coppia:
+
+<p><span class=code>&gt;&gt;&gt; Lista = [<span class=quote>'Nel'</span>, <span class=quote>'mezzo'</span>, <span class=quote>'del'</span>, <span class=quote>'cammin...'</span>]
+<br>&gt;&gt;&gt; string.join(Lista)
+<br><span class=quote>'Nel mezzo del cammin...'</span>
+<br></span></p>
+
+<p>
+Come nel caso di <span class=code>split</span>, <span class=code>join</span> accetta un argomento opzionale che rappresenta il delimitatore da inserire tra gli elementi. Il delimitatore di default è uno spazio ma può essere cambiato:
+
+<p><span class=code>&gt;&gt;&gt; string.join(Lista, <span class=quote>'_'</span>)
+<br><span class=quote>'Nel_mezzo_del_cammin...'</span>
+<br></span></p>
+
+
+<blockquote><blockquote><i>Esercizio: descrivi la relazione tra la lista <span class=code>Verso</span> e cosa 
+ottieni da
+<span class=code>string.join(string.split(Verso))</span>.  Sono le stesse per tutte le 
+stringhe o in qualche caso possono essere diverse?</i>
+</blockquote>
+</blockquote>
+
+<a name=17></a>
+<h3>8.17 Glossario</h3>
+
+<dl>
+<dt>Lista</dt>
+<dd>collezione di oggetti identificata da un nome dove ogni oggetto è selezionabile grazie ad un indice.</dd>
+<dt>Indice</dt>
+<dd>variabile intera o valore che indica un elemento all'interno di una lista.</dd>
+<dt>Elemento</dt>
+<dd>valore in una lista (o in altri tipi di sequenza). L'operatore porzione seleziona gli elementi di una lista.</dd>
+<dt>Sequenza</dt>
+<dd>ognuno dei tipi di dati che consiste in una lista ordinata di elementi identificati da un indice.</dd>
+<dt>Lista annidata</dt>
+<dd>lista che è un elemento di un'altra lista.</dd>
+<dt>Attraversamento di una lista</dt>
+<dd>accesso in sequenza di tutti gli elementi di una lista.</dd>
+<dt>Oggetto</dt>
+<dd>zona di memoria cui si può riferire una variabile.</dd>
+<dt>Alias</dt>
+<dd>più variabili che si riferiscono allo stesso oggetto con nomi diversi.</dd>
+<dt>Clonare</dt>
+<dd>creare un nuovo oggetto che ha lo stesso valore di un oggetto già esistente.</dd>
+<dt>Delimitatore</dt>
+<dd>carattere o stringa usati per indicare dove una stringa deve essere spezzata.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap09.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap07.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

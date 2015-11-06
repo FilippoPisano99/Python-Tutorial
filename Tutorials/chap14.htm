@@ -1,0 +1,548 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 14: Classi e metodi</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap15.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap13.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 14</h2>
+
+
+
+<h1>Classi e metodi</h1>
+
+<a name=1></a>
+<h3>14.1 Funzionalità orientate agli oggetti</h3>
+<p>
+Python è un <b>linguaggio di programmazione orientato agli oggetti</b> il che significa che fornisce il supporto alla <b>programmazione orientata agli oggetti</b>.
+<p>
+Non è facile definire cosa sia la programmazione orientata agli oggetti ma abbiamo già visto alcune delle sue caratteristiche:
+
+<ul>
+<li>I programmi sono costituiti da definizioni di oggetti e definizioni di funzioni e la gran parte dell'elaborazione è espressa in termini di operazioni sugli oggetti.</li>
+<li>Ogni definizione di oggetto corrisponde ad un oggetto o concetto del mondo reale e le funzioni che operano su un oggetto corrispondono a modi reali di interazione tra cose reali.</li>
+</ul>
+<p>
+Per esempio la classe <span class=code>Tempo</span> definita nel <a href="chap13.htm">capitolo 13</a> corrisponde al modo in cui tendiamo a pensare alle ore del giorno e le funzioni che abbiamo definite corrispondono al genere di operazioni che facciamo con gli orari. Le classi <span class=code>Punto</span> e <span class=code>Rettangolo</span> sono estremamente simili ai concetti matematici corrispondenti.
+<p>
+Finora non ci siamo avvantaggiati delle funzionalità di supporto della programmazione orientata agli oggetti fornite da Python. Sia ben chiaro che queste funzionalità non sono indispensabili in quanto forniscono solo una sintassi alternativa per fare qualcosa che possiamo fare in modi più tradizionali, ma in molti casi questa alternativa è più concisa e accurata.
+<p>
+Per esempio nel programma <span class=code>Tempo</span> non c'è una chiara connessione tra la definizione della classe e le definizioni di funzioni che l'hanno seguita: un esame superficiale è sufficiente per accorgersi che tutte queste funzioni prendono almeno un oggetto <span class=code>Tempo</span> come parametro.
+<p>
+Questa osservazione giustifica la presenza dei <b>metodi</b>.  Ne abbiamo già visto qualcuno nel caso dei dizionari, quando abbiamo invocato <span class=code>keys</span> e <span class=code>values</span>.  Ogni metodo è associato ad una classe ed è destinato ad essere invocato sulle istanze di quella classe.
+<p>
+I metodi sono simili alle funzioni con due differenze:
+
+<ul>
+<li>I metodi sono definiti all'interno della definizione di classe per rendere più esplicita la relazione tra la classe ed i metodi corrispondenti.</li>
+<li>La sintassi per invocare un metodo è diversa da quella usata per chiamare una funzione.</li>
+</ul>
+<p>
+Nelle prossime sezioni prenderemo le funzioni scritte nei due capitoli precedenti e le trasformeremo in metodi. Questa trasformazione è puramente meccanica e puoi farla seguendo una serie di semplici passi: se sei a tuo agio nel convertire tra funzione e metodo e viceversa riuscirai anche a scegliere di volta in volta la forma migliore.
+
+<a name=2></a>
+<h3>14.2 <span class=code>StampaTempo</span></h3>
+<p>
+Nel <a href="chap13.htm">capitolo 13</a> abbiamo definito una classe chiamata <span class=code>Tempo</span> e scritto una funzione <span class=code>StampaTempo</span>:
+
+<p><span class=code><span class=keyword>class</span> Tempo:
+<br>&nbsp; <span class=keyword>pass
+<br>
+<br>def</span> StampaTempo(Orario):
+<br>&nbsp; <span class=keyword>print</span> str(Orario.Ore) + <span class=quote>":"</span> +
+<br>&nbsp; &nbsp; &nbsp; &nbsp; str(Orario.Minuti) + <span class=quote>":"</span> +
+<br>&nbsp; &nbsp; &nbsp; &nbsp; str(Orario.Secondi)
+<br></span></p>
+
+<p>
+Per chiamare la funzione abbiamo passato un oggetto <span class=code>Tempo</span> come parametro:
+
+<p><span class=code>&gt;&gt;&gt; OraAttuale = Tempo()
+<br>&gt;&gt;&gt; OraAttuale.Ore = 9
+<br>&gt;&gt;&gt; OraAttuale.Minuti = 14
+<br>&gt;&gt;&gt; OraAttuale.Secondi = 30
+<br>&gt;&gt;&gt; StampaTempo(OraAttuale)
+<br></span></p>
+
+<p>
+Per rendere <span class=code>StampaTempo</span> un metodo tutto   quello che dobbiamo fare è muovere la definizione della funzione all'interno della definizione della classe. Fai attenzione al cambio di indentazione:
+
+<p><span class=code><span class=keyword>class</span> Tempo:
+<br>&nbsp; <span class=keyword>def</span> <span class=function>StampaTempo</span>(Orario):
+<br>&nbsp; &nbsp; <span class=keyword>print</span> str(Orario.Ore) + <span class=quote>":"</span> +&nbsp; &nbsp;\
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; str(Orario.Minuti) + <span class=quote>":"</span> +&nbsp; \
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; str(Orario.Secondi)
+<br></span></p>
+
+<p>
+Ora possiamo invocare <span class=code>StampaTempo</span> usando la notazione punto.
+
+<p><span class=code>&gt;&gt;&gt; OraAttuale.StampaTempo()
+<br></span></p>
+
+<p>
+Come sempre l'oggetto su cui il metodo è invocato appare prima del punto ed il nome del metodo subito dopo.
+<p>
+L'oggetto su cui il metodo è invocato è automaticamente assegnato al primo parametro, quindi nel caso di <span class=code>OraAttuale</span> è assegnato a <span class=code>Orario</span>.
+<p>
+Per convenzione il primo parametro di un metodo è chiamato <span class=code>self</span>, traducibile in questo caso come "l'oggetto stesso".
+<p>
+Come nel caso di <span class=code>StampaTempo(OraAttuale)</span>, la sintassi di una chiamata di funzione tradizionale suggerisce che la funzione sia l'agente attivo: equivale pressappoco a dire "<span class=code>StampaTempo</span>! C'è un oggetto per te da stampare!"
+<p>
+Nella programmazione orientata agli oggetti sono proprio gli oggetti ad essere considerati l'agente attivo: un'invocazione del tipo <span class=code>OraAttuale.StampaTempo()</span> significa "<span class=code>OraAttuale</span>!  Invoca il metodo per stampare il tuo valore!"
+<p>
+Questo cambio di prospettiva non sembra così utile ed effettivamente negli esempi che abbiamo visto finora è così. Comunque lo spostamento della responsabilità dalla funzione all'oggetto rende possibile scrivere funzioni più versatili e rende più immediati il mantenimento ed il riutilizzo del codice.
+
+<a name=3></a>
+<h3>14.3 Un altro esempio</h3>
+<p>
+Convertiamo <span class=code>Incremento</span> (dalla <a href="chap13.htm#3">sezione 13.3</a>) da funzione a metodo. Per risparmiare spazio eviteremo di riscrivere il metodo <span class=code>StampaTempo</span> che abbiamo già definito ma tu lo devi tenere nella tua versione del programma:
+
+<p><span class=code><span class=keyword>class</span> Tempo:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>Incremento</span>(self, Secondi):
+<br>&nbsp; &nbsp; self.Secondi = Secondi + self.Secondi
+<br>
+<br>&nbsp; &nbsp; <span class=keyword>while</span> self.Secondi &gt;= 60:
+<br>&nbsp; &nbsp; &nbsp; self.Secondi = self.Secondi - 60
+<br>&nbsp; &nbsp; &nbsp; self.Minuti = self.Minuti + 1
+<br>
+<br>&nbsp; &nbsp; <span class=keyword>while</span> self.Minuti &gt;= 60:
+<br>&nbsp; &nbsp; &nbsp; self.Minuti = self.Minuti - 60
+<br>&nbsp; &nbsp; &nbsp; self.Ore = self.Ore + 1
+<br></span></p>
+
+<p>
+D'ora in poi i tre punti di sospensione <span class=code>...</span> all'interno del codice indicheranno che è stata omessa per questioni di leggibilità una parte del codice già definito in precedenza.
+<p>
+La trasformazione, come abbiamo già detto, è puramente meccanica: abbiamo spostato la definizione di una funzione all'interno di una definizione di classe e cambiato il nome del primo parametro.
+<p>
+Ora possiamo invocare <span class=code>Incremento</span> come metodo.
+
+<p><span class=code>OraAttuale.Incremento(500)
+<br></span></p>
+
+<p>
+Ancora una volta l'oggetto su cui il metodo è invocato viene automaticamente assegnato al primo parametro, <span class=code>self</span>.  Il secondo parametro, <span class=code>Secondi</span>,  vale <span class=code>500</span>.
+
+<blockquote><i>Esercizio: converti <span class=code>ConverteInSecondi</span> della <a href="chap13.htm#5">sezione 13.5</a> a metodo della classe <span class=code>Tempo</span>.</i>
+</blockquote>
+
+<a name=4></a>
+<h3>14.4 Un esempio più complesso</h3>
+<p>
+La funzione <span class=code>Dopo</span> è leggermente più complessa perché opera su due oggetti <span class=code>Tempo</span> e non soltanto su uno com'è successo per i metodi appena visti.  Uno dei parametri è chiamato <span class=code>self</span>; l'altro non cambia:
+
+<p><span class=code><span class=keyword>class</span> Tempo:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>Dopo</span>(self, Tempo2):
+<br>&nbsp; &nbsp; <span class=keyword>if</span> self.Ore &gt; Tempo2.Ore:
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>return</span> 1
+<br>&nbsp; &nbsp; <span class=keyword>if</span> self.Ore &lt; Tempo2.Ore:
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>return</span> 0
+<br>
+<br>&nbsp; &nbsp; <span class=keyword>if</span> self.Minuti &gt; Tempo2.Minuti:
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>return</span> 1
+<br>&nbsp; &nbsp; <span class=keyword>if</span> self.Minuti &lt; Tempo2.Minuti:
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>return</span> 0
+<br>
+<br>&nbsp; &nbsp; <span class=keyword>if</span> self.Secondi &gt; Tempo2.Secondi:
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>return</span> 1
+<br>&nbsp; &nbsp; <span class=keyword>return</span> 0
+<br></span></p>
+
+<p>
+Invochiamo questo metodo su un oggetto e passiamo l'altro come argomento:
+
+<p><span class=code><span class=keyword>if</span> TempoCottura.Dopo(OraAttuale):
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"Il pranzo e' pronto"</span>
+<br></span></p>
+
+
+<a name=5></a>
+<h3>14.5 Argomenti opzionali</h3>
+<p>
+Abbiamo già visto delle funzioni predefinite che accettano un numero variabile di argomenti: <span class=code>string.find</span> accetta due, tre o quattro argomenti.
+<p>
+Possiamo scrivere funzioni con una lista di argomenti opzionali. Scriviamo la nostra versione di <span class=code>Trova</span> per farle fare la stessa cosa di <span class=code>string.find</span>.
+<p>
+Ecco la versione originale che abbiamo scritto nella <a href="chap07.htm#7">sezione 7.7</a>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Trova</span>(Stringa, Carattere):
+<br>&nbsp; Indice = 0
+<br>&nbsp; <span class=keyword>while</span> Indice &lt; len(Stringa):
+<br>&nbsp; &nbsp; <span class=keyword>if</span> Stringa[Indice] == Carattere:
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>return</span> Indice
+<br>&nbsp; &nbsp; Indice = Indice + 1
+<br>&nbsp; <span class=keyword>return</span> -1
+<br></span></p>
+
+<p>
+Questa è la versione aggiornata e migliorata:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Trova</span>(Stringa, Carattere, Inizio=0):
+<br>&nbsp; Indice = Inizio
+<br>&nbsp; <span class=keyword>while</span> Inizio &lt; len(Stringa):
+<br>&nbsp; &nbsp; <span class=keyword>if</span> Stringa[Indice] == Carattere:
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>return</span> Indice
+<br>&nbsp; &nbsp; Indice = Indice + 1
+<br>&nbsp; <span class=keyword>return</span> -1
+<br></span></p>
+
+<p>
+Il terzo parametro, <span class=code>Inizio</span>, è opzionale perché abbiamo fornito il valore <span class=code>0</span> di default.  Se invochiamo <span class=code>Trova</span> con solo due argomenti usiamo il valore di default per il terzo così da iniziare la ricerca dall'inizio della stringa:
+
+<p><span class=code>&gt;&gt;&gt; Trova(<span class=quote>"Mela"</span>, <span class=quote>"l"</span>)
+<br>2
+<br></span></p>
+
+<p>
+Se forniamo un terzo parametro questo <b>sovrascrive</b> il valore di default:
+
+<p><span class=code>&gt;&gt;&gt; Trova(<span class=quote>"Mela"</span>, <span class=quote>"l"</span>, 3)
+<br>-1
+<br></span></p>
+
+
+<blockquote><i>Esercizio: aggiungi un quarto parametro, <span class=code>Fine</span>, che specifica dove interrompere la ricerca.
+<p>
+Attenzione: questo esercizio non è semplice come sembra. Il valore di default di
+<span class=code>Fine</span> dovrebbe essere <span class=code>len(Stringa)</span> ma questo non funziona.  I valori di default sono valutati al momento della definizione della funzione, non quando questa è chiamata: quando <span class=code>Trova</span> viene definita, <span class=code>Stringa</span> non esiste ancora così non puoi conoscere la sua lunghezza. Trova un sistema per aggirare l'ostacolo.</i>
+</blockquote>
+
+<a name=6></a>
+<h3>14.6 Il metodo di inizializzazione</h3>
+<p>
+Il <b>metodo di inizializzazione</b> è un metodo speciale invocato quando si crea un oggetto. Il nome di questo metodo è <span class=code>__init__</span> (due caratteri di sottolineatura, seguiti da <span class=code>init</span> e da altri due caratteri di sottolineatura).  Un metodo di inizializzazione per la classe <span class=code>Tempo</span> potrebbe essere:
+
+<p><span class=code><span class=keyword>class</span> Tempo:
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__init__</span>(self, Ore=0, Minuti=0, Secondi=0):
+<br>&nbsp; &nbsp; self.Ore = Ore
+<br>&nbsp; &nbsp; self.Minuti = Minuti
+<br>&nbsp; &nbsp; self.Secondi = Secondi
+<br></span></p>
+
+<p>
+Non c'è conflitto tra l'attributo <span class=code>self.Ore</span> e il parametro <span class=code>Ore</span>.  La notazione punto specifica a quale variabile ci stiamo riferendo.
+<p>
+Quando invochiamo il costruttore <span class=code>Tempo</span> gli argomenti che passiamo sono girati a <span class=code>__init__</span>:
+
+<p><span class=code>&gt;&gt;&gt; OraAttuale = Tempo(9, 14, 30)
+<br>&gt;&gt;&gt; OraAttuale.StampaTempo()
+<br>&gt;&gt;&gt; 9:14:30
+<br></span></p>
+
+<p>
+Dato che i parametri sono opzionali possiamo anche ometterli:
+
+<p><span class=code>&gt;&gt;&gt; OraAttuale = Tempo()
+<br>&gt;&gt;&gt; OraAttuale.StampaTempo()
+<br>&gt;&gt;&gt; 0:0:0
+<br></span></p>
+
+<p>
+Possiamo anche fornire solo il primo parametro:
+
+<p><span class=code>&gt;&gt;&gt; OraAttuale = Tempo(9)
+<br>&gt;&gt;&gt; OraAttuale.StampaTempo()
+<br>&gt;&gt;&gt; 9:0:0
+<br></span></p>
+
+<p>
+o i primi due parametri:
+
+<p><span class=code>&gt;&gt;&gt; OraAttuale = Tempo(9, 14)
+<br>&gt;&gt;&gt; OraAttuale.StampaTempo()
+<br>&gt;&gt;&gt; 9:14:0
+<br></span></p>
+
+<p>
+Infine possiamo anche passare un sottoinsieme dei parametri nominandoli esplicitamente:
+
+<p><span class=code>&gt;&gt;&gt; OraAttuale = Tempo(Secondi = 30, Ore = 9)
+<br>&gt;&gt;&gt; OraAttuale.StampaTempo()
+<br>&gt;&gt;&gt; 9:0:30
+<br></span></p>
+
+
+<a name=7></a>
+<h3>14.7 La classe <span class=code>Punto</span> rivisitata</h3>
+<p>
+Riscriviamo la classe <span class=code>Punto</span> che abbiamo già visto alla <a href="chap12.htm#1">sezione 12.1</a> in uno stile più orientato agli oggetti:
+
+<p><span class=code><span class=keyword>class</span> Punto:
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__init__</span>(self, x=0, y=0):
+<br>&nbsp; &nbsp; self.x = x
+<br>&nbsp; &nbsp; self.y = y
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__str__</span>(self):
+<br>&nbsp; &nbsp; <span class=keyword>return</span> <span class=quote>'('</span> + str(self.x) + <span class=quote>', '</span> + str(self.y) + <span class=quote>')'</span>
+<br></span></p>
+
+<p>
+Il metodo di inizializzazione prende <span class=code>x</span> e <span class=code>y</span> come parametri opzionali. Il loro valore di default è 0.
+<p>
+Il metodo <span class=code>__str__</span> ritorna una rappresentazione di un oggetto <span class=code>Punto</span> sotto forma di stringa. Se una classe fornisce un metodo chiamato <span class=code>__str__</span> questo sovrascrive il comportamento abituale della funzione <span class=code>str</span> di Python.
+
+<p><span class=code>&gt;&gt;&gt; P = Punto(3, 4)
+<br>&gt;&gt;&gt; str(P)
+<br><span class=quote>'(3, 4)'</span>
+<br></span></p>
+
+<p>
+La stampa di un oggetto <span class=code>Punto</span> invoca <span class=code>__str__</span> sull'oggetto: la definizione di <span class=code>__str__</span> cambia dunque anche il comportamento di <span class=code><span class=keyword>print</span></span>:
+
+<p><span class=code>&gt;&gt;&gt; P = Punto(3, 4)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> P
+<br>(3, 4)
+<br></span></p>
+
+<p>
+Quando scriviamo una nuova classe iniziamo quasi sempre scrivendo <span class=code>__init__</span> (la funzione che rende più facile istanziare oggetti) e <span class=code>__str__</span> (utile per il debug).
+
+<a name=8></a>
+<h3>14.8 Ridefinizione di un operatore</h3>
+<p>
+Alcuni linguaggi consentono di cambiare la definizione degli operatori predefiniti quando applicati a tipi definiti dall'utente. Questa caratteristica è chiamata <b>ridefinizione dell'operatore</b> (o "overloading dell'operatore") e si rivela molto utile soprattutto quando vogliamo definire nuovi tipi di operazioni matematiche.
+<p>
+Se vogliamo ridefinire l'operatore somma <span class=code>+</span> scriveremo un metodo chiamato <span class=code>__add__</span>:
+
+<p><span class=code><span class=keyword>class</span> Punto:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__add__</span>(self, AltroPunto):
+<br>&nbsp; &nbsp; <span class=keyword>return</span> Punto(self.x + AltroPunto.x, self.y + AltroPunto.y)
+<br></span></p>
+
+<p>
+Come al solito il primo parametro è l'oggetto su cui è invocato il metodo. Il secondo parametro è chiamato <span class=code>AltroPunto</span> per distinguerlo da <span class=code>self</span>.
+Ora sommiamo due oggetti <span class=code>Punto</span> restituendo la somma in un terzo oggetto <span class=code>Punto</span> che conterrà la somma delle coordinate <tt>x</tt> e delle coordinate <tt>y</tt>.
+<p>
+Quando applicheremo l'operatore <span class=code>+</span> ad oggetti <span class=code>Punto</span> Python invocherà il metodo <span class=code>__add__</span>:
+
+<p><span class=code>&gt;&gt;&gt;&nbsp; &nbsp;P1 = Punto(3, 4)
+<br>&gt;&gt;&gt;&nbsp; &nbsp;P2 = Punto(5, 7)
+<br>&gt;&gt;&gt;&nbsp; &nbsp;P3 = P1 + P2
+<br>&gt;&gt;&gt;&nbsp; &nbsp;<span class=keyword>print</span> P3
+<br>(8, 11)
+<br></span></p>
+
+<p>
+L'espressione <span class=code>P1 + P2</span> è equivalente a <span class=code>P1.__add__(P2)</span> ma ovviamente più elegante.
+
+<blockquote><i>Esercizio: aggiungi il metodo <span class=code>__sub__(self, AltroPunto)</span> che ridefinisca l'operatore sottrazione per la classe <span class=code>Punto</span>.</i>
+</blockquote>
+<p>
+Ci sono parecchi modi per ridefinire l'operatore moltiplicazione, aggiungendo il metodo <span class=code>__mul__</span> o <span class=code>__rmul__</span> o entrambi.
+<p>
+Se l'operatore a sinistra di <span class=code>*</span> è un <span class=code>Punto</span> Python invoca <span class=code>__mul__</span> assumendo che anche l'altro operando sia un oggetto di tipo <span class=code>Punto</span>. In questo caso si dovrà calcolare il <b>prodotto punto</b> dei due punti secondo le regole dell'algebra lineare:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>__mul__</span>(self, AltroPunto):
+<br>&nbsp; <span class=keyword>return</span> self.x * AltroPunto.x + self.y * AltroPunto.y
+<br></span></p>
+
+<p>
+Se l'operando a sinistra di <span class=code>*</span> è un tipo primitivo (e quindi diverso da un oggetto <span class=code>Punto</span>) e l'operando a destra è di tipo <span class=code>Punto</span> Python invocherà <span class=code>__rmul__</span> per calcolare una <b>moltiplicazione scalare</b>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>__rmul__</span>(self, AltroPunto):
+<br>&nbsp; <span class=keyword>return</span> Punto(AltroPunto * self.x,&nbsp; AltroPunto * self.y)
+<br></span></p>
+
+<p>
+Il risultato della moltiplicazione scalare è un nuovo punto le cui coordinate sono un multiplo di quelle originali. Se <span class=code>AltroPunto</span> è un tipo che non può essere moltiplicato per un numero in virgola mobile <span class=code>__rmul__</span> produrrà un errore in esecuzione.
+<p>
+Questo esempio mostra entrambi i tipi di moltiplicazione:
+
+<p><span class=code>&gt;&gt;&gt; P1 = Punto(3, 4)
+<br>&gt;&gt;&gt; P2 = Punto(5, 7)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> P1 * P2
+<br>43
+<br>&gt;&gt;&gt; <span class=keyword>print</span> 2 * P2
+<br>(10, 14)
+<br></span></p>
+
+<p>
+Cosa accade se proviamo a valutare <span class=code>P2 * 2</span>?  Dato che il primo parametro è un <span class=code>Punto</span> Python invoca <span class=code>__mul__</span> con <span class=code>2</span> come secondo argomento. All'interno di <span class=code>__mul__</span> il programma prova ad accedere la coordinata <span class=code>x</span> di <span class=code>AltroPunto</span> e questo tentativo genera un errore dato che un numero intero non ha attributi:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> P2 * 2
+<br>AttributeError: <span class=quote>'int'</span> object has no attribute <span class=quote>'x'</span>
+<br></span></p>
+
+<p>
+Questo messaggio d'errore è effettivamente troppo sibiliino per risultare di una qualche utilità, e questo è ottimo esempio delle difficoltà che puoi incontrare nella programmazione ad oggetti: non è sempre semplice capire quale sia il codice che ha causato l'errore.
+<p>
+Per un trattato più esauriente sulla ridefinizione degli operatori vedi l'<a href="app02.htm">appendice B</a>.
+
+<a name=9></a>
+<h3>14.9 Polimorfismo</h3>
+<p>
+La maggior parte dei metodi che abbiamo scritto finora lavorano solo per un tipo specifico di dati. Quando crei un nuovo oggetto scrivi dei metodi che lavorano su oggetti di quel tipo.
+<p>
+Ci sono comunque operazioni che vorresti poter applicare a molti tipi come ad esempio le operazioni matematiche che abbiamo appena visto. Se più tipi di dato supportano lo stesso insieme di operazioni puoi scrivere funzioni che lavorano indifferentemente con ciascuno di questi tipi.
+<p>
+Per esempio l'operazione <span class=code>MoltSomma</span> (comune in algebra lineare) prende tre parametri: il risultato è la moltiplicazione dei primi due e la successiva somma del terzo al prodotto. Possiamo scriverla così:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>MoltSomma</span>(x, y, z):
+<br>&nbsp; <span class=keyword>return</span> x * y + z
+<br></span></p>
+
+<p>
+Questo metodo lavorerà per tutti i valori di <span class=code>x</span> e <span class=code>y</span> che possono essere moltiplicati e per ogni valore di <span class=code>z</span> che può essere sommato al prodotto.
+<p>
+Possiamo invocarla con valori numerici:
+
+<p><span class=code>&gt;&gt;&gt; MoltSomma(3, 2, 1)
+<br>7
+<br></span></p>
+
+<p>
+o con oggetti di tipo <span class=code>Punto</span>:
+
+<p><span class=code>&gt;&gt;&gt; P1 = Punto(3, 4)
+<br>&gt;&gt;&gt; P2 = Punto(5, 7)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> MoltSomma(2, P1, P2)
+<br>(11, 15)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> MoltSomma(P1, P2, 1)
+<br>44
+<br></span></p>
+
+<p>
+Nel primo caso il punto <span class=code>P1</span> è moltiplicato per uno scalare e il prodotto è poi sommato a un altro punto (<span class=code>P2</span>). Nel secondo caso il prodotto punto produce un valore numerico al quale viene sommato un altro valore numerico.
+<p>
+Una funzione che accetta parametri di tipo diverso è chiamata <b>polimorfica</b>.
+<p>
+Come esempio ulteriore consideriamo il metodo <span class=code>DirittoERovescio</span> che stampa due volte una stringa, prima direttamente e poi all'inverso:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>DirittoERovescio</span>(Stringa):
+<br>&nbsp; <span class=keyword>import</span> copy
+<br>&nbsp; Rovescio = copy.copy(Stringa)
+<br>&nbsp; Rovescio.reverse()
+<br>&nbsp; <span class=keyword>print</span> str(Stringa) + str(Rovescio)
+<br></span></p>
+
+<p>
+Dato che il metodo <span class=code>reverse</span> è un modificatore si deve fare una copia della stringa prima di rovesciarla: in questo modo il metodo <span class=code>reverse</span> non modificherà la lista originale ma solo una sua copia.
+<p>
+Ecco un esempio di funzionamento di <span class=code>DirittoERovescio</span> con le liste:
+
+<p><span class=code>&gt;&gt;&gt;&nbsp; &nbsp;Lista = [1, 2, 3, 4]
+<br>&gt;&gt;&gt;&nbsp; &nbsp;DirittoERovescio(Lista)
+<br>[1, 2, 3, 4][4, 3, 2, 1]
+<br></span></p>
+
+<p>
+Era facilmente intuibile che questa funzione riuscisse a maneggiare le liste. Ma può lavorare con oggetti di tipo <span class=code>Punto</span>?
+<p>
+Per determinare se una funzione può essere applicata ad un tipo nuovo applichiamo la regola fondamentale del polimorfismo:
+
+<blockquote><b>Se tutte le operazioni all'interno della funzione possono essere applicate ad un tipo di dato allora la funzione stessa può essere applicata al tipo.</b>
+</blockquote>
+<p>
+Le operazioni nel metodo <span class=code>DirittoERovescio</span> includono <span class=code>copy</span>, <span class=code>reverse</span> e <span class=code><span class=keyword>print</span></span>.
+<p>
+<span class=code>copy</span> funziona su ogni oggetto e abbiamo già scritto un metodo <span class=code>__str__</span> per gli oggetti di tipo <span class=code>Punto</span> così l'unica cosa che ancora ci manca è il metodo <span class=code>reverse</span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>reverse</span>(self):
+<br>&nbsp; self.x , self.y = self.y, self.x
+<br></span></p>
+
+<p>
+Ora possiamo passare <span class=code>Punto</span> a <span class=code>DirittoERovescio</span>:
+
+<p><span class=code>&gt;&gt;&gt;&nbsp; &nbsp;P = Punto(3, 4)
+<br>&gt;&gt;&gt;&nbsp; &nbsp;DirittoERovescio(P)
+<br>(3, 4)(4, 3)
+<br></span></p>
+
+<p>
+Il miglior tipo di polimorfismo è quello involontario, quando scopri che una funzione già scritta può essere applicata ad un tipo di dati per cui non era stata pensata.
+
+<a name=10></a>
+<h3>14.10 Glossario</h3>
+
+<dl>
+<dt>Linguaggio orientato agli oggetti</dt>
+<dd>linguaggio che è dotato delle caratteristiche che facilitano la programmazione orientata agli oggetti, tipo la possibilità di definire classi e l'ereditarietà.</dd>
+<dt>Programmazione orientata agli oggetti</dt>
+<dd>stile di programmazione nel quale i dati e le operazioni che li manipolano sono organizzati in classi e metodi.</dd>
+<dt>Metodo</dt>
+<dd>funzione definita all'interno di una definizione di classe invocata su istanze di quella classe.</dd>
+<dt>Ridefinire</dt>
+<dd>rimpiazzare un comportamento o un valore di default, scrivendo un metodo con lo stesso nome o rimpiazzando un parametro di default con un valore particolare.</dd>
+<dt>Metodo di inizializzazione</dt>
+<dd>metodo speciale invocato automaticamente nel momento in cui viene creato un nuovo oggetto e usato per inizializzare gli attributi dell'oggetto stesso.</dd>
+<dt>Ridefinizione dell'operatore</dt>
+<dd>estensione degli operatori predefiniti (<span class=code>+</span>, <span class=code>-</span>, <span class=code>*</span>, <span class=code>&gt;</span>, <span class=code>&lt;</span>, ecc.) per farli lavorare con i tipi definiti dall'utente.</dd>
+<dt>Prodotto punto</dt>
+<dd>operazione definita nell'algebra lineare che moltiplica due punti e produce un valore numerico.</dd>
+<dt>Moltiplicazione scalare</dt>
+<dd>operazione definita nell'algebra lineare che moltiplica ognuna delle coordinate di un punto per un valore numerico.</dd>
+<dt>Funzione polimorfica</dt>
+<dd>funzione che può operare su più di un tipo di dati. Se tutte le operazioni in una funzione possono essere applicate ad un tipo di dato allora la funzione può essere applicata al tipo.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap15.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap13.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

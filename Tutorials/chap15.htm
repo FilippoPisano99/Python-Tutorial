@@ -1,0 +1,388 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 15: Insiemi di oggetti</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap16.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap14.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 15</h2>
+
+
+
+<h1>Insiemi di oggetti</h1>
+
+<a name=1></a>
+<h3>15.1 Composizione</h3>
+<p>
+Uno dei primi esempi di composizione che hai visto è stato l'uso di un'invocazione di un metodo all'interno di un'espressione. Un altro esempio è stata la struttura di istruzioni annidate, con un <span class=code><span class=keyword>if</span></span> all'interno di un ciclo <span class=code><span class=keyword>while</span></span> all'interno di un altro <span class=code><span class=keyword>if</span></span> e così via.
+<p>
+Dopo aver visto questo modo di operare e aver analizzato le liste e gli oggetti, non dovresti essere sorpreso del fatto che puoi anche creare liste di oggetti. Non solo: puoi creare oggetti che contengono liste come attributi, o liste che contengono liste, oggetti che contengono oggetti e così via.
+<p>
+In questo capitolo e nel prossimo vedremo alcuni esempi di queste combinazioni usando l'oggetto <span class=code>Carta</span>.
+
+<a name=2></a>
+<h3>15.2 Oggetto <span class=code>Carta</span></h3>
+<p>
+Se non hai dimestichezza con le comuni carte da gioco adesso è il momento di prendere in mano un mazzo di carte, altrimenti questo capitolo non avrà molto senso. Per i nostri scopi considereremo un mazzo di carte americano: questo mazzo è composto da 52 carte, ognuna delle quali appartiene a un seme (picche, cuori, quadri, fiori, nell'ordine di importanza nel gioco del bridge) ed è identificata da un numero da 1 a 13 (detto "rango"). I valori rappresentano, in ordine crescente, l'Asso, la serie numerica da 2 a 10, il Jack, la Regina ed il Re. A seconda del gioco a cui stai giocando il valore dell'Asso può essere considerato inferiore al 2 o superiore al Re.
+<p>
+Volendo definire un nuovo oggetto per rappresentare una carta da gioco è ovvio che gli attributi devono essere il <span class=code>rango</span> ed il <span class=code>seme</span>.  Non è invece evidente di che <i>tipo</i> debbano essere gli attributi. Una possibilità è quella di usare stringhe contenenti il seme (<span class=code><span class=quote>"Cuori"</span></span>) e il rango (<span class=code><span class=quote>"Regina"</span></span>) solo che in questo modo non c'è un sistema semplice per vedere quale carta ha il rango o il seme più elevato.
+<p>
+Un'alternativa è quella di usare gli interi per <b>codificare</b> il rango e il seme. Con "codifica" non intendiamo crittografie o traduzioni in codice segreto ma semplicemente la definizione che lega una sequenza di numeri agli oggetti che essi vogliono rappresentare. Per esempio:
+
+<p>
+<table align=center><tr><td align=left>Picche </td><td align=center> <tt>-&gt;</tt> </td><td align=left> 3 </td></tr><tr><td align=left>Cuori </td><td align=center> <tt>-&gt;</tt> </td><td align=left> 2 </td></tr><tr><td align=left>Quadri </td><td align=center> <tt>-&gt;</tt> </td><td align=left> 1 </td></tr><tr><td align=left>Fiori </td><td align=center> <tt>-&gt;</tt> </td><td align=left> 0
+</td></tr></table>
+<p>
+Un utile effetto pratico di questa mappatura è il fatto che possiamo confrontare i semi tra di loro determinando subito quale vale di più. La mappatura per il rango è abbastanza ovvia: per le carte numeriche il rango è il numero della carta mentre per le carte figurate usiamo queste associazioni:
+
+<p>
+<table align=center><tr><td align=left>Asso </td><td align=center> <tt>-&gt;</tt> </td><td align=left> 1 </td></tr><tr><td align=left>Jack </td><td align=center> <tt>-&gt;</tt> </td><td align=left> 11 </td></tr><tr><td align=left>Regina </td><td align=center> <tt>-&gt;</tt> </td><td align=left> 12 </td></tr><tr><td align=left>Re </td><td align=center> <tt>-&gt;</tt> </td><td align=left> 13 </td></tr><tr><td align=left></td></tr></table>
+<p>
+Cominciamo con il primo abbozzo di definizione di <span class=code>Carta</span> e come sempre forniamo anche un metodo di inizializzazione dei suoi attributi:
+
+<p><span class=code><span class=keyword>class</span> Carta:
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__init__</span>(self, Seme=0, Rango=0):
+<br>&nbsp; &nbsp; self.Seme = Seme
+<br>&nbsp; &nbsp; self.Rango = Rango
+<br></span></p>
+
+<p>
+Per creare un oggetto che rappresenta il 3 di fiori useremo:
+
+<p><span class=code>TreDiFiori = Carta(0, 3)
+<br></span></p>
+
+<p>
+dove il primo argomento (<span class=code>0</span>) rappresenta il <i>seme</i> fiori ed il secondo (<span class=code>3</span>) il <i>rango</i> della carta.
+
+<a name=3></a>
+<h3>15.3 Attributi della classe e metodo <span class=code>__str__</span></h3>
+<p>
+Per stampare oggetti di tipo <span class=code>Carta</span> in un modo facilmente comprensibile possiamo mappare i codici interi con stringhe. Assegniamo pertanto due liste di stringhe all'inizio della definizione della classe:
+
+<p><span class=code><span class=keyword>class</span> Carta:
+<br>
+<br>&nbsp; ListaSemi = [<span class=quote>"Fiori"</span>, <span class=quote>"Quadri"</span>, <span class=quote>"Cuori"</span>, <span class=quote>"Picche"</span>]
+<br>&nbsp; ListaRanghi = [<span class=quote>"impossibile"</span>, <span class=quote>"Asso"</span>, <span class=quote>"2"</span>, <span class=quote>"3"</span>, <span class=quote>"4"</span>, <span class=quote>"5"</span>, <span class=quote>"6"</span>,\
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class=quote>"7"</span>, <span class=quote>"8"</span>, <span class=quote>"9"</span>, <span class=quote>"10"</span>, <span class=quote>"Jack"</span>, <span class=quote>"Regina"</span>, <span class=quote>"Re"</span>]
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__init__</span>(self, Seme=0, Rango=0):
+<br>&nbsp; &nbsp; self.Seme = Seme
+<br>&nbsp; &nbsp; self.Rango = Rango
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__str__</span>(self):
+<br>&nbsp; &nbsp; <span class=keyword>return</span> (self.ListaRanghi[self.Rango] + <span class=quote>" di "</span> +
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; self.ListaSemi[self.Seme])
+<br></span></p>
+
+<p>
+Le due liste sono in questo caso degli <span class=code>attributi di classe</span> che sono definiti all'esterno dei metodi della classe e possono essere utilizzati da qualsiasi metodo della classe.
+<p>
+All'interno di <span class=code>__str__</span> possiamo allora usare <span class=code>ListaSemi</span> e <span class=code>ListaRanghi</span> per far corrispondere i valori numerici di <span class=code>Seme</span> e <span class=code>Rango</span> a delle stringhe.
+Per fare un esempio l'espressione <span class=code>self.ListaSemi[self.Seme]</span> significa "usa l'attributo <span class=code>Seme</span> dell'oggetto <span class=code>self</span> come indice nell'attributo di classe chiamato <span class=code>ListaSemi</span> e restituisci la stringa appropriata".
+<p>
+Il motivo della presenza dell'elemento <span class=code><span class=quote>"impossibile"</span></span> nel primo elemento di <span class=code>ListaRanghi</span> è di agire come segnaposto per l'elemento 0 che non dovrebbe mai essere usato dato che il rango ha valori da 1 a 13. Meglio sprecare un elemento della lista piuttosto che dover scalare tutti i ranghi di una posizione e dover far corrispondere l'asso allo 0, il due all'1, il tre al 2, eccetera, con il rischio di sbagliare.
+<p>
+Con i metodi che abbiamo scritto finora possiamo già creare e stampare le carte:
+
+<p><span class=code>&gt;&gt;&gt; Carta1 = Carta(1, 11)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Carta1
+<br>Jack di Quadri
+<br></span></p>
+
+<p>
+Gli attributi di classe come <span class=code>ListaSemi</span> sono condivisi da tutti gli oggetti <span class=code>Carta</span>. Il vantaggio è che possiamo usare qualsiasi oggetto <span class=code>Carta</span> per accedere agli attributi di classe:
+
+<p><span class=code>&gt;&gt;&gt; Carta2 = Carta(1, 3)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Carta2
+<br>3 di Quadri
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Carta2.ListaSemi[1]
+<br>Quadri
+<br></span></p>
+
+<p>
+Lo svantaggio sta nel fatto che se modifichiamo un attributo di classe questo cambiamento si riflette in ogni istanza della classe. Per esempio se decidessimo di cambiare il seme "Quadri" in "Bastoni"...
+
+<p><span class=code>&gt;&gt;&gt; Carta1.ListaSemi[1] = <span class=quote>"Bastoni"</span>
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Carta1
+<br>Jack di Bastoni
+<br></span></p>
+
+<p>
+...<i>tutti</i> i Quadri diventerebbero dei Bastoni:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> Carta2
+<br>3 di Bastoni
+<br></span></p>
+
+<p>
+Non è solitamente una buona idea modificare gli attributi di classe.
+
+<a name=4></a>
+<h3>15.4 Confronto tra carte</h3>
+<p>
+Per i tipi primitivi sono già definiti operatori condizionali (<span class=code>&lt;</span>, <span class=code>&gt;</span>, <span class=code>==</span>, ecc.) che confrontano i valori e determinano se un operatore è più grande, più piccolo o uguale ad un altro. \
+Per i tipi definiti dall'utente possiamo ridefinire il comportamento di questi operatori aggiungendo il metodo <span class=code>__cmp__</span>.  Per convenzione <span class=code>__cmp__</span> prende due parametri, <span class=code>self</span> e <span class=code>Altro</span>, e ritorna 1 se il primo è il più grande, -1 se è più grande il secondo e 0 se sono uguali.
+<p>
+Alcuni tipi sono completamente ordinati, il che significa che puoi confrontare due elementi qualsiasi e determinare sempre quale sia il più grande tra di loro. Per esempio i numeri interi e quelli in virgola mobile sono completamente ordinati. Altri tipi sono disordinati, nel senso che non esiste un modo logico per stabilire quale sia il più grande, così come non è possibile stabilire tra una serie di colori quale sia il "minore".
+<p>
+L'insieme delle carte da gioco è parzialmente ordinato e ciò significa che qualche volta puoi confrontare due carte e qualche volta no. Per fare un esempio sai che il 3 di Fiori è più alto del 2 di Fiori e il 3 di Quadri più alto del 3 di Fiori. Fino a questo punto il loro valore relativo e il conseguente ordine sono chiari. Ma qual è la carta più alta se dobbiamo scegliere tra 3 di Fiori e 2 di Quadri? Una ha il rango più alto, l'altra il seme.
+<p>
+Per rendere confrontabili le carte dobbiamo innanzitutto decidere quale attributo sia il più importante, se il rango o il seme. La scelta è arbitraria e per il nostro studio decideremo che il seme ha priorità rispetto al rango.
+<p>
+Detto questo possiamo scrivere <span class=code>__cmp__</span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>__cmp__</span>(self, Altro):
+<br>
+<br>&nbsp; <span class=comment># controlla il seme
+</span><br>&nbsp; <span class=keyword>if</span> self.Seme &gt; Altro.Seme: <span class=keyword>return</span> 1
+<br>&nbsp; <span class=keyword>if</span> self.Seme &lt; Altro.Seme: <span class=keyword>return</span> -1
+<br>
+<br>&nbsp; <span class=comment># se i semi sono uguali controlla il rango
+</span><br>&nbsp; <span class=keyword>if</span> self.Rango &gt; Altro.Rango: <span class=keyword>return</span> 1
+<br>&nbsp; <span class=keyword>if</span> self.Rango &lt; Altro.Rango: <span class=keyword>return</span> -1
+<br>
+<br>&nbsp; <span class=comment># se anche i ranghi sono uguali le carte sono uguali!
+</span><br>&nbsp; <span class=keyword>return</span> 0
+<br></span></p>
+
+<p>
+In questo tipo di ordinamento gli Assi hanno valore più basso dei 2.
+
+<blockquote><i>Esercizio: modifica <span class=code>__cmp__</span> così da rendere gli Assi più importanti dei Re.</i>
+</blockquote>
+
+<a name=5></a>
+<h3>15.5 Mazzi</h3>
+<p>
+Ora che abbiamo oggetti per rappresentare le carte il passo più logico è quello di definire una classe per rappresentare il <span class=code>Mazzo</span>.  Il mazzo è composto di carte così ogni oggetto <span class=code>Mazzo</span> conterrà una lista di carte come attributo.
+<p>
+Quella che segue è la definizione di classe della classe <span class=code>Mazzo</span>.  Il metodo di inizializzazione crea l'attributo <span class=code>Carte</span> e genera le 52 carte standard:
+
+<p><span class=code><span class=keyword>class</span> Mazzo:
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__init__</span>(self):
+<br>&nbsp; &nbsp; self.Carte = []
+<br>&nbsp; &nbsp; <span class=keyword>for</span> Seme <span class=keyword>in</span> range(4):
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>for</span> Rango <span class=keyword>in</span> range(1, 14):
+<br>&nbsp; &nbsp; &nbsp; &nbsp; self.Carte.append(Carta(Seme, Rango))
+<br></span></p>
+
+<p>
+Il modo più semplice per creare un mazzo è per mezzo di un ciclo annidato: il ciclo esterno numera i semi da 0 a 3, quello interno i ranghi da 1 a 13. Dato che il ciclo esterno viene eseguito 4 volte e quello interno 13 il corpo è eseguito un totale di 52 volte (4 per 13). Ogni iterazione crea una nuova istanza di <span class=code>Carta</span> con seme e rango correnti ed aggiunge la carta alla lista <span class=code>Carte</span>.
+<p>
+Il metodo <span class=code>append</span> lavora sulle liste ma non sulle tuple (che sono immutabili).
+
+<a name=6></a>
+<h3>15.6 Stampa del mazzo</h3>
+<p>
+Com'è consueto dopo aver creato un nuovo tipo di oggetto è utile scrivere un metodo per poterne stampare il contenuto.
+Per stampare <span class=code>Mazzo</span> attraversiamo la lista stampando ogni elemento <span class=code>Carta</span>:
+
+<p><span class=code><span class=keyword>class</span> Mazzo:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>StampaMazzo</span>(self):
+<br>&nbsp; &nbsp; <span class=keyword>for</span> Carta <span class=keyword>in</span> self.Carte:
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>print</span> Carta
+<br></span></p>
+
+<p>
+Come alternativa a <span class=code>StampaMazzo</span> potremmo anche riscrivere il metodo <span class=code>__str__</span> per la classe <span class=code>Mazzo</span>.  Il vantaggio nell'uso di <span class=code>__str__</span> sta nel fatto che è più flessibile.  Piuttosto che limitarsi a stampare il contenuto di un oggetto <span class=code>__str__</span> genera infatti una rappresentazione sotto forma di stringa che altre parti del programma possono manipolare o che può essere memorizzata in attesa di essere usata in seguito.
+<p>
+Ecco una versione di <span class=code>__str__</span> che ritorna una rappresentazione di un <span class=code>Mazzo</span> come stringa. Tanto per aggiungere qualcosa facciamo anche in modo di indentare ogni carta rispetto alla precedente:
+
+<p><span class=code><span class=keyword>class</span> Mazzo:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__str__</span>(self):
+<br>&nbsp; &nbsp; s = <span class=quote>""</span>
+<br>&nbsp; &nbsp; <span class=keyword>for</span> i <span class=keyword>in</span> range(len(self.Carte)):
+<br>&nbsp; &nbsp; &nbsp; s = s + <span class=quote>" "</span>*i + str(self.Carte[i]) + <span class=quote>"\n"</span>
+<br>&nbsp; &nbsp; <span class=keyword>return</span> s
+<br></span></p>
+
+<p>
+Questo esempio mostra un bel po' di cose.
+<p>
+Prima di tutto invece di attraversare <span class=code>self.Carte</span> e assegnare ogni carta ad una variabile stiamo usando <span class=code>i</span> come variabile del ciclo e come indice della lista delle carte.
+<p>
+In secondo luogo stiamo usando l'operatore di moltiplicazione delle stringhe per indentare le carte. L'espressione <span class=code><span class=quote>" "</span>*i</span> infatti produce un numero di  spazi pari a <span class=code>i</span>.
+<p>
+Terzo, invece di usare un comando <span class=code><span class=keyword>print</span></span> per stampare le carte usiamo la funzione <span class=code>str</span>.  Passare un oggetto come argomento a <span class=code>str</span> è equivalente ad invocare il metodo <span class=code>__str__</span> sull'oggetto.
+<p>
+Infine stiamo usando la variabile <span class=code>s</span> come <b>accumulatore</b>. Inizialmente <span class=code>s</span> è una stringa vuota.  Ogni volta che passiamo attraverso il ciclo viene generata e concatenata a <span class=code>s</span> una nuova stringa. Quando il ciclo termina <span class=code>s</span> contiene la rappresentazione completa dell'oggetto <span class=code>Mazzo</span> sotto forma di stringa:
+
+<p><span class=code>&gt;&gt;&gt; Mazzo1 = Mazzo()
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Mazzo1
+<br>Asso di Fiori
+<br> 2 di Fiori
+<br>&nbsp; 3 di Fiori
+<br>&nbsp; &nbsp;4 di Fiori
+<br>&nbsp; &nbsp; 5 di Fiori
+<br>&nbsp; &nbsp; &nbsp;6 di Fiori
+<br>&nbsp; &nbsp; &nbsp; 7 di Fiori
+<br>&nbsp; &nbsp; &nbsp; &nbsp;8 di Fiori
+<br>&nbsp; &nbsp; &nbsp; &nbsp; 9 di Fiori
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;10 di Fiori
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Jack di Fiori
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Regina di Fiori
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Re di Fiori
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Asso di Quadri
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ...
+<br></span></p>
+
+<p>
+Anche se il risultato appare come una serie di 52 righe (una per ogni carta) in realtà si tratta di una singola stringa che contiene caratteri di ritorno a capo per poter essere stampata su più righe.
+
+<a name=7></a>
+<h3>15.7 Mescolare il mazzo</h3>
+<p>
+Se un mazzo è perfettamente mescolato ogni carta ha la stessa probabilità di comparire in una posizione qualsiasi.
+<p>
+Per mescolare il mazzo useremo la funzione <span class=code>randrange</span> del modulo <span class=code>random</span>. <span class=code>randrange</span> prende due argomenti interi (<span class=code>a</span> e <span class=code>b</span>) e sceglie un numero casuale intero nell'intervallo <span class=code>a &lt;= x &lt; b</span>.  Dato che il limite superiore è escluso possiamo usare la lunghezza di una lista come secondo parametro avendo la garanzia della validità dell'indice.
+Questa espressione sceglie l'indice di una carta casuale nel mazzo:
+
+<p><span class=code>random.randrange(0, len(self.Carte))
+<br></span></p>
+
+<p>
+Un modo utile per mescolare un mazzo è scambiare ogni carta con un'altra scelta a caso. È possibile che la carta possa essere scambiata con se stessa ma questa situazione è perfettamente accettabile. Infatti se escludessimo questa possibilità l'ordine delle carte sarebbe meno casuale:
+
+<p><span class=code><span class=keyword>class</span> Mazzo:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>Mescola</span>(self):
+<br>&nbsp; &nbsp; <span class=keyword>import</span> random
+<br>&nbsp; &nbsp; NumCarte = len(self.Carte)
+<br>&nbsp; &nbsp; <span class=keyword>for</span> i <span class=keyword>in</span> range(NumCarte):
+<br>&nbsp; &nbsp; &nbsp; j = random.randrange(i, NumCarte)
+<br>&nbsp; &nbsp; &nbsp; self.Carte[i], self.Carte[j] = self.Carte[j], self.Carte[i]
+<br></span></p>
+
+<p>
+Piuttosto che partire dal presupposto che le carte del mazzo siano sempre 52 abbiamo scelto di ricavare la lunghezza della lista e memorizzarla in <span class=code>NumCarte</span>.
+<p>
+Per ogni carta del mazzo abbiamo scelto casualmente una carta tra quelle non ancora mescolate. Poi abbiamo scambiato la carta corrente (<span class=code>i</span>) con la carta selezionata (<span class=code>j</span>).  Per scambiare le due carte abbiamo usato un'assegnazione di una tupla, come si è già visto nella <a href="chap09.htm#2">sezione 9.2</a>:
+
+<p><span class=code>self.Carte[i], self.Carte[j] = self.Carte[j], self.Carte[i]
+<br></span></p>
+
+
+<blockquote><i>Esercizio: riscrivi questa riga di codice senza usare un'assegnazione di una tupla.</i>
+</blockquote>
+
+<a name=8></a>
+<h3>15.8 Rimuovere e distribuire le carte</h3>
+<p>
+Un altro metodo utile per la classe <span class=code>Mazzo</span> è <span class=code>RimuoviCarta</span> che permette di rimuovere una carta dal mazzo ritornando <i>vero</i> (1) se la carta era presente e <i>falso</i> (0) in caso contrario:
+
+<p><span class=code><span class=keyword>class</span> Mazzo:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>RimuoviCarta</span>(self, Carta):
+<br>&nbsp; &nbsp; <span class=keyword>if</span> Carta <span class=keyword>in</span> self.Carte:
+<br>&nbsp; &nbsp; &nbsp; self.Carte.remove(Carta)
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>return</span> 1
+<br>&nbsp; &nbsp; <span class=keyword>else</span>:
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>return</span> 0
+<br></span></p>
+
+<p>
+L'operatore <span class=code><span class=keyword>in</span></span> ritorna <i>vero</i> se il primo operando è contenuto nel secondo. Quest'ultimo deve essere una lista o una tupla. Se il primo operando è un oggetto, Python usa il metodo <span class=code>__cmp__</span> dell'oggetto per determinare l'uguaglianza tra gli elementi della lista. Dato che <span class=code>__cmp__</span> nella classe <span class=code>Carta</span> controlla l'uguaglianza forte il metodo <span class=code>RimuoviCarta</span> usa anch'esso l'uguaglianza forte.
+<p>
+Per distribuire le carte si deve poter rimuovere la prima carta del mazzo e il metodo delle liste <span class=code>pop</span> fornisce un ottimo sistema per farlo:
+
+<p><span class=code><span class=keyword>class</span> Mazzo:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>PrimaCarta</span>(self):
+<br>&nbsp; &nbsp; <span class=keyword>return</span> self.Carte.pop()
+<br></span></p>
+
+<p>
+In realtà <span class=code>pop</span> rimuove <i>l'ultima</i> carta della lista, così stiamo in effetti togliendo dal fondo del mazzo, ma dal nostro punto di vista questa anomalia è indifferente.
+<p>
+Una operazione che può essere utile è la funzione booleana <span class=code>EVuoto</span> che ritorna <i>vero</i> (1) se il mazzo non contiene più carte:
+
+<p><span class=code><span class=keyword>class</span> Mazzo:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>EVuoto</span>(self):
+<br>&nbsp; &nbsp; <span class=keyword>return</span> (len(self.Carte) == 0)
+<br></span></p>
+
+
+<a name=9></a>
+<h3>15.9 Glossario</h3>
+
+<dl>
+<dt>Mappare</dt>
+<dd>rappresentare un insieme di valori usando un altro insieme di valori e costruendo una mappa di corrispondenza tra i due insiemi.</dd>
+<dt>Codificare</dt>
+<dd>in campo informatico sinonimo di mappare.</dd>
+<dt>Attributo di classe</dt>
+<dd>variabile definita all'interno di una definizione di classe ma al di fuori di qualsiasi metodo. Gli attributi di classe sono accessibili da ognuno dei metodi della classe e sono condivisi da tutte le istanze della classe.</dd>
+<dt>Accumulatore</dt>
+<dd>variabile usata in un ciclo per accumulare una serie di valori, concatenati sotto forma di stringa o sommati per ottenere un valore totale.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap16.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap14.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

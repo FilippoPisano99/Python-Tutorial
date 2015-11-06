@@ -1,0 +1,336 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 1: Imparare a programmare</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap02.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="traduzione.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 1</h2>
+
+
+
+<h1>Imparare a programmare</h1>
+<p>
+L'obiettivo di questo libro è insegnarti a pensare da informatico. Questo modo di pensare combina alcune delle migliori caratteristiche della matematica, dell'ingegneria e delle scienze naturali. Come i matematici, gli informatici usano linguaggi formali per denotare idee (nella fattispecie elaborazioni). Come gli ingegneri progettano cose, assemblano componenti in sistemi e cercano compromessi tra le varie alternative. Come gli scienziati osservano il comportamento di sistemi complessi, formulano ipotesi e verificano previsioni.
+<p>
+La più importante capacità di un informatico è quella di <b>risolvere problemi</b>. Risolvere problemi significa avere l'abilità di schematizzarli, pensare creativamente alle possibili soluzioni ed esprimerle in modo chiaro ed accurato. Da ciò emerge che il processo di imparare a programmare è un'eccellente opportunità di mettere in pratica l'abilità di risolvere problemi.
+<p>
+Da una parte ti sarà insegnato a programmare, già di per sé un'utile capacità. Dall'altra userai la programmazione come un mezzo rivolto ad un fine. Mentre procederemo quel fine ti diverrà più chiaro.
+
+<a name=1></a>
+<h3>1.1 Il linguaggio di programmazione Python</h3>
+<p>
+Il linguaggio di programmazione che imparerai è il Python. Python è un esempio di <b>linguaggio di alto livello</b>; altri linguaggi di alto livello di cui puoi aver sentito parlare sono il C, il C++, il Perl ed il Java.
+<p>
+Come puoi immaginare sentendo la definizione "linguaggio di alto livello" esistono anche <b>linguaggi di basso livello</b>, talvolta chiamati "linguaggi macchina" o "linguaggi assembly". In modo non del tutto corretto si può affermare che i computer possono eseguire soltanto programmi scritti in linguaggi di basso livello: i programmi scritti in un linguaggio di alto livello devono essere elaborati prima di poter essere eseguiti. Questo processo di elaborazione impiega del tempo e rappresenta un piccolo svantaggio dei linguaggi di alto livello.
+<p>
+I vantaggi sono d'altra parte enormi. In primo luogo è molto più facile programmare in un linguaggio ad alto livello: questi tipi di programmi sono più veloci da scrivere, più corti e facilmente leggibili, ed è più probabile che siano corretti. In secondo luogo i linguaggi di alto livello sono portabili: <b>portabilità</b> significa che essi possono essere eseguiti su tipi di computer diversi con poche o addirittura nessuna modifica. I programmi scritti in linguaggi di basso livello possono essere eseguiti solo su un tipo di computer e devono essere riscritti per essere trasportati su un altro sistema.
+<p>
+Questi vantaggi sono così evidenti che quasi tutti i programmi sono scritti in linguaggi di alto livello, lasciando spazio ai linguaggi di basso livello solo in poche applicazioni specializzate.
+<p>
+I programmi di alto livello vengono trasformati in programmi di basso livello eseguibili dal computer tramite due tipi di elaborazione: l'<b>interpretazione</b> e la <b>compilazione</b>.
+Un interprete legge il programma di alto livello e lo esegue, trasformando ogni riga di istruzioni in un'azione. L'interprete elabora il programma un po' alla volta, alternando la lettura delle istruzioni all'esecuzione dei comandi che le istruzioni descrivono:
+
+<p align="center"><img src="illustrations/i_interpret.png"></p>
+<p>
+Un compilatore legge il programma di alto livello e lo traduce completamente in basso livello, prima che il programma possa essere eseguito. In questo caso il programma di alto livello viene chiamato <b>codice sorgente</b>, ed il programma tradotto <b>codice oggetto</b> o <b>eseguibile</b>. Dopo che un programma è stato compilato può essere eseguito ripetutamente senza che si rendano necessarie ulteriori compilazioni finché non ne viene modificato il codice.
+
+<p align="center"><img src="illustrations/i_compile.png"></p>
+<p>
+Python è considerato un linguaggio interpretato perché i programmi Python sono eseguiti da un interprete. Ci sono due modi di usare l'interprete: a linea di comando o in modo script.
+In modo "linea di comando" si scrivono i programmi Python una riga alla volta: dopo avere scritto una riga di codice alla pressione di Invio (o Enter, a seconda della tastiera) l'interprete la analizza subito ed elabora immediatamente il risultato, eventualmente stampandolo a video:
+
+<p><span class=code>$ python
+<br>Python 1.5.2 (<span class=comment>#1, Feb 1 2000, 16:32:16)
+</span><br>Copyright 1991-1995 Stichting Mathematish Centrum, Amsterdam
+<br>&gt;&gt;&gt; <span class=keyword>print</span> 1 + 1
+<br>2
+<br></span></p>
+
+<p>
+La prima linea di questo esempio è il comando che fa partire l'interprete Python in ambiente Linux e può cambiare leggermente a seconda del sistema operativo utilizzato. Le due righe successive sono semplici informazioni di copyright del programma.
+<p>
+La terza riga inizia con <span class=code>&gt;&gt;&gt;</span>: questa è l'indicazione (chiamata "prompt") che l'interprete usa per indicare la sua disponibilità ad accettare comandi. Noi
+<p>
+abbiamo inserito <span class=code><span class=keyword>print</span> 1 + 1</span> e l'interprete ha risposto con <span class=code>2</span>.
+<p>
+In alternativa alla riga di comando si può scrivere un programma in un file (detto <b>script</b>) ed usare l'interprete per eseguire il contenuto del file.
+Nell'esempio seguente abbiamo usato un editor di testi per creare un file chiamato <span class=code>pippo.py</span>:
+
+<p><span class=code><span class=keyword>print</span> 1 + 1
+<br></span></p>
+
+<p>
+Per convenzione, i file contenenti programmi Python hanno nomi che terminano con <span class=code>.py</span>.
+<p>
+Per eseguire il programma dobbiamo dire all'interprete il nome dello script:
+
+<p><span class=code>$ python pippo.py
+<br>2
+<br></span></p>
+
+<p>
+In altri ambienti di sviluppo i dettagli dell'esecuzione dei programmi possono essere diversi.
+<p>
+La gran parte degli esempi di questo libro sono eseguiti da linea di comando: lavorare da linea di comando è conveniente per lo sviluppo e per il test del programma perché si possono inserire ed eseguire immediatamente singole righe di codice. Quando si ha un programma funzionante lo si dovrebbe salvare in uno script per poterlo eseguire o modificare in futuro senza doverlo riscrivere da capo ogni volta. Tutto ciò che viene scritto in modo "linea di comando" è irrimediabilmente perso nel momento in cui usciamo dall'ambiente Python.
+
+<a name=2></a>
+<h3>1.2 Cos'è un programma?</h3>
+<p>
+Un <b>programma</b> è una sequenza di istruzioni che specificano come effettuare una elaborazione. L'elaborazione può essere sia di tipo matematico (per esempio la soluzione di un sistema di equazioni o il calcolo delle radici di un polinomio) che simbolico (per esempio la ricerca e sostituzione di un testo in un documento).
+<p>
+I dettagli sono diversi per ciascun linguaggio di programmazione, 
+ma un piccolo gruppo di istruzioni è praticamente comune a tutti:
+
+<ul>
+<li><b>input:</b> ricezione di dati da tastiera, da 
+file o da altro dispositivo.</li>
+<li><b>output:</b> scrittura di dati su video, su file 
+o trasmissione ad altro dispositivo.</li>
+<li><b>matematiche:</b> esecuzione di semplici operazioni 
+matematiche, quali l'addizione e la sottrazione.</li>
+<li><b>condizionali:</b> controllo di alcune condizioni ed 
+esecuzione della sequenza di istruzioni appropriata.</li>
+<li><b>ripetizione:</b> ripetizione di un'azione, di solito 
+con qualche variazione.</li>
+</ul>
+<p>
+Che ci si creda o meno, questo è più o meno tutto quello che c'è. Ogni programma che hai usato per quanto complesso possa sembrare (anche il tuo videogioco preferito) è costituito da istruzioni che assomigliano a queste. Possiamo affermare che la programmazione altro non è che la suddivisione di un compito grande e complesso in una serie di sotto-compiti via via più piccoli, finché questi sono sufficientemente semplici da essere eseguiti da una di queste istruzioni fondamentali.
+<p>
+Questo concetto può sembrare un po' vago, ma lo riprenderemo quando parleremo di <b>algoritmi</b>.
+
+<a name=3></a>
+<h3>1.3 Cos'è il debug?</h3>
+<p>
+La programmazione è un processo complesso e dato che esso è fatto da esseri umani spesso comporta errori. Per ragioni bizzarre gli errori di programmazione sono chiamati <b>bug</b> ed il processo della loro ricerca e correzione è chiamato <b>debug</b>.
+<p>
+Sono tre i tipi di errore nei quali si incorre durante la programmazione: gli errori di sintassi, gli errori in esecuzione e gli errori di semantica. È utile distinguerli per poterli individuare più velocemente.
+
+<h4>Errori di sintassi</h4>
+<p>
+Python può eseguire un programma solo se il programma è sintatticamente corretto, altrimenti l'elaborazione fallisce e l'interprete ritorna un messaggio d'errore.
+La <b>sintassi</b> si riferisce alla struttura di un programma e alle regole concernenti la sua struttura.
+ In italiano, per fare un esempio, una frase deve iniziare con una lettera maiuscola e terminare con un punto. <i>questa frase contiene un <b>errore di sintassi</b></i>. <i>E anche questa</i>
+<p>
+Per la maggior parte dei lettori qualche errore di sintassi non è un problema significativo, tanto che possiamo leggere le poesie di E.E.Cummings (prive di punteggiatura) senza "messaggi d'errore". Python non è così permissivo: se c'è un singolo errore di sintassi da qualche parte nel programma Python stamperà un messaggio d'errore e ne interromperà l'esecuzione, rendendo impossibile proseguire.  Durante le prime settimane della tua carriera di programmatore probabilmente passerai molto tempo a ricercare errori di sintassi. Via via che acquisirai esperienza questi si faranno meno numerosi e sarà sempre più facile rintracciarli.
+
+<h4>Errori in esecuzione</h4>
+<p>
+Il secondo tipo di errore è l'<b>errore in esecuzione</b> (o "runtime"), così chiamato perché l'errore non appare finché il programma non è eseguito. Questi errori sono anche chiamati <b>eccezioni</b> perché indicano che è accaduto qualcosa di eccezionale nel corso dell'esecuzione (per esempio si è cercato di dividere un numero per zero).
+<p>
+Gli errori in esecuzione sono rari nei semplici programmi che vedrai nei primissimi capitoli, così potrebbe passare un po' di tempo prima che tu ne incontri uno.
+
+<h4>Errori di semantica</h4>
+<p>
+Il terzo tipo di errore è l'<b>errore di semantica</b>. Se c'è un errore di semantica il programma verrà eseguito senza problemi nel senso che il computer non genererà messaggi d'errore durante l'esecuzione, ma il risultato non sarà ciò che ci si aspettava. Sarà qualcosa di diverso, e questo qualcosa è esattamente ciò che è stato detto di fare al computer.
+<p>
+Il problema sta nel fatto che il programma che è stato scritto non è quello che si desiderava scrivere: il significato del programma (la sua semantica) è sbagliato. L'identificazione degli errori di semantica è un processo complesso perché richiede di lavorare in modo inconsueto, guardando i risultati dell'esecuzione e cercando di capire cosa il programma ha fatto di sbagliato per ottenerli.
+
+<h4>Debug sperimentale</h4>
+<p>
+Una delle più importanti abilità che acquisirai è la capacità di effettuare il debug (o "rimozione degli errori"). Sebbene questo possa essere un processo frustrante è anche una delle parti più intellettualmente vivaci, stimolanti ed interessanti della programmazione.
+<p>
+In un certo senso il debug può essere paragonato al lavoro investigativo. Sei messo di fronte agli indizi e devi ricostruire i processi e gli eventi che hanno portato ai risultati che hai ottenuto.
+<p>
+Il debug è una scienza sperimentale: dopo che hai avuto un'idea di ciò che può essere andato storto, modifichi il programma e lo provi ancora. Se la tua ipotesi era corretta allora puoi predire il risultato della modifica e puoi avvicinarti di un ulteriore passo all'avere un programma funzionante. Se la tua ipotesi era sbagliata devi ricercarne un'altra. Come disse Sherlock Holmes "Quando hai eliminato l'impossibile ciò che rimane, per quanto improbabile, deve essere la verità" (A.Conan Doyle, <i>Il segno dei quattro</i>)
+<p>
+Per qualcuno la programmazione e il debug sono la stessa cosa, intendendo con questo che la programmazione è un processo di rimozione di errori finché il programma fa ciò che ci si aspetta. L'idea è che si dovrebbe partire da un programma che fa <i>qualcosa</i> e facendo piccole modifiche ed eliminando gli errori man mano che si procede si dovrebbe avere in ogni momento un programma funzionante sempre più completo.
+<p>
+Linux, per fare un esempio, è un sistema operativo che contiene migliaia di righe di codice, ma esso è nato come un semplice programma che Linus Torvalds usò per esplorare il chip 80386 Intel. Secondo Larry Greenfields, "uno dei progetti iniziali di Linus era un programma che doveva cambiare una riga di AAAA in BBBB e viceversa. Questo in seguito diventò Linux." (<i>The Linux Users' Guide</i> Beta Version 1)
+<p>
+I capitoli successivi ti forniranno ulteriori suggerimenti sia per quanto riguarda il debug che per altre pratiche di programmazione.
+
+<a name=4></a>
+<h3>1.4 Linguaggi formali e naturali</h3>
+<p>
+I <b>linguaggi naturali</b> sono le lingue parlate, tipo l'inglese, l'italiano, lo spagnolo. Non sono stati "progettati" da qualcuno e anche se è stato imposto un certo ordine nel loro sviluppo si sono evoluti naturalmente.
+<p>
+I <b>linguaggi formali</b> sono linguaggi progettati per specifiche applicazioni.
+<p>
+Per fare qualche esempio, la notazione matematica è un linguaggio formale particolarmente indicato ad esprimere relazioni tra numeri e simboli; i chimici usano un linguaggio formale per rappresentare la struttura delle molecole; cosa più importante dal nostro punto di vista, <i>i linguaggi di programmazione sono linguaggi formali che sono stati progettati per esprimere elaborazioni.</i>
+<p>
+I linguaggi formali tendono ad essere piuttosto rigidi per quanto riguarda la sintassi: <tt>3+3=6</tt> è una dichiarazione matematica sintatticamente corretta, mentre <tt>3=div6$</tt> non lo è.  <tt>H<sub>2</sub>O</tt> è un simbolo chimico sintatticamente corretto contrariamente a <tt><sub>2</sub>Zz</tt>.
+<p>
+Le regole sintattiche si possono dividere in due categorie: la prima riguarda i <b>token</b>, la seconda la <b>struttura</b>. I token sono gli elementi di base del linguaggio (quali possono essere le parole in letteratura, i numeri in matematica e gli elementi chimici in chimica). Uno dei problemi con <tt>3=div6$</tt> è che <tt>$</tt> non è un token valido in matematica; <tt><sub>2</sub>Zz</tt> non è valido perché nessun elemento chimico è identificato dal simbolo <tt>Zz</tt>.
+<p>
+Il secondo tipo di regola riguarda la struttura della dichiarazione, cioè il modo in cui i token sono disposti. La dichiarazione <tt>3=div6$</tt> è strutturalmente non valida perché un segno <tt>div</tt> non può essere posto immediatamente dopo un segno =. Allo stesso modo l'indice nelle formule chimiche deve essere indicato dopo il simbolo dell'elementi chimico, non prima, e quindi l'espressione <tt><sub>2</sub>Zz</tt> non è valida.
+
+<blockquote><i>Come esercizio crea quella che può sembrare una frase in italiano con dei token non riconoscibili. Poi scrivi un'altra frase con tutti i token validi ma con una struttura non valida.</i>
+</blockquote>
+<p>
+Quando leggi una frase in italiano o una dichiarazione in un linguaggio formale devi capire quale sia la struttura della dichiarazione. Questo processo (chiamato <b>parsing</b>) in un linguaggio naturale viene realizzato in modo inconscio e spesso non ci si rende conto della sua intrinseca complessità.
+
+<p>
+Per esempio, quando senti la frase "La scarpa è caduta", capisci che "la scarpa" è il soggetto e che "è caduta" è il verbo. Quando hai analizzato la frase puoi capire cosa essa significa (cioè la semantica della frase). Partendo dal presupposto che tu sappia cosa sia una "scarpa" e cosa significhi "cadere" riesci a comprendere il significato generale della frase.
+<p>
+Anche se i linguaggi formali e quelli naturali condividono molte caratteristiche (token, struttura, sintassi e semantica) ci sono tuttavia molte differenze:
+
+<dl>
+<dt>Ambiguità</dt>
+<dd>i linguaggi naturali ne sono pieni ed il significato viene ottenuto anche grazie ad indizi ricavati dal contesto. I linguaggi formali sono progettati per essere completamente non ambigui e ciò significa che ciascuna dichiarazione ha esattamente un significato, indipendente dal contesto.</dd>
+<dt>Ridondanza</dt>
+<dd>per evitare l'ambiguità e ridurre le incomprensioni i linguaggi naturali impiegano molta ridondanza. I linguaggi formali sono meno ridondanti e più concisi.</dd>
+<dt>Letteralità</dt>
+<dd>i linguaggi naturali fanno uso di paragoni e metafore, e possiamo parlare in termini astratti intuendo immediatamente che ciò che sentiamo ha un significato simbolico. I linguaggi formali invece esprimono esattamente ciò che dicono.</dd>
+</dl>
+<p>
+Anche se siamo cresciuti apprendendo un linguaggio naturale, la nostra lingua madre, spesso abbiamo difficoltà ad adattarci ai linguaggi formali. In un certo senso la differenza tra linguaggi naturali e formali è come quella esistente tra poesia e prosa, ma in misura decisamente più evidente:
+
+<dl>
+<dt>Poesia</dt>
+<dd>le parole sono usate tanto per il loro suono che per il loro significato, e la poesia nel suo complesso crea un effetto o una risposta emotiva. L'ambiguità è non solo frequente, ma spesso addirittura cercata.</dd>
+<dt>Prosa</dt>
+<dd>il significato delle parole è estremamente importante, con la struttura che contribuisce a fornire maggior significato. La prosa può essere soggetta ad analisi più facilmente della poesia, ma può risultare ancora ambigua.</dd>
+<dt>Programmi</dt>
+<dd>il significato di un programma per computer è non ambiguo e assolutamente letterale, può essere compreso nella sua interezza con l'analisi dei token e della struttura.</dd>
+</dl>
+<p>
+Qui sono esposti alcuni suggerimenti per la lettura di programmi e di altri linguaggi formali.
+
+<ul>
+<li>Ricorda che i linguaggi formali sono molto più ricchi di significato dei linguaggi naturali, così è necessario più tempo per leggerli e comprenderli.</li>
+<li>La struttura dei linguaggi formali è molto importante e solitamente non è una buona idea leggerli dall'alto in basso, da sinistra a destra, come avviene per un testo letterario: impara ad analizzare il programma nella tua testa, identificandone i token ed interpretandone la struttura.</li>
+<li>I dettagli sono importanti: piccole cose come errori di ortografia e cattiva punteggiatura sono spesso trascurabili nei linguaggi naturali, ma possono fare una gran differenza in quelli formali.</li>
+</ul>
+
+<a name=5></a>
+<h3>1.5 Il primo programma</h3>
+<p>
+Per tradizione il primo programma scritto in un nuovo linguaggio è chiamato "Hello, World!" perché tutto ciò che fa è scrivere le parole <span class=code>Hello, World!</span> a video e nient'altro.
+In Python questo programma è scritto così:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> <span class=quote>"Hello, World!"</span>
+<br></span></p>
+
+<p>
+Questo è un esempio di <b>istruzione di stampa</b>, che in effetti non stampa nulla su carta limitandosi invece a scrivere un valore sullo schermo. In questo caso ciò che viene "stampato" sono le parole
+
+<p><span class=code>Hello, World!
+<br></span></p>
+
+<p>
+Le virgolette segnano l'inizio e la fine del valore da stampare ed esse non appaiono nel risultato.
+<p>
+Alcune persone giudicano la qualità di un linguaggio di programmazione dalla semplicità del programma "Hello, World!": da questo punto di vista Python sembra essere quanto di meglio sia realizzabile.
+
+<a name=6></a>
+<h3>1.6 Glossario</h3>
+
+<dl>
+<dt>Soluzione di problemi</dt>
+<dd>il processo di formulare un problema, trovare una soluzione ed esprimerla.</dd>
+<dt>Linguaggio ad alto livello</dt>
+<dd>un linguaggio di programmazione tipo Python che è progettato per essere facilmente leggibile e utilizzabile dagli esseri umani.</dd>
+<dt>Linguaggio di basso livello</dt>
+<dd>un linguaggio di programmazione che è progettato per essere facilmente eseguibile da un computer; è anche chiamato "linguaggio macchina" o "linguaggio assembly".</dd>
+<dt>Portabilità</dt>
+<dd>caratteristica di un programma di poter essere eseguito su computer di tipo diverso.</dd>
+<dt>Interpretare</dt>
+<dd>eseguire un programma scritto in un linguaggio di alto livello traducendolo ed eseguendolo immediatamente, una linea alla volta.</dd>
+<dt>Compilare</dt>
+<dd>tradurre un programma scritto in un linguaggio di alto livello in un programma di basso livello come preparazione alla successiva esecuzione.</dd>
+<dt>Codice sorgente</dt>
+<dd>un programma di alto livello prima di essere compilato.</dd>
+<dt>Codice oggetto</dt>
+<dd>il risultato ottenuto da un compilatore dopo aver tradotto il codice sorgente.</dd>
+<dt>Eseguibile</dt>
+<dd>altro nome per indicare il codice oggetto pronto per essere eseguito.</dd>
+<dt>Script</dt>
+<dd>programma memorizzato in un file, solitamente destinato ad essere interpretato.</dd>
+<dt>Programma</dt>
+<dd>serie di istruzioni che specificano come effettuare un'elaborazione.</dd>
+<dt>Algoritmo</dt>
+<dd>processo generale usato per risolvere una particolare categoria di problemi.</dd>
+<dt>Bug</dt>
+<dd>errore in un programma (detto anche "baco").</dd>
+<dt>Debug</dt>
+<dd>processo di ricerca e di rimozione di ciascuno dei tre tipi di errori di programmazione.</dd>
+<dt>Sintassi</dt>
+<dd>struttura di un programma.</dd>
+<dt>Errore di sintassi</dt>
+<dd>errore in un programma che rende impossibile la continuazione dell'analisi del codice (il programma non può quindi essere interpretato interamente o compilato).</dd>
+<dt>Errore in esecuzione</dt>
+<dd>errore che non è riconoscibile finché il programma non è stato eseguito e che impedisce la continuazione della sua esecuzione.</dd>
+<dt>Eccezione, errore runtime</dt>
+<dd>altri nomi per indicare un errore in esecuzione.</dd>
+<dt>Errore di semantica</dt>
+<dd>errore nel programma che fa ottenere risultati diversi da quanto ci si aspettava.</dd>
+<dt>Semantica</dt>
+<dd>significato di un programma.</dd>
+<dt>Linguaggio naturale</dt>
+<dd>ognuno dei linguaggi parlati evoluti nel tempo.</dd>
+<dt>Linguaggio formale</dt>
+<dd>ognuno dei linguaggi che sono stati progettati per scopi specifici, quali la rappresentazione di idee matematiche o programmi per computer (tutti i linguaggi per computer sono linguaggi formali).</dd>
+<dt>Token</dt>
+<dd>uno degli elementi di base della struttura sintattica di un programma analogo alla parola nei linguaggi naturali.</dd>
+<dt>Parsing</dt>
+<dd>esame e analisi della struttura sintattica di un programma.</dd>
+<dt>Istruzione di stampa</dt>
+<dd>istruzione che ordina all'interprete Python di scrivere un valore sullo schermo.</dd>
+</dl>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap02.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="traduzione.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

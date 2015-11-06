@@ -1,0 +1,534 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 11: File ed eccezioni</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap12.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap10.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 11</h2>
+
+
+
+<h1>File ed eccezioni</h1>
+<p>
+Quando un programma è in esecuzione i suoi dati sono in memoria; nel momento in cui il programma termina o il computer viene spento tutti i dati in memoria vengono irrimediabilmente persi. Per conservare i dati devi quindi memorizzarli in un <b>file</b>, solitamente memorizzato su hard disk, floppy o CD-ROM.
+<p>
+Lavorando con un gran numero di file è logico cercare di organizzarli: questo viene fatto inserendoli in <b>cartelle</b> (dette anche "folder" o "directory"). Ogni file all'interno di una cartella è identificato da un nome unico.
+<p>
+Leggendo e scrivendo file i programmi possono scambiare informazioni e anche generare documenti stampabili usando il formato PDF o altri formati simili.
+<p>
+Lavorare con i file è molto simile a leggere un libro: per usarli li devi prima aprire e quando hai finito li chiudi. Mentre il libro è aperto lo puoi leggere o puoi scrivere una nota sulle sue pagine, sapendo in ogni momento dove ti trovi al suo interno. La maggior parte delle volte leggerai il libro in ordine, ma nulla ti vieta di saltare a determinate pagine facendo uso dell'indice.
+<p>
+Questa metafora può essere applicata ai file. Per aprire un file devi specificarne il nome e l'uso che intendi farne (lettura o scrittura).
+<p>
+L'apertura del file crea un oggetto file: nell'esempio che segue useremo la variabile <span class=code>f</span> per riferirci all'oggetto file appena creato.
+
+<p><span class=code>&gt;&gt;&gt; f = open(<span class=quote>"test.dat"</span>,<span class=quote>"w"</span>)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> f
+<br>&lt;open file <span class=quote>'test.dat'</span>, mode <span class=quote>'w'</span> at fe820&gt;
+<br></span></p>
+
+<p>
+La funzione <span class=code>open</span> prende due argomenti: il primo è il nome del file ed il secondo il suo "modo". Il modo <span class=code><span class=quote>"w"</span></span> significa che stiamo aprendo il file in scrittura.
+<p>
+Nel caso non dovesse esistere un file chiamato <span class=code>test.dat</span> l'apertura in scrittura farà in modo di crearlo vuoto. Nel caso dovesse già esistere, la vecchia copia verrà rimpiazzata da quella nuova e definitivamente persa.
+<p>
+Quando stampiamo l'oggetto file possiamo leggere il nome del file aperto, il modo e la posizione dell'oggetto in memoria.
+<p>
+Per inserire dati nel file invochiamo il metodo <span class=code>write</span>:
+
+<p><span class=code>&gt;&gt;&gt; f.write(<span class=quote>"Adesso"</span>)
+<br>&gt;&gt;&gt; f.write(<span class=quote>"chiudi il file"</span>)
+<br></span></p>
+
+<p>
+La chiusura del file avvisa il sistema che abbiamo concluso la scrittura e rende il file disponibile alla lettura:
+
+<p><span class=code>&gt;&gt;&gt; f.close()
+<br></span></p>
+
+<p>
+Solo dopo aver chiuso il file possiamo riaprirlo in lettura e leggerne il contenuto. Questa volta l'argomento di modo è <span class=code><span class=quote>"r"</span></span>:
+
+<p><span class=code>&gt;&gt;&gt; f = open(<span class=quote>"test.dat"</span>,<span class=quote>"r"</span>)
+<br></span></p>
+
+<p>
+Se cerchiamo di aprire un file che non esiste otteniamo un errore:
+
+<p><span class=code>&gt;&gt;&gt; f = open(<span class=quote>"test.cat"</span>,<span class=quote>"r"</span>)
+<br>IOError: [Errno 2] No such file <span class=keyword>or</span> directory: <span class=quote>'test.cat'</span>
+<br></span></p>
+
+<p>
+Il metodo <span class=code>read</span> legge dati da un file. Senza argomenti legge l'intero contenuto del file:
+
+<p><span class=code>&gt;&gt;&gt; Testo = f.read()
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Testo
+<br>Adessochiudi il file
+<br></span></p>
+
+<p>
+Non c'è spazio tra <span class=code>Adesso</span> e <span class=code>chiudi</span> perché non abbiamo scritto uno spazio tra le due stringhe al momento della scrittura.
+<p>
+<span class=code>read</span> accetta anche un argomento che specifica quanti caratteri leggere:
+
+<p><span class=code>&gt;&gt;&gt; f = open(<span class=quote>"test.dat"</span>,<span class=quote>"r"</span>)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> f.read(5)
+<br>Adess
+<br></span></p>
+
+<p>
+Se non ci sono caratteri sufficienti nel file, <span class=code>read</span> ritorna quelli effettivamente disponibili. Quando abbiamo raggiunto la fine del file <span class=code>read</span> ritorna una stringa vuota:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> f.read(1000006)
+<br>ochiudi il file
+<br>&gt;&gt;&gt; <span class=keyword>print</span> f.read()
+<br>
+<br>&gt;&gt;&gt;
+<br></span></p>
+
+<p>
+La funzione che segue copia un file leggendo e scrivendo fino a 50 caratteri per volta. Il primo argomento è il nome del file originale, il secondo quello della copia:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>CopiaFile</span>(Originale, Copia):
+<br>&nbsp; f1 = open(Originale, <span class=quote>"r"</span>)
+<br>&nbsp; f2 = open(Copia, <span class=quote>"w"</span>)
+<br>&nbsp; <span class=keyword>while</span> 1:
+<br>&nbsp; &nbsp; Testo = f1.read(50)
+<br>&nbsp; &nbsp; <span class=keyword>if</span> Testo == <span class=quote>""</span>:
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>break</span>
+<br>&nbsp; &nbsp; f2.write(Testo)
+<br>&nbsp; f1.close()
+<br>&nbsp; f2.close()
+<br>&nbsp; <span class=keyword>return</span>
+<br></span></p>
+
+<p>
+L'istruzione <span class=code><span class=keyword>break</span></span> è nuova: la sua esecuzione interrompe immediatamente il loop saltando alla prima istruzione che lo segue (in questo caso <span class=code>f1.close()</span>).
+<p>
+Il ciclo <span class=code><span class=keyword>while</span></span> dell'esempio è apparentemente infinito dato che la sua condizione ha valore <span class=code>1</span> ed è quindi sempre vera.  L'unico modo per uscire da questo ciclo è di eseguire un <span class=code><span class=keyword>break</span></span> che viene invocato quando <span class=code>Testo</span> è una stringa vuota e cioè quando abbiamo raggiunto la fine del file in lettura.
+
+<a name=1></a>
+<h3>11.1 File di testo</h3>
+<p>
+Un <b>file di testo</b> è un file che contiene caratteri stampabili e spazi bianchi, organizzati in linee separate da caratteri di ritorno a capo.
+Python è stato specificatamente progettato per elaborare file di testo e fornisce metodi molto efficaci per rendere facile questo compito.
+<p>
+Per dimostrarlo creeremo un file di testo composto da tre righe di testo separate da dei ritorno a capo:
+
+<p><span class=code>&gt;&gt;&gt; f = open(<span class=quote>"test.dat"</span>,<span class=quote>"w"</span>)
+<br>&gt;&gt;&gt; f.write(<span class=quote>"linea uno\nlinea due\nlinea tre\n"</span>)
+<br>&gt;&gt;&gt; f.close()
+<br></span></p>
+
+<p>
+Il metodo <span class=code>readline</span> legge tutti i caratteri fino al prossimo ritorno a capo:
+
+<p><span class=code>&gt;&gt;&gt; f = open(<span class=quote>"test.dat"</span>,<span class=quote>"r"</span>)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> f.readline()
+<br>linea uno
+<br>
+<br>&gt;&gt;&gt;
+<br></span></p>
+
+<p>
+<span class=code>readlines</span> ritorna tutte le righe rimanenti come lista di stringhe:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> f.readlines()
+<br>[<span class=quote>'linea due\n'</span>, <span class=quote>'linea tre\n'</span>]
+<br></span></p>
+
+<p>
+In questo caso il risultato è in formato lista e ciò significa che le stringhe appaiono racchiuse tra apici e i caratteri di ritorno a capo come sequenze di escape.
+<p>
+Alla fine del file <span class=code>readline</span> ritorna una stringa vuota e <span class=code>readlines</span> una lista vuota:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> f.readline()
+<br>
+<br>&gt;&gt;&gt; <span class=keyword>print</span> f.readlines()
+<br>[]
+<br></span></p>
+
+<p>
+Quello che segue è un esempio di elaborazione di un file: <span class=code>FiltraFile</span> fa una copia del file <span class=code>Originale</span> omettendo tutte le righe che iniziano con <span class=code><span class=comment>#</span></span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>FiltraFile</span>(Originale, Nuovo):
+<br>&nbsp; f1 = open(Originale, <span class=quote>"r"</span>)
+<br>&nbsp; f2 = open(Nuovo, <span class=quote>"w"</span>)
+<br>&nbsp; <span class=keyword>while</span> 1:
+<br>&nbsp; &nbsp; Linea = f1.readline()
+<br>&nbsp; &nbsp; <span class=keyword>if</span> Linea == <span class=quote>""</span>:
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>break
+<br>&nbsp; &nbsp; if</span> Linea[0] == <span class=quote>'#'</span>:
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>continue</span>
+<br>&nbsp; &nbsp; f2.write(Linea)
+<br>&nbsp; f1.close()
+<br>&nbsp; f2.close()
+<br>&nbsp; <span class=keyword>return</span>
+<br></span></p>
+
+<p>
+L'istruzione <span class=code><span class=keyword>continue</span></span> termina l'iterazione corrente e continua con il prossimo ciclo: il flusso di programma torna all'inizio del ciclo, controlla la condizione e procede di conseguenza.
+<p>
+Non appena <span class=code>Linea</span> è una stringa vuota il ciclo termina grazie al <span class=code><span class=keyword>break</span></span>. Se il primo carattere di <span class=code>Linea</span> è un carattere cancelletto l'esecuzione continua tornando all'inizio del ciclo. Se entrambe le condizioni falliscono (non siamo in presenza della fine del file né il primo carattere è un cancelletto) la riga viene copiata nel nuovo file.
+
+<a name=2></a>
+<h3>11.2 Scrittura delle variabili</h3>
+<p>
+L'argomento di <span class=code>write</span> dev'essere una stringa così se vogliamo inserire altri tipi di valore in un file li dobbiamo prima convertire in stringhe. Il modo più semplice è quello di usare la funzione <span class=code>str</span>:
+
+<p><span class=code>&gt;&gt;&gt; x = 52
+<br>&gt;&gt;&gt; f.write (str(x))
+<br></span></p>
+
+<p>
+Un'alternativa è quella di usare l'<b>operatore di formato</b> <span class=code>%</span>.  Quando è applicato agli interi <span class=code>%</span> è l'operatore modulo, ma quando il primo operando è una stringa <span class=code>%</span> identifica l'operatore formato.
+<p>
+Il primo operando in questo caso è la <b>stringa di formato</b> ed il secondo una tupla di espressioni. Il risultato è una stringa formattata secondo la stringa di formato.
+<p>
+Cominciamo con un esempio semplice: la <b>sequenza di formato</b> <span class=code><span class=quote>"%d"</span></span> significa che la prima espressione della tupla che segue deve essere formattata come un intero:
+
+<p><span class=code>&gt;&gt;&gt; NumAuto = 52
+<br>&gt;&gt;&gt; <span class=quote>"%d"</span> % NumAuto
+<br><span class=quote>'52'</span>
+<br></span></p>
+
+<p>
+Il risultato è la stringa <span class=code><span class=quote>'52'</span></span> che non deve essere confusa con il valore intero <span class=code>52</span>.
+<p>
+Una sequenza di formato può comparire dovunque all'interno di una stringa di formato così possiamo inserire un valore in una frase qualsiasi:
+
+<p><span class=code>&gt;&gt;&gt; NumAuto = 52
+<br>&gt;&gt;&gt; <span class=quote>"In luglio abbiamo venduto %d automobili."</span> % NumAuto
+<br><span class=quote>'In luglio abbiamo venduto 52 automobili.'</span>
+<br></span></p>
+
+<p>
+La sequenza di formato <span class=code><span class=quote>"%f"</span></span> formatta il valore nella tupla in un numero in virgola mobile e <span class=code><span class=quote>"%s"</span></span> lo formatta come stringa:
+
+<p><span class=code>&gt;&gt;&gt; <span class=quote>"Ricavo in %d giorni: %f milioni di %s."</span> % (34,6.1,<span class=quote>'euro'</span>)
+<br><span class=quote>'Ricavo in 34 giorni: 6.100000 milioni di euro.'</span>
+<br></span></p>
+
+<p>
+Per default la formattazione in virgola mobile <span class=code>%f</span> stampa sei cifre decimali.
+<p>
+Il numero delle espressioni nella tupla deve naturalmente essere corrispondente a quello delle sequenze di formato nella stringa di formato, ed i tipi delle espressioni devono corrispondere a quelli delle sequenze di formato:
+
+<p><span class=code>&gt;&gt;&gt; <span class=quote>"%d %d %d"</span> % (1,2)
+<br>TypeError: <span class=keyword>not</span> enough arguments <span class=keyword>for</span> format string
+<br>&gt;&gt;&gt; <span class=quote>"%d"</span> % <span class=quote>'euro'</span>
+<br>TypeError: illegal argument type <span class=keyword>for</span> built-<span class=keyword>in</span> operation
+<br></span></p>
+
+<p>
+Nel primo esempio la stringa di formato si aspetta tre espressioni ma nella tupla ne abbiamo passate solo due. Nel secondo vogliamo stampare un intero ma stiamo passando una stringa.
+<p>
+Per avere un miglior controllo del risultato possiamo modificare le sequenze di formato aggiungendo delle cifre:
+
+<p><span class=code>&gt;&gt;&gt; <span class=quote>"%6d"</span> % 62
+<br><span class=quote>'&nbsp; &nbsp; 62'</span>
+<br>&gt;&gt;&gt; <span class=quote>"%12f"</span> % 6.1
+<br><span class=quote>'&nbsp; &nbsp; 6.100000'</span>
+<br></span></p>
+
+<p>
+Il numero dopo il segno di percentuale è il numero minimo di caratteri che dovrà occupare il nostro valore dopo essere stato convertito. Se la conversione occuperà un numero di spazi minori verranno aggiunti spazi alla sinistra. Se il numero è negativo sono aggiunti spazi dopo il numero convertito:
+
+<p><span class=code>&gt;&gt;&gt; <span class=quote>"%-6d"</span> % 62
+<br><span class=quote>'62&nbsp; &nbsp; '</span>
+<br></span></p>
+
+<p>
+Nel caso dei numeri in virgola mobile possiamo anche specificare quante cifre devono comparire dopo il punto decimale:
+
+<p><span class=code>&gt;&gt;&gt; <span class=quote>"%12.2f"</span> % 6.1
+<br><span class=quote>'&nbsp; &nbsp; &nbsp; &nbsp; 6.10'</span>
+<br></span></p>
+
+<p>
+In questo esempio abbiamo stabilito di creare una stringa di 12 caratteri con due cifre dopo il punto decimale. Questo tipo di formattazione è utile quando si devono stampare dei valori contabili in forma tabellare con il punto decimale allineato.
+<p>
+Immaginiamo un dizionario che contiene il nome (la chiave) e tariffa oraria (il valore) per una serie di lavoratori. Ecco una funzione che stampa il contenuto del dizionario in modo formattato:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Report</span>(Tariffe) :
+<br>&nbsp; Lavoratori = Tariffe.keys()
+<br>&nbsp; Lavoratori.sort()
+<br>&nbsp; <span class=keyword>for</span> Lavoratore <span class=keyword>in</span> Lavoratori:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> <span class=quote>"%-20s %12.02f"</span> % (Lavoratore, Tariffe[Lavoratore])
+<br></span></p>
+
+<p>
+Per provare questa funzione creiamo un piccolo dizionario e stampiamone il contenuto:
+
+<p><span class=code>&gt;&gt;&gt; Tariffe = {<span class=quote>'Maria'</span>: 6.23, <span class=quote>'Giovanni'</span>: 5.45, <span class=quote>'Alberto'</span>: 4.25}
+<br>&gt;&gt;&gt; Report(Tariffe)
+<br>Alberto&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 4.25
+<br>Giovanni&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;5.45
+<br>Maria&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 6.23
+<br></span></p>
+
+<p>
+Controllando la larghezza di ciascun valore garantiamo che le colonne saranno perfettamente allineate, sempre che il nome rimanga al di sotto dei 20 caratteri e la tariffa oraria al di sotto delle 12 cifre...
+
+<a name=3></a>
+<h3>11.3 Directory</h3>
+<p>
+Quando crei un nuovo file aprendolo e scrivendoci qualcosa, questo viene memorizzato nella directory corrente e cioè in quella dalla quale sei partito per eseguire l'interprete Python. Allo stesso modo se richiedi la lettura di un file Python lo cercherà nella directory corrente.
+<p>
+Se vuoi aprire il file da qualche altra parte dovrai anche specificare il <b>percorso</b> per raggiungerlo, e cioè il nome della directory di appartenenza:
+
+<p><span class=code>&gt;&gt;&gt;&nbsp; &nbsp;f = open(<span class=quote>"/usr/share/dict/words"</span>,<span class=quote>"r"</span>)
+<br>&gt;&gt;&gt;&nbsp; &nbsp;<span class=keyword>print</span> f.readline()
+<br>Aarhus
+<br></span></p>
+
+<p>
+In questo esempio apriamo un file chiamato <span class=code>words</span> che risiede in una directory chiamata <span class=code>dict</span> che risiede in un'altra directory chiamata <span class=code>share</span> che a sua volta risiede in <span class=code>usr</span>. Quest'ultima risiede nella directory principale del sistema, <span class=code>/</span>, secondo il formato Linux.
+<p>
+Non puoi usare <span class=code>/</span> come parte di un nome di file proprio perché questo è un carattere delimitatore che viene inserito tra i vari nomi delle directory nella definizione del percorso.
+
+<a name=4></a>
+<h3>11.4 Pickling</h3>
+<p>
+Abbiamo visto come per mettere dei valori in un file di testo li abbiamo dovuti preventivamente convertire in stringhe. Hai già visto come farlo usando <span class=code>str</span>:
+
+<p><span class=code>&gt;&gt;&gt; f.write (str(12.3))
+<br>&gt;&gt;&gt; f.write (str(4.567))
+<br>&gt;&gt;&gt; f.write (str([1,2,3]))
+<br></span></p>
+
+<p>
+Il problema è che quando cerchi di recuperare il valore dal file ottieni una stringa, e non l'informazione originale che avevi memorizzato. Oltretutto non c'è nemmeno il modo di sapere dove inizia o termina di preciso la stringa che definisce il valore nel file:
+
+<p><span class=code>&gt;&gt;&gt;&nbsp; &nbsp;f.readline()
+<br><span class=quote>'12.34.567[1, 2, 3]'</span>
+<br></span></p>
+
+<p>
+La soluzione è il <b>pickling</b> (che letteralmente significa "conservazione sotto vetro") chiamato così perché "preserva" le strutture dei dati. Il modulo <span class=code>pickle</span> contiene tutti i comandi necessari. Importiamo il modulo e poi apriamo il file nel solito modo:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>import</span> pickle
+<br>&gt;&gt;&gt; f = open(<span class=quote>"test.pck"</span>,<span class=quote>"w"</span>)
+<br></span></p>
+
+<p>
+Per memorizzare una struttura di dati usa il metodo <span class=code>dump</span> e poi chiudi il file:
+
+<p><span class=code>&gt;&gt;&gt; pickle.dump(12.3, f)
+<br>&gt;&gt;&gt; pickle.dump(4.567, f)
+<br>&gt;&gt;&gt; pickle.dump([1,2,3], f)
+<br>&gt;&gt;&gt; f.close()
+<br></span></p>
+
+<p>
+Puoi riaprire il file e caricare le strutture di dati memorizzati con il metodo <span class=code>load</span>:
+
+<p><span class=code>&gt;&gt;&gt; f = open(<span class=quote>"test.pck"</span>,<span class=quote>"r"</span>)
+<br>&gt;&gt;&gt; x = pickle.load(f)
+<br>&gt;&gt;&gt; x
+<br>12.3
+<br>&gt;&gt;&gt; type(x)
+<br>&lt;type <span class=quote>'float'</span>&gt;
+<br>&gt;&gt;&gt; x2 = pickle.load(f)
+<br>&gt;&gt;&gt; x2
+<br>4.567
+<br>&gt;&gt;&gt; type(x2)
+<br>&lt;type <span class=quote>'float'</span>&gt;
+<br>&gt;&gt;&gt; y = pickle.load(f)
+<br>&gt;&gt;&gt; y
+<br>[1, 2, 3]
+<br>&gt;&gt;&gt; type(y)
+<br>&lt;type <span class=quote>'list'</span>&gt;
+<br></span></p>
+
+<p>
+Ogni volta che invochiamo <span class=code>load</span> otteniamo un singolo valore completo del suo tipo originale.
+
+<a name=5></a>
+<h3>11.5 Eccezioni</h3>
+<p>
+Se il programma si blocca a causa di un errore in esecuzione viene creata un'<b>eccezione</b>: l'interprete si ferma e mostra un messaggio d'errore.
+<p>
+Le eccezioni più comuni per i programmi che hai visto finora possono essere:
+
+<ul>
+<li>la divisione di un valore per zero:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> 55/0
+<br>ZeroDivisionError: integer division <span class=keyword>or</span> modulo
+<br></span></p>
+</li>
+<li>la richiesta di un elemento di una lista con un indice errato:
+
+<p><span class=code>&gt;&gt;&gt; a = []
+<br>&gt;&gt;&gt; <span class=keyword>print</span> a[5]
+<br>IndexError: list index out of range
+<br></span></p>
+</li>
+<li>la richiesta di una chiave non esistente in un dizionario:
+
+<p><span class=code>&gt;&gt;&gt; b = {}
+<br>&gt;&gt;&gt; <span class=keyword>print</span> b[<span class=quote>'pippo'</span>]
+<br>KeyError: pippo
+<br></span></p>
+</li>
+</ul>
+<p>
+In ogni caso il messaggio d'errore è composto di due parti: la categoria dell'errore e le specifiche separati dai due punti. Normalmente Python stampa la traccia del programma al momento dell'errore ma in questi esempi sarà omessa per questioni di leggibilità.
+<p>
+Molte operazioni possono generare errori in esecuzione ma in genere desideriamo che il programma non si blocchi quando questo avviene. La soluzione è quella di <b>gestire</b> l'eccezione usando le istruzioni <span class=code><span class=keyword>try</span></span> ed <span class=code><span class=keyword>except</span></span>.
+<p>
+Per fare un esempio possiamo chiedere ad un operatore di inserire il nome di un file per poi provare ad aprirlo. Se il file non dovesse esistere non vogliamo che il programma si blocchi mostrando un messaggio di errore; così cerchiamo di gestire questa possibile eccezione:
+
+<p><span class=code>NomeFile = raw_input(<span class=quote>'Inserisci il nome del file: '</span>)
+<br><span class=keyword>try</span>:
+<br>&nbsp; f = open (NomeFile, <span class=quote>"r"</span>)
+<br><span class=keyword>except</span>:
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>'Il file'</span>, NomeFile, <span class=quote>'non esiste'</span>
+<br></span></p>
+
+<p>
+L'istruzione <span class=code><span class=keyword>try</span></span> esegue le istruzioni nel suo blocco. Se non si verificano eccezioni (e cioè se le istruzioni del blocco <span class=code><span class=keyword>try</span></span> sono eseguite senza errori) l'istruzione <span class=code><span class=keyword>except</span></span> ed il blocco corrispondente vengono saltate ed il flusso del programma prosegue dalla prima istruzione presente dopo il blocco <span class=code><span class=keyword>except</span></span>.
+Nel caso si verifichi qualche eccezione (nel nostro caso la più probabile è che il file richiesto non esiste) viene interrotto immediatamente il flusso del blocco <span class=code><span class=keyword>try</span></span> ed eseguito il blocco <span class=code><span class=keyword>except</span></span>.
+<p>
+Possiamo incapsulare questa capacità in una funzione: <span class=code>FileEsiste</span> prende un nome di un file e ritorna <i>vero</i> se il file esiste, <i>falso</i> se non esiste.
+
+<p><span class=code><span class=keyword>def</span> <span class=function>FileEsiste</span>(NomeFile):
+<br>&nbsp; <span class=keyword>try</span>:
+<br>&nbsp; &nbsp; f = open(NomeFile)
+<br>&nbsp; &nbsp; f.close()
+<br>&nbsp; &nbsp; <span class=keyword>return</span> 1
+<br>&nbsp; <span class=keyword>except</span>:
+<br>&nbsp; &nbsp; <span class=keyword>return</span> 0
+<br></span></p>
+
+<p>
+Puoi anche usare blocchi di <span class=code><span class=keyword>except</span></span> multipli per gestire diversi tipi di eccezioni. Vedi a riguardo il <i>Python Reference Manual</i>.
+<p>
+Con <span class=code><span class=keyword>try</span></span>/<span class=code><span class=keyword>except</span></span> possiamo fare in modo di continuare ad eseguire un programma in caso di errore. Possiamo anche "sollevare" delle eccezioni nel corso del programma con l'istruzione <b>raise</b> in modo da generare un errore in esecuzione quando qualche condizione non è verificata:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>InputNumero</span>() :
+<br>&nbsp; x = input (<span class=quote>'Dimmi un numero: '</span>)
+<br>&nbsp; <span class=keyword>if</span> x &gt; 16 :
+<br>&nbsp; &nbsp; <span class=keyword>raise</span> <span class=quote>'ErroreNumero'</span>, <span class=quote>'mi aspetto numeri minori di 17!'</span>
+<br>&nbsp; <span class=keyword>return</span> x
+<br></span></p>
+
+<p>
+In questo caso viene generato un errore in esecuzione quando è introdotto un numero maggiore di 16.
+<p>
+L'istruzione <span class=code><span class=keyword>raise</span></span> prende due argomenti: il tipo di eccezione e l'indicazione specifica del tipo di errore. <span class=code>ErroreNumero</span> è un nuovo tipo di eccezione che abbiamo inventato appositamente per questa applicazione.
+<p>
+Se la funzione che chiama <span class=code>InputNumero</span> gestisce gli errori il programma continua, altrimenti Python stampa il messaggio d'errore e termina l'esecuzione:
+
+<p><span class=code>&gt;&gt;&gt; InputNumero()
+<br>Dimmi un numero: 17
+<br>ErroreNumero: mi aspetto numeri minori di 17!
+<br></span></p>
+
+<p>
+Il messaggio di errore include l'indicazione del tipo di eccezione e l'informazione aggiuntiva che è stata fornita.
+
+<blockquote><i>Esercizio: scrivi una funzione che usa <span class=code>InputNumero</span> per inserire un numero da tastiera e gestisce l'eccezione <span class=code>ErroreNumero</span> quando il numero non è corretto.</i>
+</blockquote>
+
+<a name=6></a>
+<h3>11.6 Glossario</h3>
+
+<dl>
+<dt>File</dt>
+<dd>entità identificata da un nome solitamente memorizzata su hard disk, floppy disk o CD-ROM, e contenente una serie di dati.</dd>
+<dt>Directory</dt>
+<dd>contenitore di file; è anche chiamata <i>cartella</i> o <i>folder</i>.</dd>
+<dt>Percorso</dt>
+<dd>sequenza di nomi di directory che specifica l'esatta locazione di un file.</dd>
+<dt>File di testo</dt>
+<dd>file che contiene solo caratteri stampabili organizzati come serie di righe separate da caratteri di ritorno a capo.</dd>
+<dt>Istruzione <span class=code><span class=keyword>break</span></span></dt>
+<dd>istruzione che causa l'interruzione immediata del flusso del programma e l'uscita da un ciclo.</dd>
+<dt>Istruzione <span class=code><span class=keyword>continue</span></span></dt>
+<dd>istruzione che causa l'immediato ritorno del flusso del programma all'inizio del ciclo senza completarne il corpo.</dd>
+<dt>Operatore formato</dt>
+<dd>operatore indicato da '<span class=code>%</span>' che produce una stringa di caratteri in base ad una stringa di formato passata come argomento.</dd>
+<dt>Stringa di formato</dt>
+<dd>stringa che contiene caratteri stampabili e stabilisce come debbano essere formattati una serie di valori in una stringa.</dd>
+<dt>Sequenza di formato</dt>
+<dd>sequenza di caratteri che inizia con <span class=code>%</span> e che stabilisce, all'interno di una stringa di formato, come debba essere convertito in stringa un singolo valore.</dd>
+<dt>Pickling</dt>
+<dd>operazione di scrittura su file di un valore assieme alla descrizione del suo tipo, in modo da poterlo recuperare facilmente in seguito.</dd>
+<dt>Eccezione</dt>
+<dd>errore in esecuzione.</dd>
+<dt>Gestire un'eccezione</dt>
+<dd>prevedere i possibili errori in esecuzione per fare in modo che questi non interrompano l'esecuzione del programma.</dd>
+<dt>Sollevare un'eccezione</dt>
+<dd>segnalare la presenza di una situazione anomala facendo uso dell'istruzione <span class=code><span class=keyword>raise</span></span>.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap12.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap10.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

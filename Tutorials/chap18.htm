@@ -1,0 +1,301 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 18: Pile</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap19.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap17.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 18</h2>
+
+
+
+<h1>Pile</h1>
+
+<a name=1></a>
+<h3>18.1 Tipi di dati astratti</h3>
+<p>
+Tutti i tipi di dati che hai visto finora sono concreti, nel senso che abbiamo completamente specificato quale sia la loro implementazione. La classe <span class=code>Carta</span> rappresenta una carta da gioco usando due numeri interi: come abbiamo detto durante lo sviluppo della classe questa non è l'unica implementazione possibile ma ne esistono infinite altre.
+<p>
+Un <b>tipo di dato astratto</b> (TDA) specifica un insieme di operazioni (o metodi) e la loro semantica (cosa fa ciascuna operazione) ma senza specificare la loro implementazione: questa caratteristica è ciò che lo rende astratto.
+<p>
+Per che cosa è utile questa "astrazione"?
+
+<ul>
+<li>Semplifica il compito di specificare un algoritmo, dato che puoi decidere cosa dovranno fare le operazioni senza dover pensare allo stesso tempo a come implementarle.</li>
+<li>Ci sono molti modi per implementare un TDA e può essere utile scrivere un solo algoritmo in grado di funzionare per ciascuna delle possibili implementazioni.</li>
+<li>TDA molto ben conosciuti, tipo la Pila (o Stack) che vedremo in questo capitolo, sono spesso implementati nelle librerie standard dei vari linguaggi di programmazione così da poter essere usati da molti programmatori senza dover essere reinventati ogni volta.</li>
+<li>Le operazioni sui TDA forniscono un linguaggio di alto livello che consente di specificare e descrivere gli algoritmi.</li>
+</ul>
+<p>
+Quando parliamo di TDA spesso distinguiamo il codice che usa il TDA (<b>cliente</b>) dal codice che lo implementa (<b>fornitore</b>).
+
+<a name=2></a>
+<h3>18.2 Il TDA Pila</h3>
+<p>
+In questo capitolo esamineremo la <b>pila</b>, un tipo di dato astratto molto comune. Una pila è una collezione e cioè una struttura di dati che contiene elementi multipli. Altre collezioni che abbiamo già visto sono i dizionari e le liste.
+<p>
+Un TDA è definito dalle operazioni che possono essere effettuate su di esso e che sono chiamate <b>interfaccia</b>.  L'interfaccia per una pila consiste di queste operazioni:
+
+<dl>
+<dt><span class=code>__init__</span></dt>
+<dd>Inizializza un pila vuota.</dd>
+<dt><span class=code>Push</span></dt>
+<dd>Aggiunge un elemento alla pila.</dd>
+<dt><span class=code>Pop</span></dt>
+<dd>Rimuove e ritorna un elemento dalla pila. L'elemento tornato è sempre l'ultimo inserito.</dd>
+<dt><span class=code>EVuota</span></dt>
+<dd>Controlla se la pila è vuota.</dd>
+</dl>
+<p>
+Una pila è spesso chiamata struttura di dati LIFO ("last in/first out", ultimo inserito, primo fuori) perché l'ultimo elemento inserito in ordine di tempo è il primo ad essere rimosso: un esempio è una serie di piatti da cucina sovrapposti, ai quali aggiungiamo ogni ulteriore piatto appoggiandolo sopra agli altri, ed è proprio dall'alto che ne preleviamo uno quando ci serve.
+
+<a name=3></a>
+<h3>18.3 Implementazione delle pile con le liste di Python</h3>
+<p>
+Le operazioni che Python fornisce per le liste sono simili a quelle definite per la nostra pila. L'interfaccia non è proprio quella che ci si aspetta ma scriveremo del codice per tradurla nel formato utile al nostro TDA Pila.
+<p>
+Questo codice è chiamato <b>implementazione</b> del TDA Pila. Più in generale un'implementazione è un insieme di metodi che soddisfano la sintassi e la semantica dell'interfaccia richiesta.
+<p>
+Ecco un'implementazione della Pila con le liste predefinite in Python:
+
+<p><span class=code><span class=keyword>class</span> Pila:
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__init__</span>(self):
+<br>&nbsp; &nbsp; self.Elementi = []
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>Push</span>(self, Elemento) :
+<br>&nbsp; &nbsp; self.Elementi.append(Elemento)
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>Pop</span>(self):
+<br>&nbsp; &nbsp; <span class=keyword>return</span> self.Elementi.pop()
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>EVuota</span>(self):
+<br>&nbsp; &nbsp; <span class=keyword>return</span> (self.Elementi == [])
+<br></span></p>
+
+<p>
+L'oggetto <span class=code>Pila</span> contiene un attributo chiamato <span class=code>Elementi</span> che è la lista di oggetti contenuta nella pila. Il metodo <span class=code>__init__</span> inizializza <span class=code>Elementi</span> come lista vuota.
+<p>
+<span class=code>Push</span> inserisce un nuovo elemento nella pila aggiungendolo a <span class=code>Elementi</span>. <span class=code>Pop</span> esegue l'operazione inversa, rimuovendo e ritornando  l'ultimo elemento inserito nella pila.
+<p>
+Per controllare se la pila è vuota <span class=code>EVuota</span> confronta <span class=code>Elementi</span> con  una lista vuota e ritorna <i>vero</i>/<i>falso</i>.
+<p>
+Un'implementazione di questo tipo in cui i metodi sono solo una semplice invocazione di metodi già esistenti viene detta <b>maschera</b>.  Nella vita reale la maschera (o impiallacciatura) è tra le altre cose quello strato di legno di buona qualità che copre un legno di bassa qualità sottostante. In informatica è un pezzo di codice che nasconde i dettagli di un'implementazione per fornire un'interfaccia più semplice e standard.
+
+<a name=4></a>
+<h3>18.4 Push e Pop</h3>
+<p>
+Una pila è una <b>struttura di dati generica</b> dato che possiamo aggiungere qualsiasi tipo di dato al suo interno. Gli esempi seguenti aggiungono due interi ed una stringa alla pila:
+
+<p><span class=code>&gt;&gt;&gt; P = Pila()
+<br>&gt;&gt;&gt; P.Push(54)
+<br>&gt;&gt;&gt; P.Push(45)
+<br>&gt;&gt;&gt; P.Push(<span class=quote>"+"</span>)
+<br></span></p>
+
+<p>
+Possiamo usare <span class=code>EVuota</span> e <span class=code>Pop</span> per rimuovere e stampare tutti gli elementi della pila:
+
+<p><span class=code><span class=keyword>while not</span> P.EVuota() :
+<br>&nbsp; <span class=keyword>print</span> P.Pop(),
+<br></span></p>
+
+<p>
+Il risultato è <span class=code>+ 45 54</span>.  In altre parole abbiamo usato la pila per stampare gli elementi in ordine inverso! Anche se questo non è il formato standard per la stampa di una lista usando una pila è stato comunque facile ottenerla.
+<p>
+Confronta questo codice con l'implementazione di <span class=code>StampaInversa</span> nella <a href="chap17.htm#4">sezione 17.4</a>.  Le due versioni sono molto più simili di ciò che sembra a prima vista, dato che entrambe fanno uso dello stesso meccanismo: mentre nell'implementazione della classe <span class=code>Pila</span> appena scritta l'uso della pila è evidente, nella versione ricorsiva vista in precedenza il carico della gestione della pila era delegato all'interprete stesso. Ad ogni chiamata di funzione infatti viene usata una pila interna all'interprete che tiene conto della successione delle chiamate alle funzioni.
+
+<a name=5></a>
+<h3>18.5 Uso della pila per valutare espressioni postfisse</h3>
+<p>
+Nella maggior parte dei linguaggi di programmazione le espressioni matematiche sono scritte con l'operatore tra i due operandi, come nella consueta <span class=code>1+2</span>.
+Questo formato è chiamato <b>notazione infissa</b>.
+Un modo alternativo che ha avuto qualche successo in passato in particolari modelli di calcolatrici tascabili ma ora è usato meno frequentemente, è chiamato <b>notazione postfissa</b>: nella notazione postfissa l'operatore segue gli operandi, tanto che l'espressione appena vista sarebbe scritta in questo modo: <span class=code>1 2 +</span>.
+<p>
+Il motivo per cui la notazione postfissa può rivelarsi utile è che c'è un modo del tutto naturale per valutare espressioni postfisse con l'uso della pila:
+
+<ul>
+<li>A partire dall'inizio dell'espressione ricava un termine (operatore o operando) alla volta.</li>
+  <ul>
+  <li>Se il termine è un operando aggiungilo all'inizio della pila.</li>
+  <li>Se il termine è un operatore estrai dalla pila il numero di operandi previsto per l'operatore, elabora il risultato dell'operazione su di essi e aggiungi il risultato all'inizio della pila.</li>
+  </ul>
+
+<li>Quando tutta l'espressione è stata elaborata nella pila ci dovrebbe essere un solo elemento che rappresenta il risultato.</li>
+</ul>
+
+<blockquote><i>Esercizio: applica questo algoritmo all'espressione <span class=code>1 2 + 3 *</span>.</i>
+</blockquote>
+<p>
+Questo esempio mostra uno dei vantaggi della notazione postfissa: non sono necessarie parentesi per controllare l'ordine delle operazioni. Per ottenere lo stesso risultato con la notazione infissa avremmo dovuto scrivere <span class=code>(1 + 2) * 3</span>.
+
+<blockquote><i>Esercizio: scrivi l'espressione postfissa equivalente a <span class=code>1+2*3</span>.</i>
+</blockquote>
+
+<a name=6></a>
+<h3>18.6 Parsing</h3>
+<p>
+Per implementare l'algoritmo di valutazione dell'espressione dobbiamo essere in grado di attraversare una stringa e di dividerla in una serie di operandi e operatori. Questo processo è un esempio di <b>parsing</b> e il risultato è una serie di elementi chiamati <b>token</b>.  Abbiamo già visto questi termini all'inizio del libro.
+<p>
+Python fornisce un metodo <span class=code>split</span> in due moduli, sia in <span class=code>string</span> (per la gestione delle stringhe) che in <span class=code>re</span> (per le espressioni regolari).
+La funzione <span class=code>string.split</span> divide una stringa scomponendola in una lista di token e usando un singolo carattere come <b>delimitatore</b>.
+Per esempio:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>import</span> string
+<br>&gt;&gt;&gt; string.split(<span class=quote>"Nel mezzo del cammin"</span>,<span class=quote>" "</span>)
+<br>[<span class=quote>'Nel'</span>, <span class=quote>'mezzo'</span>, <span class=quote>'del'</span>, <span class=quote>'cammin'</span>]
+<br></span></p>
+
+<p>
+In questo caso il delimitatore è il carattere spazio così che la stringa viene spezzata ad ogni spazio.
+<p>
+La funzione <span class=code>re.split</span> è molto più potente, permettendo l'uso di una espressione regolare invece di un delimitatore singolo.
+Un'espressione regolare è un modo per specificare un insieme di stringhe e non soltanto un'unica stringa: <span class=code>[A-Z]</span> è l'insieme di tutte le lettere maiuscole dell'alfabeto, mentre <span class=code>[0-9]</span> è l'insieme di tutti i numeri.  L'operatore <span class=code>^</span> effettua la negazione dell'insieme così che <span class=code>[^0-9]</span> rappresenta l'insieme di tutto ciò che non è un numero. Questi sono soltanto gli esempi più semplici di ciò che possono fare le espressioni regolari e per le nostre necessità ci fermeremo qui: infatti abbiamo già ricavato l'espressione regolare che ci serve per dividere un'espressione postfissa:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>import</span> re
+<br>&gt;&gt;&gt; re.split(<span class=quote>"([^0-9])"</span>, <span class=quote>"123+456*/"</span>)
+<br>[<span class=quote>'123'</span>, <span class=quote>'+'</span>, <span class=quote>'456'</span>, <span class=quote>'*'</span>, <span class=quote>''</span>, <span class=quote>'/'</span>, <span class=quote>''</span>]
+<br></span></p>
+
+<p>
+Nota come l'ordine degli operandi sia diverso da quello di <span class=code>string.split</span> in quanto i delimitatori sono indicati prima della stringa da dividere.
+<p>
+La lista risultante include gli operandi <span class=code>123</span> e <span class=code>456</span>, e gli operatori <span class=code>*</span> e <span class=code>/</span>. Include inoltre due stringhe vuote inserite dopo gli operandi.
+
+<a name=7></a>
+<h3>18.7 Valutazione postfissa</h3>
+<p>
+Per valutare un'espressione postfissa useremo il parser e l'algoritmo che abbiamo visto nelle sezioni precedenti. Per cominciare dalle cose più semplici inizialmente implementeremo solo gli operatori <span class=code>+</span> e <span class=code>*</span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>ValutaPostfissa</span>(Espressione):
+<br>&nbsp; <span class=keyword>import</span> re
+<br>&nbsp; ListaToken = re.split(<span class=quote>"([^0-9])"</span>, Espressione)
+<br>&nbsp; Pila = Pila()
+<br>&nbsp; <span class=keyword>for</span> Token <span class=keyword>in</span> ListaToken:
+<br>&nbsp; &nbsp; <span class=keyword>if</span>&nbsp; Token == <span class=quote>''</span> <span class=keyword>or</span> Token == <span class=quote>' '</span>:
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>continue
+<br>&nbsp; &nbsp; if</span>&nbsp; Token == <span class=quote>'+'</span>:
+<br>&nbsp; &nbsp; &nbsp; Somma = Pila.Pop() + Pila.Pop()
+<br>&nbsp; &nbsp; &nbsp; Pila.Push(Somma)
+<br>&nbsp; &nbsp; <span class=keyword>elif</span> Token == <span class=quote>'*'</span>:
+<br>&nbsp; &nbsp; &nbsp; Prodotto = Pila.Pop() * Pila.Pop()
+<br>&nbsp; &nbsp; &nbsp; Pila.Push(Prodotto)
+<br>&nbsp; &nbsp; <span class=keyword>else</span>:
+<br>&nbsp; &nbsp; &nbsp; Pila.Push(int(Token))
+<br>&nbsp; <span class=keyword>return</span> Pila.Pop()
+<br></span></p>
+
+<p>
+La prima condizione tiene a bada gli spazi e le stringhe vuote. Le due condizioni successive gestiscono gli operatori, partendo dal presupposto che qualsiasi altra cosa sia un operatore valido. Logicamente dovremo controllare la validità dell'espressione da valutare ed eventualmente mostrare un messaggio di errore se ci fossero dei problemi, ma questo lo faremo più avanti.
+<p>
+Testiamola per valutare l'espressione postfissa di <span class=code>(56+47)*2</span>:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> ValutaPostfissa(<span class=quote>"56 47 + 2 *"</span>)
+<br>206
+<br></span></p>
+
+
+<a name=8></a>
+<h3>18.8 Clienti e fornitori</h3>
+<p>
+Uno degli obiettivi fondamentali di un TDA è quello di separare gli interessi del <i>fornitore</i>, che scrive il codice del TDA, da quelli del <i>cliente</i>, che usa il TDA. Il fornitore deve solo preoccuparsi di verificare che l'implementazione sia corretta, secondo le specifiche del TDA, e non ha idea di <i>come</i> sarà usato il suo codice.
+<p>
+D'altra parte il cliente <i>parte dal presupposto</i> che l'implementazione del TDA sia corretta e non si preoccupa dei dettagli già considerati dal fornitore. Quando stai usando dei tipi predefiniti in Python hai il vantaggio di dover pensare solo da cliente, senza doverti preoccupare di verificare la corretta implementazione del codice.
+<p>
+Logicamente nel momento in cui implementi un TDA (e quindi sei il fornitore) devi scrivere del codice cliente per testarlo, e questo fatto può mettere un po' in confusione dato che si devono giocare entrambi i ruoli.
+
+<a name=9></a>
+<h3>18.9 Glossario</h3>
+
+<dl>
+<dt>Tipo di dato astratto (TDA)</dt>
+<dd>tipo di dato (solitamente una collezione di oggetti) definito da una serie di operazioni e che può essere implementato in una varietà di modi diversi.</dd>
+<dt>Interfaccia</dt>
+<dd>insieme di operazioni che definiscono un TDA.</dd>
+<dt>Implementazione</dt>
+<dd>codice che soddisfa i prerequisiti di sintassi e semantica di un'interfaccia.</dd>
+<dt>Cliente</dt>
+<dd>programma (o persona che scrive un programma) che usa un TDA.</dd>
+<dt>Fornitore</dt>
+<dd>programma (o persona che scrive un programma) che implementa un TDA.</dd>
+<dt>Maschera</dt>
+<dd>definizione di classe che implementa un TDA con definizioni di metodi che sono invocazioni di altri metodi, talvolta con l'apporto di semplici trasformazioni. Le maschere non fanno un lavoro significativo, ma migliorano o standardizzano l'interfaccia usata dal cliente.</dd>
+<dt>Struttura di dati generica</dt>
+<dd>struttura di dati che può contenere dati di ogni tipo.</dd>
+<dt>Notazione infissa</dt>
+<dd>modo di scrivere espressioni matematiche con gli operatori tra gli operandi, eventualmente con l'uso di parentesi.</dd>
+<dt>Notazione postfissa</dt>
+<dd>modo di scrivere espressioni matematiche con gli operatori posti dopo gli operandi (detta anche "notazione polacca inversa").</dd>
+<dt>Parsing</dt>
+<dd>lettura di una stringa di caratteri per l'analisi dei token e della struttura grammaticale.</dd>
+<dt>Token</dt>
+<dd>serie di caratteri che viene trattata come un'unità nell'operazione di parsing, allo stesso modo delle parole in un linguaggio naturale.</dd>
+<dt>Delimitatore</dt>
+<dd>carattere usato per separare i token, allo stesso modo della punteggiatura in un linguaggio naturale.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap19.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap17.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

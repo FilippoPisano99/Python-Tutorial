@@ -1,0 +1,448 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 2: Variabili, espressioni ed istruzioni</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap03.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap01.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 2</h2>
+
+
+
+<h1>Variabili, espressioni ed istruzioni</h1>
+
+<a name=1></a>
+<h3>2.1 Valori e tipi</h3>
+<p>
+Un <b>valore</b> è una delle cose fondamentali manipolate da un programmatore, come lo sono una lettera dell'alfabeto nella scrittura o un numero in matematica. I valori che abbiamo visto finora sono <span class=code><span class=quote>"Hello, World!"</span></span> e <span class=code>2</span>, quest'ultimo il risultato ottenuto quando abbiamo sommato <span class=code>1+1</span>.
+<p>
+Questi valori appartengono a <b>tipi</b> diversi: <span class=code>2</span> è un intero, e <span class=code><span class=quote>"Hello, World!"</span></span> è una <b>stringa</b>, così chiamata perché contiene una serie (o "stringa") di caratteri.
+L'interprete può identificare le stringhe perché sono racchiuse da virgolette.
+<p>
+L'istruzione <span class=code><span class=keyword>print</span></span> funziona sia per le stringhe che per gli interi.
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> 4
+<br>4
+<br></span></p>
+
+<p>
+Se non sei sicuro del tipo di un valore, l'interprete te lo può dire:
+
+<p><span class=code>&gt;&gt;&gt; type(<span class=quote>"Hello, World!"</span>)
+<br>&lt;type <span class=quote>'string'</span>&gt;
+<br>&gt;&gt;&gt; type(17)
+<br>&lt;type <span class=quote>'int'</span>&gt;
+<br></span></p>
+
+<p>
+Ovviamente le stringhe appartengono al tipo <span class=code>string</span> e gli interi al tipo <span class=code>int</span>. Non è invece intuitivo il fatto che i numeri con il punto decimale appartengano al tipo <span class=code>float</span>: questi numeri sono rappresentati in un formato chiamato <b>virgola mobile</b> o <b>floating-point</b>.
+
+<p><span class=code>&gt;&gt;&gt; type(3.2)
+<br>&lt;type <span class=quote>'float'</span>&gt;
+<br></span></p>
+
+<p>
+Cosa dire di numeri come <span class=code><span class=quote>"17"</span></span> e <span class=code><span class=quote>"3.2"</span></span>?
+Sembrano effettivamente dei numeri, ma sono racchiusi tra virgolette e questo sicuramente significa qualcosa. Infatti non siamo in presenza di numeri ma di stringhe:
+
+<p><span class=code>&gt;&gt;&gt; type(<span class=quote>"17"</span>)
+<br>&lt;type <span class=quote>'string'</span>&gt;
+<br>&gt;&gt;&gt; type(<span class=quote>"3.2"</span>)
+<br>&lt;type <span class=quote>'string'</span>&gt;
+<br></span></p>
+
+<p>
+Quando scrivi numeri grandi puoi essere tentato di usare dei punti per delimitare i gruppi di tre cifre, come in <span class=code>1.000.000</span>.  Questa in effetti non è una cosa consentita in Python ed il valore numerico in questo caso non è valido. È invece corretta una scrittura del tipo
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> 1,000,000
+<br>1 0 0
+<br></span></p>
+
+<p>
+...anche se probabilmente questo risultato non è quello che ci si aspettava! Python interpreta <span class=code>1,000,000</span> come una lista di tre valori da stampare (1, 0 e 0). Ricordati di non inserire virgole nei tuoi interi.
+
+<a name=2></a>
+<h3>2.2 Variabili</h3>
+<p>
+Una delle caratteristiche più potenti in un linguaggio di programmazione è la capacità di manipolare <b>variabili</b>.  Una variabile è un nome che si riferisce ad un valore.
+<p>
+L'<b>istruzione di assegnazione</b> crea nuove variabili e assegna loro un valore:
+
+<p><span class=code>&gt;&gt;&gt; messaggio = <span class=quote>"Come va?"</span>
+<br>&gt;&gt;&gt; n = 17
+<br>&gt;&gt;&gt; pi = 3.14159
+<br></span></p>
+
+<p>
+Questo esempio effettua tre assegnazioni.  La prima assegna la 
+stringa <span class=code><span class=quote>"Come va?"</span></span> ad una nuova variabile chiamata <span class=code>messaggio</span>.
+La seconda assegna l'intero <span class=code>17</span> alla variabile <span class=code>n</span> e la terza assegna il valore in virgola mobile <span class=code>3.14159</span> alla variabile <span class=code>pi</span>.
+<p>
+Un modo comune di rappresentare le variabili sulla carta è scriverne il nome con una freccia che punta al valore della variabile. Questo tipo di figura è chiamato <b>diagramma di stato</b> perché mostra lo stato in cui si trova la variabile.
+Questo diagramma mostra il risultato dell'istruzione di assegnazione:
+
+<p align="center"><img src="illustrations/i_state2.png"></p>
+<p>
+L'istruzione <span class=code><span class=keyword>print</span></span> funziona anche con le variabili:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> messaggio
+<br>Come va?
+<br>&gt;&gt;&gt; <span class=keyword>print</span> n
+<br>17
+<br>&gt;&gt;&gt; <span class=keyword>print</span> pi
+<br>3.14159
+<br></span></p>
+
+<p>
+ed in ogni caso il risultato è il valore della variabile.
+<p>
+Anche le variabili hanno il tipo; ancora una volta possiamo chiedere all'interprete a quale tipo ogni variabile appartenga:
+
+<p><span class=code>&gt;&gt;&gt; type(message)
+<br>&lt;type <span class=quote>'string'</span>&gt;
+<br>&gt;&gt;&gt; type(n)
+<br>&lt;type <span class=quote>'int'</span>&gt;
+<br>&gt;&gt;&gt; type(pi)
+<br>&lt;type <span class=quote>'float'</span>&gt;
+<br></span></p>
+
+<p>
+Il tipo di una variabile è il tipo di valore cui essa si riferisce.
+
+<a name=3></a>
+<h3>2.3 Nomi delle variabili e parole riservate</h3>
+<p>
+I programmatori generalmente scelgono dei nomi significativi per le loro variabili, documentando così a che cosa servono.
+<p>
+I nomi delle variabili possono essere lunghi quanto si desidera e possono contenere sia lettere che numeri, ma devono sempre iniziare con una lettera. È legale usare sia lettere maiuscole che minuscole. Ricorda comunque che l'interprete le considera diverse così che <span class=code>Numero</span>, <span class=code>NUmEro</span> e <span class=code>numero</span> sono a tutti gli effetti variabili diverse.
+<p>
+Il carattere di sottolineatura (<span class=code>_</span>) può far parte di un nome ed è spesso usato in nomi di variabile composti da più parole (per esempio <span class=code>il_mio_nome</span> e <span class=code>prezzo_del_the</span>. In alternativa le parole possono essere composte usando l'iniziale maiuscola per ciascuna di esse, con il resto dei caratteri lasciati in minuscolo come in <span class=code>IlMioNome</span> e <span class=code>PrezzoDelThe</span>. Sembra che tra i due metodi quest'ultimo sia il più diffuso così lo adotteremo gradualmente nel corso delle lezioni.
+<p>
+Assegnando un nome illegale alla variabile otterrai un messaggio d'errore di sintassi:
+
+<p><span class=code>&gt;&gt;&gt; 76strumenti = <span class=quote>"grande banda"</span>
+<br>SyntaxError: invalid syntax
+<br>&gt;&gt;&gt; milione$ = 1000000
+<br>SyntaxError: invalid syntax
+<br>&gt;&gt;&gt; <span class=keyword>class</span> = <span class=quote>"Computer Science 101"</span>
+<br>SyntaxError: invalid syntax
+<br></span></p>
+
+<p>
+<span class=code>76strumenti</span> è illegale perché non inizia con una lettera. <span class=code>milione$</span> è illegale perché contiene un carattere non valido (il segno di dollaro <span class=code>$</span>). Ma cosa c'è di sbagliato in <span class=code><span class=keyword>class</span></span>?
+<p>
+<span class=code><span class=keyword>class</span></span> è una delle <b>parole riservate</b> di Python. Le parole riservate definiscono le regole del linguaggio e della struttura e non possono essere usate come nomi di variabili.
+<p>
+Python ha 28 parole riservate:
+
+<p><span class=code><span class=keyword>and&nbsp; &nbsp; &nbsp; continue&nbsp; else&nbsp; &nbsp; &nbsp; for&nbsp; &nbsp; &nbsp; import&nbsp; &nbsp; not&nbsp; &nbsp; &nbsp; raise
+<br>assert&nbsp; &nbsp;def&nbsp; &nbsp; &nbsp; &nbsp;except&nbsp; &nbsp; from&nbsp; &nbsp; &nbsp;in&nbsp; &nbsp; &nbsp; &nbsp; or&nbsp; &nbsp; &nbsp; &nbsp;return
+<br>break&nbsp; &nbsp; del&nbsp; &nbsp; &nbsp; &nbsp;exec&nbsp; &nbsp; &nbsp; global&nbsp; &nbsp;is&nbsp; &nbsp; &nbsp; &nbsp; pass&nbsp; &nbsp; &nbsp;try
+<br>class&nbsp; &nbsp; elif&nbsp; &nbsp; &nbsp; finally&nbsp; &nbsp;if&nbsp; &nbsp; &nbsp; &nbsp;lambda&nbsp; &nbsp; print&nbsp; &nbsp; while</span>
+<br></span></p>
+
+<p>
+Sarebbe meglio tenere questa lista a portata di mano: se l'interprete ha problemi con il nome che vuoi assegnare ad una variabile e non ne capisci il motivo, prova a controllare se si trova in questa lista.
+
+<a name=4></a>
+<h3>2.4 Istruzioni</h3>
+<p>
+Un'istruzione è un'operazione che l'interprete Python può eseguire. 
+Abbiamo già visto due tipi di istruzioni: istruzioni di stampa 
+ <a href="javascript:fn('D\'ora in poi si parlerà di "stampa a video" 
+invece che di "scrittura a video"')">* Note</a>
+e di assegnazione.
+<p>
+Quando scrivi un'istruzione sulla riga di comando, Python la esegue e se previsto stampa il risultato a video. Un'istruzione di assegnazione di per sé non produce risultati visibili mentre il risultato di un'istruzione di stampa è un valore mostrato a video.
+<p>
+Uno script di solito contiene una sequenza di istruzioni: se sono presenti più istruzioni i loro risultati appariranno via via che le singole istruzioni saranno eseguite.
+<p>
+Per esempio lo script:
+
+<p><span class=code><span class=keyword>print</span> 1
+<br>x = 2
+<br><span class=keyword>print</span> x
+<br></span></p>
+
+<p>
+produce questa stampa:
+
+<p><span class=code>1
+<br>2
+<br></span></p>
+
+
+<a name=5></a>
+<h3>2.5 Valutazione delle espressioni</h3>
+<p>
+Un'espressione è una combinazione di valori, variabili e operatori.
+Se scrivi un'espressione sulla riga di comando l'interprete la <b>valuta</b> e mostra a video il risultato:
+
+<p><span class=code>&gt;&gt;&gt; 1 + 1
+<br>2
+<br></span></p>
+
+<p>
+Sia un valore (numerico o stringa) che una variabile sono già di per sé delle espressioni:
+
+<p><span class=code>&gt;&gt;&gt; 17
+<br>17
+<br>&gt;&gt;&gt; x
+<br>2
+<br></span></p>
+
+<p>
+La differenza tra "valutare un'espressione" e stamparne il valore è sottile ma importante:
+
+<p><span class=code>&gt;&gt;&gt; messaggio = <span class=quote>"Come va?"</span>
+<br>&gt;&gt;&gt; messaggio
+<br><span class=quote>"Come va?"</span>
+<br>&gt;&gt;&gt; <span class=keyword>print</span> messaggio
+<br>Come va?
+<br></span></p>
+
+<p>
+Quando Python mostra il valore di un'espressione usa lo stesso formato che si userebbe per inserirla: nel caso delle stringhe ciò significa che include le virgolette di delimitazione. L'istruzione <span class=code><span class=keyword>print</span></span> invece stampa il valore dell'espressione, che nel caso delle stringhe corrisponde al loro contenuto. Le virgolette sono quindi rimosse.
+<p>
+In uno script un valore preso da solo è legale, anche se non fa niente e non produce alcun risultato:
+
+<p><span class=code>17
+<br>3.2
+<br><span class=quote>"Hello, World!"</span>
+<br>1 + 1
+<br></span></p>
+
+
+<blockquote><i>Lo script dell'esempio non produce alcun risultato. Come lo modificheresti per mostrare i quattro valori?</i>
+</blockquote>
+
+<a name=6></a>
+<h3>2.6 Operatori e operandi</h3>
+<p>
+Gli <b>operatori</b> sono simboli speciali che rappresentano elaborazioni di tipo matematico, quali la somma e la moltiplicazione. I valori che l'operatore usa nei calcoli sono chiamati <b>operandi</b>.
+<p>
+Le seguenti espressioni sono tutte legali in Python, ed il loro significato dovrebbe esserti chiaro:
+
+<p><span class=code>20+32&nbsp; &nbsp;ore-1&nbsp; &nbsp;ore*60+minuti&nbsp; &nbsp;minuti/60&nbsp; &nbsp;5**2&nbsp; &nbsp;(5+9)*(15-7)
+<br></span></p>
+
+<p>
+L'uso dei simboli <span class=code>+</span>, <span class=code>-</span>, <span class=code>/</span> e delle parentesi sono uguali a all'uso che se ne fa in matematica. L'asterisco (<span class=code>*</span>) è il simbolo della moltiplicazione ed il doppio asterisco (<span class=code>**</span>) quello dell'elevamento a potenza.
+<p>
+Quando una variabile compare al posto di un operando essa è rimpiazzata dal valore che rappresenta prima che l'operazione sia eseguita.
+<p>
+Addizione, sottrazione, moltiplicazione ed elevamento a potenza fanno tutto ciò che potresti aspettarti, ma la divisione potrebbe non sembrare così intuitiva. L'operazione seguente ha infatti un risultato inatteso:
+
+<p><span class=code>&gt;&gt;&gt; minuti = 59
+<br>&gt;&gt;&gt; minuti/60
+<br>0
+<br></span></p>
+
+<p>
+Il valore di <span class=code>minuti</span> è 59, e 59 diviso 60 è 0.98333, non zero. La ragione di questa differenza sta nel fatto che Python sta facendo una <b>divisione tra numeri interi</b>.
+<p>
+Quando entrambi gli operandi sono numeri interi il risultato è sempre un numero intero e per convenzione la divisione tra numeri interi restituisce sempre un numero arrotondato all'intero inferiore (<i>arrotondamento verso il basso</i>), anche nel caso in cui il risultato sia molto vicino all'intero superiore.
+<p>
+Una possibile soluzione a questo problema potrebbe essere il calcolo della percentuale, piuttosto che del semplice valore decimale:
+
+<p><span class=code>&gt;&gt;&gt; minuti*100/60
+<br>98
+<br></span></p>
+
+<p>
+Ancora una volta il valore è arrotondato per difetto, ma almeno la risposta è approssimativamente corretta. Un'altra alternativa è l'uso della divisione in virgola mobile che tratteremo nella <a href="chap03.htm">sezione 3</a>.
+
+<a name=7></a>
+<h3>2.7 Ordine delle operazioni</h3>
+<p>
+Quando più operatori compaiono in un'espressione, l'ordine di valutazione dipende dalle <b>regole di precedenza</b>.  Python segue le stesse regole di precedenza usate in matematica:
+
+<ul>
+<li><b>Parentesi</b>: hanno il più alto livello di precedenza e possono essere usate per far valutare l'espressione in qualsiasi ordine. Dato che le espressioni tra parentesi sono valutate per prime, <span class=code>2*(3-1)</span> dà come risultato 4, e <span class=code>(1+1)**(5-2)</span> dà 8. Puoi usare le parentesi per rendere più leggibile un'espressione come in <span class=code>(minuti*100)/60</span>, anche se questo non influisce sul risultato.</li>
+<li><b>Elevamento a potenza</b>: ha la priorità successiva così <span class=code>2**1+1</span> fa 3 e non 4, e <span class=code>3*1**3</span> fa 3 e non 27.</li>
+<li><b>Moltiplicazione</b> e <b>Divisione</b> hanno la stessa priorità, superiore a somma e sottrazione. <span class=code>2*3-1</span> dà 5 e non 4, e <span class=code>2/3-1</span> fa <span class=code>-1</span>, e non <span class=code>1</span> (ricorda che la divisione intera <span class=code>2/3</span> restituisce 0).</li>
+<li><b>Addizione</b> e <b>Sottrazione</b>, anch'esse con la stessa priorità.</li>
+<li>Gli operatori con la stessa priorità sono valutati da sinistra verso destra, così che nell'espressione <span class=code>minuti*100/60</span>, la moltiplicazione è valutata per prima, ottenendo <span class=code>5900/60</span>, che a sua volta restituisce <span class=code>98</span>. Se le operazioni fossero state valutate da destra a sinistra il risultato sarebbe stato sbagliato: <span class=code>59*1=59</span>.
+</ul></li>
+<a name=8></a>
+<h3>2.8 Operazioni sulle stringhe</h3>
+<p>
+In generale non puoi effettuare operazioni matematiche sulle stringhe, anche se il loro contenuto sembra essere un numero. Se supponiamo che <span class=code>messaggio</span> sia di tipo <span class=code>string</span> gli esempi proposti di seguito sono illegali:
+
+<p><span class=code> messaggio-1&nbsp; &nbsp;<span class=quote>"Ciao"</span>/123&nbsp; &nbsp;messaggio*<span class=quote>"Ciao"</span>&nbsp; &nbsp;<span class=quote>"15"</span>+2
+<br></span></p>
+
+<p>
+L'operatore <span class=code>+</span> funziona con le stringhe anche se la sua funzione è diversa da quella cui siamo abituati in matematica: infatti nel caso di stringhe l'operatore <span class=code>+</span> rappresenta il <b>concatenamento</b>, cioè l'aggiunta del secondo operando alla fine del primo. Per esempio:
+
+<p><span class=code>frutta = <span class=quote>"banana"</span>
+<br>verdura = <span class=quote>" pomodoro"</span>
+<br><span class=keyword>print</span> frutta + verdura
+<br></span></p>
+
+<p>
+Il risultato a video di questo programma è <span class=code>banana pomodoro</span>.  Lo spazio davanti alla parola <span class=code>pomodoro</span> è parte della stringa ed è necessario per produrre lo spazio tra le due stringhe concatenate.
+<p>
+Anche l'operatore <span class=code>*</span> lavora sulle stringhe pur con un significato diverso rispetto a quello matematico: infatti causa la ripetizione della stringa. Per fare un esempio, <span class=code><span class=quote>"Casa"</span>*3</span> è <span class=code><span class=quote>"CasaCasaCasa"</span></span>.  Uno degli operandi deve essere una stringa, l'altro un numero intero.
+<p>
+Da una parte questa interpretazione di <span class=code>+</span> e di <span class=code>*</span> ha senso per analogia con l'addizione e la moltiplicazione in matematica. Così come <span class=code>4*3</span> è equivalente a <span class=code>4+4+4</span>, ci aspettiamo che <span class=code><span class=quote>"Casa"</span>*3</span> sia lo stesso di <span class=code><span class=quote>"Casa"</span>+<span class=quote>"Casa"</span>+<span class=quote>"Casa"</span></span>, ed effettivamente è così. D'altro canto c'è un particolare sostanziale che rende diverse la somma e la moltiplicazione di numeri e di stringhe.
+
+<blockquote><i>Riesci ad immaginare una proprietà che somma e moltiplicazione tra numeri non condividono con concatenamento e ripetizione di stringhe?</i>
+</blockquote>
+
+<a name=9></a>
+<h3>2.9 Composizione</h3>
+<p>
+Finora abbiamo guardato agli elementi di un programma (variabili, espressioni e istruzioni) prendendoli isolatamente, senza parlare di come combinarli.
+<p>
+Una delle più utili caratteristiche dei linguaggi di programmazione è la loro capacità di prendere piccoli blocchi di costruzione e di <b>comporli</b>.
+<p>
+Sappiamo già sommare e stampare dei numeri e possiamo fare le due operazioni nello stesso momento:
+
+<p><span class=code>&gt;&gt;&gt;&nbsp; <span class=keyword>print</span> 17 + 3
+<br>20
+<br></span></p>
+
+<p>
+In realtà l'addizione è stata portata a termine prima della stampa, così che le due operazioni non stanno avvenendo contemporaneamente. Qualsiasi operazione che ha a che fare con i numeri, le stringhe e le variabili può essere usata all'interno di un'istruzione di stampa. Hai già visto un esempio a riguardo:
+
+<p><span class=code><span class=keyword>print</span> <span class=quote>"Numero di minuti da mezzanotte: "</span>, ore*60+minuti
+<br></span></p>
+
+<p>
+Puoi anche inserire espressioni arbitrarie nella parte destra di un'istruzione di assegnazione:
+
+<p><span class=code>percentuale = (minuti * 100) / 60
+<br></span></p>
+
+<p>
+Questa capacità può non sembrare particolarmente impressionante, ma vedrai presto altri esempi in cui la composizione permette di esprimere elaborazioni complesse in modo chiaro e conciso.
+<p>
+Attenzione: ci sono dei limiti su "dove" puoi usare certe espressioni. Per esempio la parte sinistra di un'istruzione di assegnazione può solo essere una variabile, e non un'espressione. <span class=code>minuti*60 = ore</span> è illegale.
+
+<a name=10></a>
+<h3>2.10 Commenti</h3>
+<p>
+Man mano che il programma cresce di dimensioni diventa sempre più difficile da leggere. I linguaggi formali sono ricchi di significato, e può risultare difficile capire a prima vista cosa fa un pezzo di codice o perché è stato scritto in un certo modo.
+<p>
+Per questa ragione è una buona idea aggiungere delle note ai tuoi programmi per spiegare con un linguaggio naturale cosa sta facendo il programma nelle sue varie parti. Queste note sono chiamate <b>commenti</b>, e sono marcati dal simbolo <span class=code><span class=comment>#</span></span>:
+
+<p><span class=code><span class=comment># calcola la percentuale di ore trascorse
+</span><br>percentuale = (minuti*100)/60
+<br></span></p>
+
+<p>
+In questo caso il commento appare come una linea a sé stante. Puoi eventualmente inserire un commento alla fine di una riga:
+
+<p><span class=code>percentuale = (minuti*100)/60&nbsp; &nbsp;<span class=comment># attenzione: divisione intera
+</span><br></span></p>
+
+<p>
+Qualsiasi cosa scritta dopo il simbolo <span class=code><span class=comment>#</span></span> e fino alla fine della riga viene trascurata nell'esecuzione del programma. Il commento serve al programmatore o ai futuri programmatori che dovranno usare questo codice. In questo ultimo esempio il commento ricorda al lettore che ci potrebbe essere un comportamento inatteso dovuto all'uso della divisione tra numeri interi.
+
+<a name=11></a>
+<h3>2.11 Glossario</h3>
+
+<dl>
+<dt>Valore</dt>
+<dd>numero o stringa (o altri tipi di dato che vedremo in seguito) che può essere memorizzato in una variabile o usato in una espressione.</dd>
+<dt>Tipo</dt>
+<dd>formato di un valore che determina come esso possa essere usato nelle espressioni. Finora hai visto i numeri interi (tipo <span class=code>int</span>), i numeri in virgola mobile (tipo <span class=code>float</span>) e le stringhe (tipo <span class=code>string</span>).</dd>
+<dt>Virgola mobile</dt>
+<dd>formato di dati che rappresenta i numeri con parte decimale; è anche detto "floating-point".</dd>
+<dt>Variabile</dt>
+<dd>nome che si riferisce ad un valore.</dd>
+<dt>Istruzione</dt>
+<dd>sezione di codice che rappresenta un comando o un'azione. Finora hai visto istruzioni di assegnazione e di stampa.</dd>
+<dt>Assegnazione</dt>
+<dd>istruzione che assegna un valore ad una variabile.</dd>
+<dt>Diagramma di stato</dt>
+<dd>rappresentazione grafica di una serie di variabili e dei valori cui esse si riferiscono.</dd>
+<dt>Parola riservata</dt>
+<dd>parola che ha un significato particolare per il linguaggio e non può essere usata come nome di variabile o di funzione.</dd>
+<dt>Operatore</dt>
+<dd>simbolo speciale che rappresenta un'elaborazione semplice tipo l'addizione, la moltiplicazione o il concatenamento di stringhe.</dd>
+<dt>Operando</dt>
+<dd>uno dei valori sui quali agisce un operatore.</dd>
+<dt>Espressione</dt>
+<dd>combinazione di variabili, operatori e valori che sono sostituibili da un unico valore equivalente.</dd>
+<dt>Valutazione</dt>
+<dd>semplificazione di un'espressione seguendo una serie di operazioni per produrre un singolo valore.</dd>
+<dt>Divisione tra numeri interi</dt>
+<dd>operazione che divide un numero intero per un altro intero.</dd>
+<dt>Regole di precedenza</dt>
+<dd>insieme di regole che determinano l'ordine nel quale vengono analizzate espressioni complesse dove sono presenti più operandi ed operatori.</dd>
+<dt>Concatenamento</dt>
+<dd>unione di due stringhe tramite l'accodamento della seconda alla prima.</dd>
+<dt>Composizione</dt>
+<dd>capacità di combinare espressioni semplici in istruzioni composite in modo da rappresentare elaborazioni complesse in forma chiara e concisa.</dd>
+<dt>Commento</dt>
+<dd>informazione riguardante il significato di una parte del programma; non ha alcun effetto sull'esecuzione del programma ma serve solo per facilitarne la comprensione.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap03.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap01.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

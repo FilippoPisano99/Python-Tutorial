@@ -1,0 +1,568 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 3: Funzioni</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap04.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap02.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 3</h2>
+
+
+
+<h1>Funzioni</h1>
+
+<a name=1></a>
+<h3>3.1 Chiamate di funzioni</h3>
+<p>
+Hai già visto un esempio di <b>chiamata di funzione</b>:
+
+<p><span class=code>&gt;&gt;&gt; type(<span class=quote>"32"</span>)
+<br>&lt;type <span class=quote>'string'</span>&gt;
+<br></span></p>
+
+<p>
+Il nome della funzione è <span class=code>type</span> e mostra il tipo di valore della variabile. Il valore della variabile, che è chiamato <b>argomento</b> della funzione, deve essere racchiuso tra parentesi.
+È comune dire che una funzione "prende" o "accetta" un argomento e "ritorna" o "restituisce" un risultato. Il risultato è detto <b>valore di ritorno</b>.
+
+<p>
+Invece di stampare il valore di ritorno possiamo assegnarlo ad una variabile:
+
+<p><span class=code>&gt;&gt;&gt; betty = type(<span class=quote>"32"</span>)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> betty
+<br>&lt;type <span class=quote>'string'</span>&gt;
+<br></span></p>
+
+<p>
+Come esempio ulteriore, la funzione <span class=code>id</span> prende un valore o una variabile e ritorna un intero che agisce come un identificatore unico del valore:
+
+<p><span class=code>&gt;&gt;&gt; id(3)
+<br>134882108
+<br>&gt;&gt;&gt; betty = 3
+<br>&gt;&gt;&gt; id(betty)
+<br>134882108
+<br></span></p>
+
+<p>
+Ogni valore ha un <span class=code>id</span> unico che rappresenta dove è depositato nella memoria del computer. L'<span class=code>id</span> di una variabile è l'<span class=code>id</span> del valore della variabile cui essa si riferisce.
+
+<a name=2></a>
+<h3>3.2 Conversione di tipo</h3>
+<p>
+Python fornisce una raccolta di funzioni interne che converte valori da un tipo all'altro. La funzione <span class=code>int</span> prende ogni valore e lo converte, se possibile, in intero. Se la conversione non è possibile mostra un messaggio d'errore:
+
+<p><span class=code>&gt;&gt;&gt; int(<span class=quote>"32"</span>)
+<br>32
+<br>&gt;&gt;&gt; int(<span class=quote>"Hello"</span>)
+<br>ValueError: invalid literal <span class=keyword>for</span> int(): Hello
+<br></span></p>
+
+<p>
+<span class=code>int</span> può anche convertire valori in virgola mobile in interi, ma ricorda che nel farlo tronca (cioè toglie) la parte decimale.
+
+<p><span class=code>&gt;&gt;&gt; int(3.99999)
+<br>3
+<br>&gt;&gt;&gt; int(-2.3)
+<br>-2
+<br></span></p>
+
+<p>
+La funzione <span class=code>float</span> converte interi e stringhe in numeri in virgola mobile:
+
+<p><span class=code>&gt;&gt;&gt; float(32)
+<br>32.0
+<br>&gt;&gt;&gt; float(<span class=quote>"3.14159"</span>)
+<br>3.14159
+<br></span></p>
+
+<p>
+Infine <span class=code>str</span> converte al tipo stringa:
+
+<p><span class=code>&gt;&gt;&gt; str(32)
+<br><span class=quote>'32'</span>
+<br>&gt;&gt;&gt; str(3.14149)
+<br><span class=quote>'3.14149'</span>
+<br></span></p>
+
+<p>
+Può sembrare strano il fatto che Python distingua il valore intero <span class=code>1</span> dal corrispondente valore in virgola mobile <span class=code>1.0</span>.  Questi rappresentano effettivamente uno stesso numero ma appartengono a tipi differenti (rispettivamente intero e in virgola mobile) e quindi vengono rappresentati in modo diverso all'interno della memoria del computer.
+
+<a name=3></a>
+<h3>3.3 Forzatura di tipo</h3>
+<p>
+Per tornare ad un esempio del capitolo precedente (la divisione di <tt>minuti</tt> per 60), ora che sappiamo convertire i tipi abbiamo un modo ulteriore per gestire la divisione tra interi. Supponiamo di dover calcolare la frazione di ora che è trascorsa: l'espressione più ovvia, <span class=code>minuti/60</span>, lavora con numeri interi, così il risultato è sempre 0 anche se sono trascorsi 59 minuti.
+<p>
+Una delle soluzioni è quella di convertire <span class=code>minuti</span> in virgola mobile e calcolare il risultato della divisione in virgola mobile:
+
+<p><span class=code>&gt;&gt;&gt; minuti = 59
+<br>&gt;&gt;&gt; float(minuti) / 60.0
+<br>0.983333333333
+<br></span></p>
+
+<p>
+In alternativa possiamo avvantaggiarci delle regole di conversione automatica dei tipi chiamate <b>forzature di tipo</b>.
+Nel caso di operatori matematici se uno degli operandi è <span class=code>float</span>, l'altro è automaticamente convertito a <span class=code>float</span>:
+
+<p><span class=code>&gt;&gt;&gt; minuti = 59
+<br>&gt;&gt;&gt; minuti / 60.0
+<br>0.983333333333
+<br></span></p>
+
+<p>
+Convertendo il denominatore a valore in virgola mobile forziamo Python a calcolare il risultato di una divisione in virgola mobile.
+
+<a name=4></a>
+<h3>3.4 Funzioni matematiche</h3>
+<p>
+In matematica hai probabilmente visto funzioni del tipo <tt>sin</tt> e
+<tt>log</tt>, ed hai imparato a calcolare espressioni quali <tt>sin(pi/2)</tt> e <tt>log(1/x)</tt>.  Innanzitutto devi calcolare il valore dell'espressione tra parentesi (l'argomento). Nell'esempio <tt>pi/2</tt> è approssimativamente 1.571 e se <tt>x</tt> vale 10.0, <tt>1/x</tt> è 0.1.
+<p>
+Poi valuti la funzione stessa tramite calcoli o tabelle. <span class=code>sin</span> di 1.571
+è circa 1, e <span class=code>log</span> in base 10 di 0.1 è -1.
+<p>
+Questo processo può essere applicato ripetutamente per valutare espressioni complesse del tipo <tt>log(1/sin(pi/2))</tt>.  In questo caso devi iniziare dall'espressione più interna <tt>pi/2</tt>, calcolando poi il seno con <tt>sin</tt>, seguito dall'inverso del seno <tt>1/x</tt> e dal logaritmo dell'inverso <tt>log(x)</tt>.
+<p>
+Python è provvisto di un modulo matematico che permette di eseguire le più comuni operazioni matematiche. Un <b>modulo</b> è un file che contiene una raccolta di funzioni raggruppate.
+<p>
+Prima di poter usare le funzioni di un modulo dobbiamo dire all'interprete di caricare il modulo in memoria. Questa operazione viene detta "importazione":
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>import</span> math
+<br></span></p>
+
+<p>
+Per chiamare una funzione di un modulo dobbiamo specificare il nome del modulo che la contiene e il nome della funzione separati da un punto. Questo formato è chiamato <b>notazione punto</b>.
+
+<p><span class=code>&gt;&gt;&gt; decibel = math.log10 (17.0)
+<br>&gt;&gt;&gt; angolo = 1.5
+<br>&gt;&gt;&gt; altezza = math.sin(angolo)
+<br></span></p>
+
+<p>
+La prima istruzione assegna a <span class=code>decibel</span> il logaritmo di 17 in base 10. È anche disponibile la funzione <span class=code>log</span> che calcola il logaritmo naturale di un numero.
+<p>
+La terza istruzione trova il seno del valore della variabile <span class=code>angolo</span>.  <span class=code>sin</span> e le altre funzioni trigonometriche (<span class=code>cos</span>,
+<span class=code>tan</span>, etc.)  accettano argomenti in radianti e non i gradi. Per convertire da gradi in radianti devi dividere per 360 e moltiplicare per 2 <tt>pi</tt>. Per esempio, per calcolare il seno di 45 gradi, prima trasforma l'angolo in radianti e poi usa la funzione seno:
+
+<p><span class=code>&gt;&gt;&gt; gradi = 45
+<br>&gt;&gt;&gt; angolo = gradi * 2 * math.pi / 360.0
+<br>&gt;&gt;&gt; math.sin(angolo)
+<br></span></p>
+
+<p>
+La costante <span class=code>pi</span> fa già parte del modulo matematico <span class=code>math</span>.  Se conosci un po' di geometria puoi verificare il risultato confrontandolo con <tt><table style="display: inline; vertical-align: middle;"><tr><td rowspan=2 valign=bottom><font size=5>&radic;</font></td><td><hr noshade color=black></td></tr><tr><td>2</tr></table> /2</tt>:
+
+<p><span class=code>&gt;&gt;&gt; math.sqrt(2) / 2.0
+<br>0.707106781187
+<br></span></p>
+
+
+<a name=5></a>
+<h3>3.5 Composizione</h3>
+<p>
+Così come in matematica anche in Python le funzioni possono essere composte, facendo in modo che il risultato di una possa essere usato come argomento di un'altra:
+
+<p><span class=code>&gt;&gt;&gt; x = math.cos(angolo + math.pi/2)
+<br></span></p>
+
+<p>
+Questa istruzione prende il valore di <tt>pi</tt> (<span class=code>math.pi</span>), lo divide per 2 e somma il quoziente ad <span class=code>angolo</span>.  La somma è poi passata come argomento alla funzione <span class=code>cos</span> che ne calcola il coseno.
+
+<p><span class=code>&gt;&gt;&gt; x = math.exp(math.log(10.0))
+<br></span></p>
+
+<p>
+In quest'altro esempio l'istruzione <span class=code>log</span> calcola il logaritmo naturale (in base <i>e</i>) di 10 e poi eleva <i>e</i> al valore precedentemente calcolato. Il risultato viene assegnato ad <span class=code>x</span>.
+
+<a name=6></a>
+<h3>3.6 Aggiungere nuove funzioni</h3>
+<p>
+Finora abbiamo soltanto usato funzioni che fanno parte di Python, ma è possibile aggiungerne di nuove. La creazione di nuove funzioni per risolvere un particolare problema è infatti una tra le cose più utili di un linguaggio di programmazione generale, intendendo con "generale" che il linguaggio non è destinato ad un settore di applicazioni particolari, quale può essere quello scientifico o finanziario, ma che può essere usato in ogni campo).
+<p>
+Nel contesto della programmazione una <b>funzione</b> è una sequenza di istruzioni che esegue una determinata operazione. Questa azione è descritta in una <b>definizione di funzione</b>.  Le funzioni che abbiamo usato finora sono state definite per noi e le loro definizioni sono rimaste nascoste: questa è una cosa positiva in quanto possiamo usarle senza doverci preoccupare di come sono state definite da chi le ha scritte.
+<p>
+La sintassi per la definizione di una funzione è:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>NOME</span>( LISTA_DEI_PARAMETRI ):
+<br>&nbsp; ISTRUZIONI
+<br></span></p>
+
+<p>
+Puoi usare qualsiasi nome per una funzione, fatta eccezione per le parole riservate di Python. La lista dei parametri di una funzione specifica quali informazioni, sempre che ne sia prevista qualcuna, desideri fornire alla funzione per poterla usare.
+<p>
+All'interno della funzione sono naturalmente presenti delle istruzioni e queste devono essere indentate rispetto al margine sinistro. Di solito il rientro è di un paio di spazi, ma questa è solo una convenzione: per questioni puramente estetiche potresti volerne usare di più. Mentre nella maggior parte dei linguaggi il rientro è facoltativo e dipende da come il programmatore vuole organizzare visivamente il suo codice, in Python il rientro è obbligatorio. Questa scelta può sembrare un vincolo forzoso, ma ha il vantaggio di garantire una certa uniformità di stile e per quanto disordinato possa essere un programmatore il codice conserverà sempre un minimo di ordine.
+<p>
+La prima coppia di funzioni che stiamo per scrivere non ha parametri e la sintassi è:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>UnaRigaVuota</span>():
+<br>&nbsp; <span class=keyword>print</span>
+<br></span></p>
+
+<p>
+Questa funzione si chiama <span class=code>UnaRigaVuota</span>.  Le parentesi vuote stanno ad indicare che non ci sono parametri. La funzione è composta da una singola riga che stampa una riga vuota (questo è ciò che succede quando usi il comando <span class=code><span class=keyword>print</span></span> senza argomenti).
+<p>
+La sintassi per richiamare la funzione che hai appena definito è la stessa che hai usato per richiamare le funzioni predefinite:
+
+<p><span class=code><span class=keyword>print</span> <span class=quote>"Prima riga."</span>
+<br>UnaRigaVuota()
+<br><span class=keyword>print</span> <span class=quote>"Seconda riga."</span>
+<br></span></p>
+
+<p>
+Il risultato del programma è una scrittura a video:
+
+<p><span class=code>Prima riga.
+<br>
+<br>Seconda riga.
+<br></span></p>
+
+<p>
+Nota lo spazio tra le due righe. Cosa avresti dovuto fare se c'era bisogno di più spazio? Ci sono varie possibilità. Avresti potuto chiamare più volte la funzione:
+
+<p><span class=code><span class=keyword>print</span> <span class=quote>"Prima riga."</span>
+<br>UnaRigaVuota()
+<br>UnaRigaVuota ()
+<br>UnaRigaVuota ()
+<br><span class=keyword>print</span> <span class=quote>"Seconda riga."</span>
+<br></span></p>
+
+<p>
+o avresti potuto creare una nuova funzione chiamata <span class=code>TreRigheVuote</span> che stampa tre righe vuote:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>TreRigheVuote</span>():
+<br>&nbsp; UnaRigaVuota()
+<br>&nbsp; UnaRigaVuota()
+<br>&nbsp; UnaRigaVuota()
+<br>
+<br><span class=keyword>print</span> <span class=quote>"Prima riga."</span>
+<br>TreRigheVuote()
+<br><span class=keyword>print</span> <span class=quote>"Seconda riga."</span>
+<br></span></p>
+
+<p>
+Questa funzione contiene tre istruzioni, tutte indentate di due spazi proprio
+per indicare che fanno parte della definizione della funzione. Dato che dopo la
+definizione, alla fine del terzo <span class=code>UnaRigaVuota()</span>, la riga successiva,<br> 
+<span class=code><span class=keyword>print</span> <span class=quote>"Prima riga."</span></span> non ha più indentazione, ciò significa che questa non fa
+più parte della definizione e che la definizione deve essere considerata
+conclusa.
+<p>
+Puoi notare alcune cose riguardo questo programma:
+
+<ol>
+<li>Puoi chiamare più volte la stessa procedura. È abbastanza comune e utile farlo.</li>
+<li>Una funzione può chiamare altre funzioni al suo interno: in questo caso <span class=code>TreRigheVuote</span> chiama <span class=code>UnaRigaVuota</span>.</li>
+</ol>
+<p>
+Può non essere ancora chiaro perché sia il caso di creare tutte queste nuove funzioni. Effettivamente di ragioni ce ne sono tante, qui ne indichiamo due:
+
+<ul>
+<li>Creare una funzione ti dà l'opportunità di raggruppare e identificare con un nome un gruppo di istruzioni. Le funzioni possono semplificare un programma nascondendo un'elaborazione complessa dietro un singolo comando, e usando parole comprensibili per richiamarla invece di codice difficile da capire.</li>
+<li>La creazione di funzioni rende più piccolo il programma, eliminando le parti ripetitive. Per fare un esempio, se vogliamo stampare 9 righe vuote, possiamo chiamare 9 volte la funzione <span class=code>UnaRigaVuota</span> o 3 volte la funzione <span class=code>TreRigheVuote</span>.</li>
+</ul>
+
+<blockquote><i>Esercizio: scrivi una funzione chiamata <span class=code>NoveRigheVuote</span> che usa <span class=code>TreRigheVuote</span> per scrivere 9 righe bianche. Cosa faresti poi per scrivere 27 righe bianche?</i>
+</blockquote>
+
+<a name=7></a>
+<h3>3.7 Definizioni e uso</h3>
+<p>
+Raggruppando assieme i frammenti di codice della sezione precedente il programma diventa:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>UnaRigaVuota</span>():
+<br>&nbsp; <span class=keyword>print
+<br>
+<br>def</span> TreRigheVuote():
+<br>&nbsp; UnaRigaVuota()
+<br>&nbsp; UnaRigaVuota()
+<br>&nbsp; UnaRigaVuota()
+<br>
+<br><span class=keyword>print</span> <span class=quote>"Prima riga."</span>
+<br>TreRigheVuote()
+<br><span class=keyword>print</span> <span class=quote>"Seconda riga."</span>
+<br></span></p>
+
+<p>
+Questo programma contiene la definizione di due funzioni: <span class=code>UnaRigaVuota</span> e
+<span class=code>TreRigheVuote</span>.  Le definizioni di funzione sono eseguite come le altre istruzioni ma il loro effetto è quello di creare una nuova funzione. Le istruzioni all'interno di una definizione non sono eseguite finché la funzione non è chiamata e la definizione in sé non genera alcun risultato.
+Come puoi facilmente immaginare, prima di poter usare una funzione devi averla definita: la definizione della funzione deve sempre precedere la sua chiamata.
+
+<blockquote><i>Esercizio: sposta le ultime tre righe del programma all'inizio, per fare in modo che la chiamata alle funzioni appaia prima della loro definizione. Esegui il programma e vedi che tipo di messaggio d'errore ottieni.</i>
+</blockquote>
+
+<blockquote> 
+Esercizio: inizia con il programma funzionante 
+e sposta la definizione di <span class=code>UnaRigaVuota</span>
+ dopo la definizione di 
+<span class=code>TreRigheVuote</span>. Cosa succede quando esegui il programma?
+</blockquote>
+
+<a name=8></a>
+<h3>3.8 Flusso di esecuzione</h3>
+<p>
+Per assicurarti che una funzione sia definita prima del suo uso devi conoscere l'ordine in cui le istruzioni sono eseguite cioè il <b>flusso di esecuzione</b> del programma.
+<p>
+L'esecuzione inizia sempre alla prima riga del programma e le istruzioni sono eseguite una alla volta dall'alto verso il basso.
+<p>
+La definizione di funzioni non altera il flusso di esecuzione del programma ma ricorda che le istruzioni all'interno delle funzioni non sono eseguite finché la funzione non viene chiamata. Sebbene questo non sia una cosa che avviene frequentemente, puoi anche definire una funzione all'interno di un'altra funzione. In questo caso la funzione più interna non sarà eseguita finché non viene chiamata anche quella più esterna.
+<p>
+La chiamata alle funzioni è una deviazione nel flusso di esecuzione: invece di proseguire con l'istruzione successiva, il flusso salta alla prima riga della funzione chiamata ed esegue tutte le sue istruzioni; alla fine della funzione il flusso riprende dal punto dov'era stato deviato dalla chiamata di funzione.
+<p>
+Questo è abbastanza comprensibile ma non devi dimenticare che una funzione ne può chiamare un'altra al suo interno. Può succedere che il programma principale chiami una funzione che a sua volta ne chiama un'altra: alla fine della seconda funzione il flusso torna alla prima, dov'era stato lasciato in sospeso, e quando anche la prima funzione è stata completata il flusso di esecuzione torna al programma principale.
+<p>
+Fortunatamente Python è sufficientemente intelligente da ricordare dove il flusso di esecuzione viene via via interrotto e sa dove riprendere quando una funzione è conclusa. Se il flusso di programma giunge all'ultima istruzione, dopo la sua esecuzione il programma è terminato.
+<p>
+Qual è il senso di tutto questo discorso? Quando leggi un programma non limitarti a farlo dall'alto in basso, come stessi leggendo un libro: cerca invece di seguire il flusso di esecuzione, con i suoi salti all'interno delle procedure.
+
+<a name=9></a>
+<h3>3.9 Parametri e argomenti</h3>
+<p>
+Alcune delle funzioni che devi usare richiedono argomenti, i valori che controllano come la funzione deve portare a termine il proprio compito.
+Per esempio, se vuoi trovare il seno di un numero devi indicare quale sia questo numero: <span class=code>sin</span> si aspetta infatti un valore numerico come argomento.
+<p>
+Alcune funzioni prendono due o più parametri: <span class=code>pow</span> si aspetta due argomenti che sono la base e l'esponente in un'operazione di elevamento a potenza. Dentro la funzione i valori che sono passati vengono assegnati a variabili chiamate <b>parametri</b>.
+<p>
+Eccoti un esempio di definizione di una funzione con un parametro:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Stampa2Volte</span>(Valore):
+<br>&nbsp; <span class=keyword>print</span> Valore, Valore
+<br></span></p>
+
+<p>
+Questa funzione si aspetta un unico argomento e lo assegna ad un parametro chiamato <span class=code>Valore</span>.  Il valore del parametro (a questo punto del programma non sappiamo nemmeno di che tipo sarà, se stringa, intero o di altro tipo) è stampato due volte. La stampa è poi conclusa con un ritorno a capo.
+Il nome <span class=code>Valore</span> è stato scelto per ricordarti che sta a te sceglierne uno sufficientemente esplicativo, e di solito ne sceglierai qualcuno che ricordi l'uso della funzione o della variabile.
+<p>
+La funzione <span class=code>Stampa2Volte</span> funziona per ogni tipo di dato che può essere stampato:
+
+<p><span class=code>&gt;&gt;&gt; Stampa2Volte(<span class=quote>'Pippo'</span>)
+<br>Pippo Pippo
+<br>&gt;&gt;&gt; Stampa2Volte(5)
+<br>5 5
+<br>&gt;&gt;&gt; Stampa2Volte(3.14159)
+<br>3.14159 3.14159
+<br></span></p>
+
+<p>
+Nella prima chiamata di funzione l'argomento è una stringa, nella seconda un intero e nella terza un numero in virgola mobile (<span class=code>float</span>).
+<p>
+Le stesse regole per la composizione che sono state descritte per le funzioni predefinite valgono anche per le funzioni definite da te, così che possiamo usare una qualsiasi espressione valida come argomento per <span class=code>Stampa2Volte</span>:
+
+<p><span class=code>&gt;&gt;&gt; Stampa2Volte(<span class=quote>"Pippo"</span>*4)
+<br>PippoPippoPippoPippo PippoPippoPippoPippo
+<br>&gt;&gt;&gt; Stampa2Volte(math.cos(math.pi))
+<br>-1.0 -1.0
+<br></span></p>
+
+<p>
+Come al solito, l'espressione passata come argomento è 
+valutata prima dell'esecuzione della funzione, così
+nell'esempio appena proposto 
+<span class=code>Stampa2Volte</span> ritorna il risultato <span class=code>PippoPippoPippoPippo PippoPippoPippoPippo</span> 
+invece di <span class=code><span class=quote>"Pippo"</span>*4 <span class=quote>"Pippo"</span>*4</span>.
+<p>
+Una nota per quanto riguarda le stringhe: le stringhe possono essere racchiuse 
+sia da virgolette <span class=code><span class=quote>"ABC"</span></span> che da apici <span class=code><span class=quote>'ABC'</span></span>. Il tipo di 
+delimitatore NON usato per delimitare la stringa, l'apice se si usano le 
+virgolette, le virgolette se si usa l'apice, può essere usato all'interno 
+della stringa. 
+Ad esempio sono valide le stringhe <span class=code><span class=quote>"apice ' nella stringa"</span></span> 
+e <span class=code><span class=quote>'virgoletta " nella stringa'</span></span>, ma non lo sono <span class=code><span class=quote>'apice '</span> nella stringa'</span> 
+e <span class=code><span class=quote>"virgoletta "</span> nella stringa"</span>, dato che in questo caso l'interprete non 
+riesce a stabilire quale sia il fine stringa desiderato dal programmatore.
+
+<blockquote><i>Esercizio: scrivi una chiamata a <span class=code>Stampa2Volte</span> che stampa a video la stringa <span class=code><span class=quote>"Pippo"</span>*4 <span class=quote>"Pippo"</span>*4</span> così com'è scritta.</i>
+</blockquote>
+<p>
+Naturalmente possiamo usare una variabile come argomento di una funzione:
+
+<p><span class=code>&gt;&gt;&gt; Messaggio = <span class=quote>'Come va?'</span>
+<br>&gt;&gt;&gt; Stampa2Volte(Messaggio)
+<br>Come va? Come va?
+<br></span></p>
+
+<p>
+Il nome della variabile che passiamo come argomento (<span class=code>Messaggio</span>) non ha niente a che fare con il nome del parametro nella definizione della funzione (<span class=code>Valore</span>).  Non ha importanza conoscere il nome originale con cui sono stati identificati i parametri durante la definizione della funzione.
+
+<a name=10></a>
+<h3>3.10 Variabili e parametri sono locali</h3>
+<p>
+Quando crei una <b>variabile locale</b> all'interno di una funzione, essa esiste solo all'interno della funzione e non puoi usarla all'esterno. Per esempio:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>StampaUnite2Volte</span>(Parte1, Parte2):
+<br>&nbsp; Unione = Parte1 + Parte2
+<br>&nbsp; Stampa2Volte(Unione)
+<br></span></p>
+
+<p>
+Questa funzione prende due argomenti, li concatena e poi ne stampa il risultato due volte. Possiamo chiamare la funzione con due stringhe:
+
+<p><span class=code>&gt;&gt;&gt; Strofa1 = <span class=quote>"Nel mezzo "</span>
+<br>&gt;&gt;&gt; Strofa2 = <span class=quote>"del cammin"</span>
+<br>&gt;&gt;&gt; StampaUnite2Volte(Strofa1, Strofa2)
+<br>Nel mezzo <span class=keyword>del</span> cammin Nel mezzo <span class=keyword>del</span> cammin
+<br></span></p>
+
+<p>
+Quando <span class=code>StampaUnite2Volte</span> termina, la variabile <span class=code>Unione</span> è distrutta. Se proviamo a stamparla quando il flusso di esecuzione si trova all'esterno della funzione <span class=code>StampaUnite2Volte</span> otterremo un messaggio d'errore:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> Unione
+<br>NameError: Unione
+<br></span></p>
+
+<p>
+Anche i parametri sono locali: al di fuori della funzione <span class=code>StampaUnite2Volte</span>, non esiste alcuna cosa chiamata <span class=code>messaggio</span>.  Se proverai ad usarla al di fuori della funzione dov'è definita Python ti mostrerà ancora una volta un messaggio d'errore.
+
+<a name=11></a>
+<h3>3.11 Diagrammi di stack</h3>
+<p>
+Per tenere traccia di quali variabili possono essere usate è talvolta utile disegnare un <b>diagramma di stack</b>.  Come i diagrammi di stato, i diagrammi di stack mostrano il valore di ciascuna variabile e indicano a quale funzione essa appartenga.
+<p>
+Ogni funzione è rappresentata da un <b>frame</b>, un rettangolo con il nome della funzione a fianco e la lista dei parametri e delle variabili al suo interno. Il diagramma di stack nel caso dell'esempio precedente è:
+
+<p align="center"><img src="illustrations/i_stack.png"></p>
+<p>
+L'ordine dello stack mostra chiaramente il flusso di 
+esecuzione. Possiamo vedere che <span class=code>Stampa2Volte</span> è chiamata 
+da <span class=code>StampaUnite2Volte</span> e che <span class=code>StampaUnite2Volte </span> è chiamata da <span class=code>__main__</span>. 
+<span class=code>__main__</span> è un nome speciale che indica il programma principale che di per sé (non essendo definito con <span class=code><span class=keyword>def</span></span> come si fa per le funzioni) non ha un nome vero e proprio. Quando crei una variabile all'esterno di ogni funzione, essa appartiene a <span class=code>__main__</span>.
+<p>
+Ogni parametro si riferisce al valore che ha l'argomento corrispondente. Così <span class=code>Parte1</span> ha lo stesso valore di <span class=code>Strofa1</span>, <span class=code>Parte2</span> ha lo stesso valore di <span class=code>Strofa2</span> e <span class=code>Valore</span> lo stesso di <span class=code>Unione</span>.
+<p>
+Se avviene un errore durante la chiamata di una funzione, Python mostra il nome della funzione, il nome della funzione che l'ha chiamata, il nome della funzione che ha chiamato quest'ultima e così via, fino a raggiungere il primo livello che è sempre <span class=code>__main__</span>.
+<p>
+Ad esempio se cerchiamo di chiamare <span class=code>Unione</span> dall'interno di <span class=code>Stampa2Volte</span>, otteniamo un errore di tipo <span class=code>NameError</span>:
+
+<p><span class=code>Traceback (innermost last):
+<br>&nbsp; File <span class=quote>"test.py"</span>, line 13, <span class=keyword>in</span> __main__
+<br>&nbsp; &nbsp; StampaUnite2Volte(Parte1, Parte2)
+<br>&nbsp; File <span class=quote>"test.py"</span>, line 5, <span class=keyword>in</span> StampaUnite2Volte
+<br>&nbsp; &nbsp; Stampa2Volte(Unione)
+<br>&nbsp; File <span class=quote>"test.py"</span>, line 9, <span class=keyword>in</span> Stampa2Volte
+<br>&nbsp; &nbsp; <span class=keyword>print</span> Unione
+<br>NameError: Unione
+<br></span></p>
+
+<p>
+Questa lista temporale delle chiamate delle funzioni è detta <b>traccia</b>.  La traccia ti dice in quale file è avvenuto l'errore, che riga all'interno del file si stava eseguendo in quel momento ed il riferimento alla funzione che ha causato l'errore.
+<p>
+Nota che c'è una notevole somiglianza tra traccia e diagramma di stack e questa somiglianza non è certamente una coincidenza.
+
+<a name=12></a>
+<h3>3.12 Funzioni con risultati</h3>
+<p>
+Puoi notare come alcune delle funzioni che hai usato, tipo le funzioni matematiche, restituiscono dei risultati. Altre funzioni, come <span class=code>UnaRigaVuota</span>, eseguono un'azione senza ritornare alcun valore. Questa differenza solleva qualche domanda:
+
+<ol>
+<li>Cosa succede se chiami una funzione e non fai niente con il risultato che viene restituito (per esempio non lo assegni ad una variabile e non lo usi come parte di una espressione)?</li>
+<li>Cosa succede se usi una funzione che non produce risultato come parte di un'espressione (per esempio <span class=code>UnaRigaVuota() + 7</span>)?</li>
+<li>Puoi scrivere funzioni che producono risultati, o sei costretto a limitarti a semplici funzioni tipo <span class=code>UnaRigaVuota</span> e <span class=code>Stampa2Volte</span> che eseguono azioni in questo caso piuttosto banali?</li>
+</ol>
+<p>
+La risposta alla terza domanda la troveremo al capitolo 5.
+
+<blockquote><i>Esercizio: trova la risposta alle altre due domande provando i due casi. Quando non hai chiaro cosa sia legale e cosa non lo sia è buona regola provare per vedere come reagisce l'interprete.</i>
+</blockquote>
+
+<a name=13></a>
+<h3>3.13 Glossario</h3>
+
+<dl>
+<dt>Chiamata di funzione</dt>
+<dd>istruzione che esegue una funzione. Consiste di un nome di funzione seguito da una serie di argomenti racchiuso tra parentesi.</dd>
+<dt>Argomento</dt>
+<dd>valore fornito alla funzione quando questa viene chiamata. 
+Il valore è assegnato al corrispondente parametro della funzione.</dd>
+<dt>Valore di ritorno</dt>
+<dd>risultato di una funzione.</dd>
+<dt>Conversione di tipo</dt>
+<dd>istruzione esplicita che prende un valore di un tipo e lo converte nel corrispondente valore di un altro tipo.</dd>
+<dt>Forzatura di tipo</dt>
+<dd>conversione automatica di tipo secondo le 
+regole di forzatura di Python.</dd>
+<dt>Modulo</dt>
+<dd>file che contiene una raccolta di funzioni correlate.</dd>
+<dt>Notazione punto</dt>
+<dd>sintassi per la chiamata di una funzione definita in un altro modulo, specificando il nome del modulo di appartenenza, seguito da un punto e dal nome della funzione con gli eventuali argomenti tra parentesi.</dd>
+<dt>Funzione</dt>
+<dd>sequenza di istruzioni identificata da un nome che svolge qualche operazione utile. Le funzioni possono avere o meno dei parametri e possono produrre o meno un risultato.</dd>
+<dt>Definizione della funzione</dt>
+<dd>istruzioni che creano una nuova funzione, specificandone il nome, i parametri e le operazioni che essa deve eseguire.</dd>
+<dt>Flusso di esecuzione</dt>
+<dd>ordine in cui le istruzioni sono interpretate quando il programma viene eseguito.</dd>
+<dt>Parametro</dt>
+<dd>nome usato all'interno della funzione per riferirsi al valore passato come argomento.</dd>
+<dt>Variabile locale</dt>
+<dd>variabile definita all'interno di una funzione. Una variabile locale può essere usata unicamente all'interno della funzione dov'è definita.</dd>
+<dt>Diagramma di stack</dt>
+<dd>rappresentazione grafica delle funzioni, delle loro 
+variabili e dei valori cui esse si riferiscono.</dd>
+<dt>Frame</dt>
+<dd>rettangolo che in un diagramma di stack rappresenta una chiamata di funzione. Indica le variabili locali e i parametri della funzione.</dd>
+<dt>Traccia</dt>
+<dd>lista delle funzioni in corso di esecuzione stampata in caso di errore in esecuzione.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap04.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap02.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

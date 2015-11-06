@@ -1,0 +1,426 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 10: Dizionari</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap11.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap09.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 10</h2>
+
+
+
+<h1>Dizionari</h1>
+<p>
+I tipi di dati composti che abbiamo visto finora (stringhe, liste e tuple) usano gli interi come indici. Qualsiasi tentativo di usare altri tipi di dati produce un errore.
+<p>
+I <b>dizionari</b> sono simili agli altri tipi composti ma si differenziano per il fatto di poter usare qualsiasi tipo di dato immutabile come indice. Se desideriamo creare un dizionario per la traduzione di parole dall'inglese all'italiano è utile poter usare la parola inglese come indice di ricerca della corrispondente italiana. Gli indici usati sono in questo caso delle <span class=code>stringhe</span>.
+<p>
+Un modo per creare un dizionario è partire con un dizionario vuoto e aggiungere via via gli elementi. Il dizionario vuoto è indicato da <span class=code>{}</span>:
+
+<p><span class=code>&gt;&gt;&gt; Eng2Ita = {}
+<br>&gt;&gt;&gt; Eng2Ita[<span class=quote>'one'</span>] = <span class=quote>'uno'</span>
+<br>&gt;&gt;&gt; Eng2Ita[<span class=quote>'two'</span>] = <span class=quote>'due'</span>
+<br></span></p>
+
+<p>
+La prima assegnazione crea un dizionario chiamato <span class=code>Eng2Ita</span>; le altre istruzioni aggiungono elementi al dizionario. Possiamo stampare il valore del dizionario nel solito modo:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> Eng2Ita
+<br>{<span class=quote>'one'</span>: <span class=quote>'uno'</span>, <span class=quote>'two'</span>: <span class=quote>'due'</span>}
+<br></span></p>
+
+<p>
+Gli elementi di un dizionario appaiono in una sequenza separata da virgole. Ogni voce contiene un indice ed il corrispondente valore separati da due punti. In un dizionario gli indici sono chiamati <b>chiavi</b> e un elemento è detto <b>coppia chiave-valore</b>.
+<p>
+Un altro modo di creare un dizionario è quello di fornire direttamente una serie di coppie chiave-valore:
+
+<p><span class=code>&gt;&gt;&gt; Eng2Ita = {<span class=quote>'one'</span>: <span class=quote>'uno'</span>, <span class=quote>'two'</span>: <span class=quote>'due'</span>, <span class=quote>'three'</span>: <span class=quote>'tre'</span>}
+<br></span></p>
+
+<p>
+Se stampiamo ancora una volta il valore di <span class=code>Eng2Ita</span> abbiamo una sorpresa:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> Eng2Ita
+<br>{<span class=quote>'one'</span>: <span class=quote>'uno'</span>, <span class=quote>'three'</span>: <span class=quote>'tre'</span>, <span class=quote>'two'</span>: <span class=quote>'due'</span>}
+<br></span></p>
+
+<p>
+Le coppie chiave-valore non sono in ordine! Per fortuna non c'è ragione di conservare l'ordine di inserimento dato che il dizionario non fa uso di indici numerici. Per cercare un valore usiamo infatti una chiave:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> Eng2Ita[<span class=quote>'two'</span>]
+<br><span class=quote>'due'</span>
+<br></span></p>
+
+<p>
+La chiave <span class=code><span class=quote>'two'</span></span> produce correttamente <span class=code><span class=quote>'due'</span></span> anche se appare in terza posizione nella stampa del dizionario.
+
+<a name=1></a>
+<h3>10.1 Operazioni sui dizionari</h3>
+<p>
+L'istruzione <span class=code><span class=keyword>del</span></span> rimuove una coppia chiave-valore da un dizionario. Vediamo di fare un esempio pratico creando un dizionario che contiene il nome di vari tipi di frutta (la chiave) ed il numero di frutti corrispondenti in magazzino (il valore):
+
+<p><span class=code>&gt;&gt;&gt; Magazzino = {<span class=quote>'mele'</span>: 430, <span class=quote>'banane'</span>: 312, <span class=quote>'arance'</span>: 525,
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class=quote>'pere'</span>: 217}
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Magazzino
+<br>{<span class=quote>'banane'</span>: 312, <span class=quote>'arance'</span>: 525, <span class=quote>'pere'</span>: 217, <span class=quote>'mele'</span>: 430}
+<br></span></p>
+
+<p>
+Dovessimo togliere la scorta di pere dal magazzino possiamo direttamente rimuovere la voce dal dizionario:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>del</span> Magazzino[<span class=quote>'pere'</span>]
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Magazzino
+<br>{<span class=quote>'banane'</span>: 312, <span class=quote>'arance'</span>: 525, <span class=quote>'mele'</span>: 430}
+<br></span></p>
+
+<p>
+o se intendiamo solo cambiare il numero di pere senza rimuoverne la voce dal dizionario possiamo cambiare il valore associato:
+
+<p><span class=code>&gt;&gt;&gt; Magazzino[<span class=quote>'pere'</span>] = 0
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Magazzino
+<br>{<span class=quote>'banane'</span>: 312, <span class=quote>'arance'</span>: 525, <span class=quote>'pere'</span>: 0, <span class=quote>'mele'</span>: 430}
+<br></span></p>
+
+<p>
+La funzione <span class=code>len</span> opera anche sui dizionari ritornando il numero di coppie chiave-valore:
+
+<p><span class=code>&gt;&gt;&gt; len(Magazzino)
+<br>4
+<br></span></p>
+
+
+<a name=2></a>
+<h3>10.2 Metodi dei dizionari</h3>
+<p>
+Un <b>metodo</b> è simile ad una funzione, visto che prende parametri e ritorna valori, ma la sintassi di chiamata è diversa. Il metodo <span class=code>keys</span> prende un dizionario e ritorna la lista delle sue chiavi: invece di invocarlo con la sintassi delle funzioni <span class=code>keys(Eng2Ita)</span> usiamo la sintassi dei metodi <span class=code>Eng2Ita.keys()</span>:
+
+<p><span class=code>&gt;&gt;&gt; Eng2Ita.keys()
+<br>[<span class=quote>'one'</span>, <span class=quote>'three'</span>, <span class=quote>'two'</span>]
+<br></span></p>
+
+<p>
+Questa forma di notazione punto specifica il nome della funzione <span class=code>keys</span> ed il nome dell'oggetto cui applicare la funzione <span class=code>Eng2Ita</span>.
+Le parentesi vuote indicano che questo metodo non prende parametri.
+<p>
+Una chiamata ad un metodo è detta <b>invocazione</b>; in questo caso diciamo che stiamo invocando <span class=code>keys</span> sull'oggetto <span class=code>Eng2Ita</span>.
+<p>
+Il metodo <span class=code>values</span> funziona in modo simile: ritorna la lista dei valori in un dizionario:
+
+<p><span class=code>&gt;&gt;&gt; Eng2Ita.values()
+<br>[<span class=quote>'uno'</span>, <span class=quote>'tre'</span>, <span class=quote>'due'</span>]
+<br></span></p>
+
+<p>
+Il metodo <span class=code>items</span> ritorna entrambi nella forma di una lista di tuple, una per ogni coppia chiave-valore:
+
+<p><span class=code>&gt;&gt;&gt; Eng2Ita.items()
+<br>[(<span class=quote>'one'</span>,<span class=quote>'uno'</span>), (<span class=quote>'three'</span>, <span class=quote>'tre'</span>), (<span class=quote>'two'</span>, <span class=quote>'due'</span>)]
+<br></span></p>
+
+<p>
+La sintassi fornisce utili informazioni sul tipo ottenuto invocando <span class=code>items</span>: le parentesi quadrate indicano che si tratta di una lista; le parentesi tonde che gli elementi della lista sono tuple.
+<p>
+Se un metodo prende un argomento usa la stessa sintassi delle chiamate di funzioni. Il metodo <span class=code>has_key</span> prende come argomento una chiave e ritorna <i>vero</i> (1) se la chiave è presente nel dizionario:
+
+<p><span class=code>&gt;&gt;&gt; Eng2Ita.has_key(<span class=quote>'one'</span>)
+<br>1
+<br>&gt;&gt;&gt; End2Ita.has_key(<span class=quote>'deux'</span>)
+<br>0
+<br></span></p>
+
+<p>
+Se provi a invocare un metodo senza specificare l'oggetto cui si fa riferimento ottieni un errore:
+
+<p><span class=code>&gt;&gt;&gt; has_key(<span class=quote>'one'</span>)
+<br>NameError: has_key
+<br></span></p>
+
+<p>
+Purtroppo il messaggio d'errore a volte, come in questo caso, non è del tutto chiaro: Python cerca di dirci che la funzione <span class=code>has_key</span> non esiste, dato che con questa sintassi abbiamo chiamato la funzione <span class=code>has_key</span> e non invocato il metodo <span class=code>has_key</span> dell'oggetto.
+
+<a name=3></a>
+<h3>10.3 Alias e copia</h3>
+<p>
+Visto che i dizionari sono mutabili devi stare molto attento agli alias: quando due variabili si riferiscono allo stesso oggetto un cambio effettuato su una influenza immediatamente il contenuto dell'altra.
+<p>
+Se desideri poter modificare un dizionario e mantenere una copia dell'originale usa il metodo <span class=code>copy</span>.  Per fare un esempio costruiamo un dizionario <span class=code>Opposti</span> che contiene coppie di parole dal significato opposto:
+
+<p><span class=code>&gt;&gt;&gt; Opposti = {<span class=quote>'alto'</span>: <span class=quote>'basso'</span>, <span class=quote>'giusto'</span>: <span class=quote>'sbagliato'</span>,
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class=quote>'vero'</span>: <span class=quote>'falso'</span>}
+<br>&gt;&gt;&gt; Alias = Opposti
+<br>&gt;&gt;&gt; Copia = Opposti.copy()
+<br></span></p>
+
+<p>
+<span class=code>Alias</span> e <span class=code>Opposti</span> si riferiscono allo stesso oggetto; <span class=code>Copia</span> si riferisce ad una copia del dizionario nuova di zecca. Se modifichiamo <span class=code>Alias</span>, <span class=code>Opposti</span> viene modificato:
+
+<p><span class=code>&gt;&gt;&gt; Alias[<span class=quote>'giusto'</span>] = <span class=quote>'errato'</span>
+<br>&gt;&gt;&gt; Opposti[<span class=quote>'giusto'</span>]
+<br><span class=quote>'errato'</span>
+<br></span></p>
+
+<p>
+<span class=code>Opposti</span> resta immutato se modifichiamo <span class=code>Copia</span>:
+
+<p><span class=code>&gt;&gt;&gt; Copia[<span class=quote>'giusto'</span>] = <span class=quote>'errato'</span>
+<br>&gt;&gt;&gt; Opposti[<span class=quote>'giusto'</span>]
+<br><span class=quote>'sbagliato'</span>
+<br></span></p>
+
+
+<a name=4></a>
+<h3>10.4 Matrici sparse</h3>
+<p>
+Nella <a href="chap08.htm#15">sezione 8.15</a> abbiamo usato una lista di liste per rappresentare una matrice. Questa è una buona scelta quando si tratta di rappresentare matrici i cui valori sono in buona parte diversi da zero, ma c'è un tipo di matrice detta "sparsa" i cui valori sono di tipo particolare:
+
+<p align="center"><img src="illustrations/sparse.png"></p>
+<p>
+La rappresentazione sotto forma di lista di questa matrice contiene molti zeri:
+
+<p><span class=code>&gt;&gt;&gt; Matrice = [ [0,0,0,1,0],
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [0,0,0,0,0],
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [0,2,0,0,0],
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [0,0,0,0,0],
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [0,0,0,3,0] ]
+<br></span></p>
+
+<p>
+L'alternativa in questo caso è quella di usare un dizionario, usando come chiavi tuple composte dalla coppia riga/colonna.
+Ecco la stessa matrice rappresentata con un dizionario:
+
+<p><span class=code>&gt;&gt;&gt; Matrice = {(0,3): 1, (2, 1): 2, (4, 3): 3}
+<br></span></p>
+
+<p>
+In questo caso abbiamo solo 3 coppie chiave-valore, una per ciascun elemento diverso da zero nella matrice. Ogni chiave è una tupla ed ogni valore un intero.
+<p>
+Per l'accesso ad un elemento della matrice possiamo usare l'operatore <span class=code>[]</span>:
+
+<p><span class=code>&gt;&gt;&gt; Matrice[(0,3)]
+<br>1
+<br>&gt;&gt;&gt; Matrice[0,3]&nbsp; &nbsp; <span class=comment># questa sintassi e' equivalente
+</span><br>1
+<br></span></p>
+
+<p>
+Nota come la sintassi per la rappresentazione della matrice sotto forma di dizionario sia diversa da quella della lista di liste: invece di due valori indice usiamo un unico indice che è una tupla di interi.
+<p>
+C'è un problema: se cerchiamo un elemento che è pari a zero otteniamo un errore, dato che non c'è una voce nel dizionario corrispondente alla tupla con quelle coordinate:
+
+<p><span class=code>&gt;&gt;&gt; Matrice[1,3]
+<br>KeyError: (1, 3)
+<br></span></p>
+
+<p>
+Il metodo <span class=code>get</span> risolve il problema:
+
+<p><span class=code>&gt;&gt;&gt; Matrice.get((0,3), 0)
+<br>1
+<br></span></p>
+
+<p>
+Il primo argomento è la tupla-chiave, il secondo il valore che <span class=code>get</span> deve ritornare nel caso la chiave non sia presente nel dizionario:
+
+<p><span class=code>&gt;&gt;&gt; Matrice.get((1,3), 0)
+<br>0
+<br></span></p>
+
+<p>
+Anche se la sintassi di <span class=code>get</span> non è la più intuitiva almeno abbiamo un modo efficiente per accedere ad una matrice sparsa.
+
+<a name=5></a>
+<h3>10.5 Suggerimenti</h3>
+<p>
+Se hai fatto qualche prova con la funzione di <span class=code>Fibonacci</span> nella <a href="chap05.htm#7">sezione 5.7</a> avrai notato che man mano che l'argomento passato alla funzione cresce il tempo trascorso prima di ottenere il risultato aumenta molto rapidamente.  Mentre <span class=code>Fibonacci(20)</span> termina quasi istantaneamente <span class=code>Fibonacci(30)</span> impiega qualche secondo e <span class=code>Fibonacci(40)</span> impiega un tempo lunghissimo.
+<p>
+Per comprenderne il motivo consideriamo questo <b>grafico delle chiamate</b> per la funzione <span class=code>Fibonacci</span> con <span class=code>n=4</span>:
+
+<p align="center"><img src="illustrations/i_fibonacci.png"></p>
+<p>
+Un grafico delle chiamate mostra una serie di frame (uno per ogni funzione) con linee che collegano ciascun frame alle funzioni chiamate. A iniziare dall'alto <span class=code>Fibonacci</span> con <span class=code>n=4</span> chiama <span class=code>Fibonacci</span> con <span class=code>n=3</span> e <span class=code>n=2</span>.  A sua volta <span class=code>Fibonacci</span> con <span class=code>n=3</span> chiama
+<span class=code>Fibonacci</span> con <span class=code>n=2</span> e <span class=code>n=1</span>.  E così via.
+<p>
+Se conti il numero di volte in cui <span class=code>Fibonacci(0)</span> e <span class=code>Fibonacci(1)</span> sono chiamate ti accorgerai facilmente che questa soluzione è evidentemente inefficiente e le sue prestazioni tendono a peggiorare man mano che l'argomento diventa più grande.
+<p>
+Una buona soluzione è quella di tenere traccia in un dizionario di tutti i valori già calcolati per evitare il ricalcolo in tempi successivi. Un valore che viene memorizzato per un uso successivo è chiamato <b>suggerimento</b>.  Ecco un'implementazione di <span class=code>Fibonacci</span> fatta usando i "suggerimenti":
+
+<p><span class=code>Precedenti = {0:1, 1:1}
+<br>
+<br><span class=keyword>def</span> <span class=function>Fibonacci</span>(n):
+<br>&nbsp; <span class=keyword>if</span> Precedenti.has_key(n):
+<br>&nbsp; &nbsp; <span class=keyword>return</span> Precedenti[n]
+<br>&nbsp; <span class=keyword>else</span>:
+<br>&nbsp; &nbsp; NuovoValore = Fibonacci(n-1) + Fibonacci(n-2)
+<br>&nbsp; &nbsp; Precedenti[n] = NuovoValore
+<br>&nbsp; &nbsp; <span class=keyword>return</span> NuovoValore
+<br></span></p>
+
+<p>
+Il dizionario <span class=code>Precedenti</span> tiene traccia dei numeri di Fibonacci già calcolati. Lo creiamo inserendo solo due coppie: 0 associato a 1 (<span class=code>Fibonacci(0) = 1</span>) e 1 associato a 1 (<span class=code>Fibonacci(1) = 1</span>).
+<p>
+La nuova funzione <span class=code>Fibonacci</span> prima di tutto controlla se nel dizionario è già presente il valore cercato: se c'è viene restituito senza ulteriori elaborazioni. Nel caso non sia presente deve essere calcolato il nuovo valore che poi viene aggiunto al dizionario (per poter essere usato in momenti successivi) prima che la funzione termini.
+<p>
+Usando questa funzione di <span class=code>Fibonacci</span> ora riusciamo a calcolare <span class=code>Fibonacci(40)</span> in un attimo.  Ma quando chiamiamo <span class=code>Fibonacci(50)</span> abbiamo un altro tipo di problema:
+
+<p><span class=code>&gt;&gt;&gt; Fibonacci(50)
+<br>OverflowError: integer addition
+<br></span></p>
+
+<p>
+La risposta che volevamo ottenere è 20365011074 ed il problema è che questo numero è troppo grande per essere memorizzato in un intero di Python. Durante il calcolo otteniamo un <b>overflow</b> che non è altro che uno "sbordamento" dall'intero. Fortunatamente in questo caso la soluzione è molto semplice.
+
+<a name=6></a>
+<h3>10.6 Interi lunghi</h3>
+<p>
+Python fornisce un tipo chiamato <span class=code>long int</span> che può maneggiare interi di qualsiasi grandezza.
+<p>
+Ci sono due modi per creare un valore intero lungo.  Il primo consiste nello scrivere un intero immediatamente seguito da una <span class=code>L</span> maiuscola:
+
+<p><span class=code>&gt;&gt;&gt; type(1L)
+<br>&lt;type <span class=quote>'long int'</span>&gt;
+<br></span></p>
+
+<p>
+Il secondo è l'uso della funzione <span class=code>long</span> per convertire un valore in intero lungo.  <span class=code>long</span> può accettare qualsiasi tipo di numero e anche una stringa di cifre:
+
+<p><span class=code>&gt;&gt;&gt; long(1)
+<br>1L
+<br>&gt;&gt;&gt; long(3.9)
+<br>3L
+<br>&gt;&gt;&gt; long(<span class=quote>'57'</span>)
+<br>57L
+<br></span></p>
+
+<p>
+Tutte le operazioni matematiche operano correttamente sugli interi lunghi così non dobbiamo fare molto per adattare <span class=code>Fibonacci</span>:
+
+<p><span class=code>&gt;&gt;&gt; Precedenti = {0:1L, 1:1L}
+<br>&gt;&gt;&gt; Fibonacci(50)
+<br>20365011074L
+<br></span></p>
+
+<p>
+Solamente cambiando il valore iniziale di <span class=code>Precedenti</span> abbiamo cambiato il comportamento di <span class=code>Fibonacci</span>.  I primi elementi della sequenza sono interi lunghi così tutti i numeri successivi diventano dello stesso tipo.
+
+<blockquote><i>Esercizio: converti <span class=code>Fattoriale</span> così da produrre interi lunghi come risultato.</i>
+</blockquote>
+
+<a name=7></a>
+<h3>10.7 Conteggio di lettere</h3>
+<p>
+Nel <a href="chap07.htm">capitolo 7</a> abbiamo scritto una funzione che conta il numero di lettere in una stringa. Una possibile estensione è la creazione di un istogramma della stringa per mostrare la frequenza di ciascuna lettera.
+<p>
+Questo tipo di istogramma può essere utile per comprimere un file di testo: dato che le lettere compaiono con frequenza diversa possiamo usare codici brevi per le lettere più frequenti e codici via via più lunghi per le meno frequenti.
+<p>
+I dizionari permettono di realizzare istogrammi in modo elegante:
+
+<p><span class=code>&gt;&gt;&gt; ConteggioLettere = {}
+<br>&gt;&gt;&gt; <span class=keyword>for</span> Lettera <span class=keyword>in</span> <span class=quote>"Mississippi"</span>:
+<br>...&nbsp; &nbsp;ConteggioLettere [Lettera] = ConteggioLettere.get \
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;(Lettera, 0) + 1
+<br>...
+<br>&gt;&gt;&gt; ConteggioLettere
+<br>{<span class=quote>'M'</span>: 1, <span class=quote>'s'</span>: 4, <span class=quote>'p'</span>: 2, <span class=quote>'i'</span>: 4}
+<br></span></p>
+
+<p>
+Siamo partiti con un dizionario vuoto e per ogni lettera della stringa abbiamo incrementato il corrispondente conteggio. Alla fine il dizionario contiene coppie formate da lettera e frequenza e queste coppie rappresentano il nostro istogramma.
+<p>
+Può essere più interessante mostrare l'istogramma in ordine alfabetico, e in questo caso facciamo uso dei metodi <span class=code>items</span> e <span class=code>sort</span>:
+
+<p><span class=code>&gt;&gt;&gt; ConteggioLettere = ConteggioLettere.items()
+<br>&gt;&gt;&gt; ConteggioLettere.sort()
+<br>&gt;&gt;&gt; <span class=keyword>print</span> ConteggioLettere
+<br>[(<span class=quote>'M'</span>, 1), (<span class=quote>'i'</span>, 4), (<span class=quote>'p'</span>, 2), (<span class=quote>'s'</span>, 4)]
+<br></span></p>
+
+<p>
+Abbiamo visto già il metodo <span class=code>items</span> ma <span class=code>sort</span> è il primo metodo che incontriamo ad essere applicabile alle liste. Ci sono parecchi altri metodi applicabili alle liste (tra gli altri <span class=code>append</span>, <span class=code>extend</span> e
+<span class=code>reverse</span>).  Puoi consultare la documentazione di Python per avere ulteriori informazioni a riguardo.
+
+<a name=8></a>
+<h3>10.8 Glossario</h3>
+
+<dl>
+<dt>Dizionario</dt>
+<dd>collezione di coppie chiave-valore dove si associa ogni chiave ad un valore. Le chiavi devono essere immutabili; i valori possono essere di qualsiasi tipo.</dd>
+<dt>Chiave</dt>
+<dd>valore usato per cercare una voce in un dizionario.</dd>
+<dt>Coppia chiave-valore</dt>
+<dd>elemento di un dizionario.</dd>
+<dt>Metodo</dt>
+<dd>tipo di funzione chiamata con una sintassi particolare ed invocata <i>su</i> un oggetto.</dd>
+<dt>Invocare</dt>
+<dd>chiamare un metodo.</dd>
+<dt>Suggerimento</dt>
+<dd>deposito temporaneo di valori precalcolati per evitare elaborazioni inutili.</dd>
+<dt>Overflow</dt>
+<dd>errore generato quando un risultato è troppo grande per essere rappresentato da un determinato formato numerico.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap11.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap09.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

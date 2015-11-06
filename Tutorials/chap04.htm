@@ -1,0 +1,533 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 4: Istruzioni condizionali e ricorsione</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap05.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap03.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 4</h2>
+
+
+
+<h1>Istruzioni condizionali e ricorsione</h1>
+
+<a name=1></a>
+<h3>4.1 L'operatore modulo</h3>
+<p>
+L'<b>operatore modulo</b> opera sugli interi (e sulle espressioni intere) e produce il resto della divisione del primo operando diviso per il secondo. In Python l'operatore modulo è rappresentato dal segno percentuale (<span class=code>%</span>).  La sintassi è la stessa degli altri operatori matematici:
+
+<p><span class=code>&gt;&gt;&gt; Quoziente = 7 / 3
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Quoziente
+<br>2
+<br>&gt;&gt;&gt; Resto = 7 % 3
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Resto
+<br>1
+<br></span></p>
+
+<p>
+Così 7 diviso 3 dà 2, con il resto di 1.
+<p>
+L'operatore modulo è molto utile in quanto ti permette di controllare se un numero è divisibile per un altro: se <span class=code>x % y</span> è 0, allora <span class=code>x</span> è divisibile per <span class=code>y</span>.
+<p>
+Inoltre può essere usato per estrarre la cifra più a destra di un numero: <span class=code>x%10</span> restituisce la cifra più a destra in base 10. Allo stesso modo <span class=code>x%100</span> restituisce le ultime due cifre.
+
+<a name=2></a>
+<h3>4.2 Espressioni booleane</h3>
+<p>
+Un'<b>espressione booleana</b> è un'espressione che è o <i>vera</i> o 
+<i>falsa</i>. In Python un'espressione che è <i>vera</i> ha valore 1, 
+un'espressione <i>falsa</i> ha valore 0.
+<p>
+L'operatore <span class=code>==</span> confronta due valori e produce un risultato di tipo booleano:
+
+<p><span class=code>&gt;&gt;&gt; 5 == 5
+<br>1
+<br>&gt;&gt;&gt; 5 == 6
+<br>0
+<br></span></p>
+
+<p>
+Nella prima riga i due operandi sono uguali, così l'espressione vale 1 (<i>vero</i>); nella seconda riga 5 e 6 non sono uguali, così otteniamo 0 (<i>falso</i>).
+<p>
+L'operatore <span class=code>==</span> è uno degli <b>operatori di confronto</b>; gli altri sono:
+
+<p><span class=code>&nbsp; &nbsp; &nbsp; x != y&nbsp; &nbsp; &nbsp; &nbsp;<span class=comment># x è diverso da y?
+</span><br>&nbsp; &nbsp; &nbsp; x &gt; y&nbsp; &nbsp; &nbsp; &nbsp; <span class=comment># x è maggiore di y?
+</span><br>&nbsp; &nbsp; &nbsp; x &lt; y&nbsp; &nbsp; &nbsp; &nbsp; <span class=comment># x è minore di y?
+</span><br>&nbsp; &nbsp; &nbsp; x &gt;= y&nbsp; &nbsp; &nbsp; &nbsp;<span class=comment># x è maggiore o uguale a y?
+</span><br>&nbsp; &nbsp; &nbsp; x &lt;= y&nbsp; &nbsp; &nbsp; &nbsp;<span class=comment># x è minore o uguale a y?
+</span><br></span></p>
+
+<p>
+Sebbene queste operazioni ti possano sembrare familiari, i simboli Python sono diversi da quelli usati comunemente in matematica. \
+Un errore comune è quello di usare il simbolo di uguale (<span class=code>=</span>) invece del doppio uguale (<span class=code>==</span>): ricorda che <span class=code>=</span> è un operatore di assegnazione e <span class=code>==</span> un operatore di confronto. Inoltre in Python non esistono simboli del tipo <span class=code>=&lt;</span> e <span class=code>=&gt;</span>, ma solo gli equivalenti <span class=code>&lt;=</span> e <span class=code>&gt;=</span>.
+
+<a name=3></a>
+<h3>4.3 Operatori logici</h3>
+<p>
+Ci sono tre <b>operatori logici</b>: <span class=code><span class=keyword>and</span></span>, <span class=code><span class=keyword>or</span></span> e <span class=code><span class=keyword>not</span></span>.  
+Il significato di questi operatori è simile al loro significato in 
+italiano: per esempio, <span class=code>(x&gt;0) <span class=keyword>and</span> (x&lt;10)</span> è vera solo se 
+<span class=code>x</span> è più grande di 0 <i>e</i> meno di 10.
+<p>
+<span class=code>(n%2==0) <span class=keyword>or</span> (n%3==0)</span> è vera se si verifica almeno una delle 
+due condizioni e cioè se il numero è divisibile per 2 <i>o</i> per 3.
+<p>
+Infine, l'operatore <span class=code><span class=keyword>not</span></span> nega il valore di un'espressione booleana, trasformando in falsa un'espressione vera e viceversa. Così se <span class=code>x&gt;y</span> è vera (x è maggiore di y), <span class=code><span class=keyword>not</span>(x&gt;y)</span> è falsa.
+<p>
+A dire il vero gli operatori booleani dovrebbero restituire un valore <i>vero</i> o <i>falso</i>, ma da questo punto di vista Python (come parte dei linguaggi di programmazione) non sembra essere troppo fiscale: infatti ogni valore diverso da zero viene considerato <i>vero</i> e lo zero è considerato <i>falso</i>.
+
+<p><span class=code>&gt;&gt;&gt;&nbsp; x = 5
+<br>&gt;&gt;&gt;&nbsp; x <span class=keyword>and</span> 1
+<br>1
+<br>&gt;&gt;&gt;&nbsp; y = 0
+<br>&gt;&gt;&gt;&nbsp; y <span class=keyword>and</span> 1
+<br>0
+<br></span></p>
+
+<p>
+In generale, le righe appena viste pur essendo lecite non sono considerate un buon esempio di programmazione: se vuoi confrontare un valore con zero è sempre meglio farlo in modo esplicito, con un'espressione del tipo
+
+<p><span class=code>&gt;&gt;&gt;&nbsp; x != 0
+<br></span></p>
+
+
+<a name=4></a>
+<h3>4.4 Esecuzione condizionale</h3>
+<p>
+Per poter scrivere programmi di una certa utilità dobbiamo essere
+messi in grado di valutare delle condizioni e di far seguire
+differenti percorsi al flusso di esecuzione a seconda del risultato
+della valutazione. Le <b>istruzioni condizionali</b> ci offrono questa
+possibilità. La forma più semplice di istruzione <span class=code><span class=keyword>if</span></span> è la
+seguente:
+
+<p><span class=code><span class=keyword>if</span> x &gt; 0:
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"x e' positivo"</span>
+<br></span></p>
+
+<p>
+L'espressione booleana dopo l'istruzione <span class=code><span class=keyword>if</span></span> è chiamata <b>condizione</b>.  L'istruzione indentata che segue i due punti della riga <span class=code><span class=keyword>if</span></span> viene eseguita solo se la condizione è vera.  Se la condizione è falsa non viene eseguito alcunché.
+<p>
+Come nel caso di altre istruzioni composte, l'istruzione <span class=code><span class=keyword>if</span></span> è costituita da un'intestazione e da un blocco di istruzioni:
+
+<p><span class=code>INTESTAZIONE:
+<br>&nbsp; PRIMA RIGA DI ISTRUZIONI
+<br>&nbsp; ...
+<br>&nbsp; ULTIMA RIGA DI ISTRUZIONI
+<br></span></p>
+
+<p>
+L'intestazione inizia su di una nuova riga e termina con il segno di due punti. La serie di istruzioni indentate che seguono sono chiamate <b>blocco di istruzioni</b>. La prima riga di istruzioni non indentata marca la fine del blocco di istruzioni e non ne fa parte. Un blocco di istruzioni all'interno di un'istruzione composta è anche chiamato <b>corpo</b> dell'istruzione.
+<p>
+Non c'è un limite al numero di istruzioni che possono comparire nel corpo di un'istruzione <span class=code><span class=keyword>if</span></span> ma deve sempre essercene almeno una. In qualche occasione può essere utile avere un corpo vuoto, ad esempio quando il codice corrispondente non è ancora stato scritto ma si desidera ugualmente poter provare il programma. In questo caso puoi usare l'istruzione <span class=code><span class=keyword>pass</span></span>, che è solo un segnaposto e non fa niente:
+
+<p><span class=code><span class=keyword>if</span> x &gt; 0:
+<br>&nbsp; <span class=keyword>pass</span>
+<br></span></p>
+
+
+<a name=5></a>
+<h3>4.5 Esecuzione alternativa</h3>
+<p>
+Una seconda forma di istruzione <span class=code><span class=keyword>if</span></span> è l'esecuzione alternativa, nella quale ci sono due possibilità di azione e il valore della condizione determina quale delle due debba essere scelta. La sintassi è:
+
+<p><span class=code><span class=keyword>if</span> x%2 == 0:
+<br>&nbsp; <span class=keyword>print</span> x, <span class=quote>"e' pari"</span>
+<br><span class=keyword>else</span>:
+<br>&nbsp; <span class=keyword>print</span> x, <span class=quote>"e' dispari"</span>
+<br></span></p>
+
+<p>
+Se il resto della divisione intera di <span class=code>x</span> per 2 è zero allora sappiamo che <span class=code>x</span> è pari e il programma mostra il messaggio corrispondente. Se la condizione è falsa viene eseguita la serie di istruzioni descritta dopo la riga <span class=code><span class=keyword>else</span></span> (che in inglese significa "altrimenti").
+<p>
+Le due alternative sono chiamate <b>ramificazioni</b> perché rappresentano delle ramificazioni nel flusso di esecuzione del programma, e solo una di esse verrà effettivamente eseguita.
+<p>
+Una nota: se hai bisogno di controllare la parità di un numero (vedere se il numero è pari o dispari), potresti desiderare di creare una funzione apposita da poter riutilizzare in seguito:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>StampaParita</span>(x):
+<br>&nbsp; <span class=keyword>if</span> x%2 == 0:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> x, <span class=quote>"e' pari"</span>
+<br>&nbsp; <span class=keyword>else</span>:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> x, <span class=quote>"e' dispari"</span>
+<br></span></p>
+
+<p>
+Così per ogni valore intero di <span class=code>x</span>, <span class=code>StampaParita</span> mostra il messaggio appropriato. Quando chiami questa funzione puoi fornire qualsiasi espressione intera come argomento.
+
+<p><span class=code>&gt;&gt;&gt; StampaParita(17)
+<br>&gt;&gt;&gt; StampaParita(y+1)
+<br></span></p>
+
+
+<a name=6></a>
+<h3>4.6 Condizioni in serie</h3>
+<p>
+Talvolta ci sono più di due possibilità per la continuazione del programma, così possiamo aver bisogno di più di due ramificazioni. Un modo per esprimere questo caso sono le <b>condizioni in serie</b>:
+
+<p><span class=code><span class=keyword>if</span> x &lt; y:
+<br>&nbsp; <span class=keyword>print</span> x, <span class=quote>"e' minore di"</span>, y
+<br><span class=keyword>elif</span> x &gt; y:
+<br>&nbsp; <span class=keyword>print</span> x, <span class=quote>"e' maggiore di"</span>, y
+<br><span class=keyword>else</span>:
+<br>&nbsp; <span class=keyword>print</span> x, <span class=quote>"e"</span>, y, <span class=quote>"sono uguali"</span>
+<br></span></p>
+
+<p>
+<span class=code><span class=keyword>elif</span></span> è l'abbreviazione di "else if", che in inglese significa "altrimenti se". Anche in questo caso solo uno dei rami verrà eseguito, a seconda del confronto tra <span class=code>x</span> e <span class=code>y</span>.
+Non c'è alcun limite al numero di istruzioni <span class=code><span class=keyword>elif</span></span> ma è eventualmente possibile inserire un'unica istruzione <span class=code><span class=keyword>else</span></span> che deve essere l'ultima dell'elenco e che rappresenta l'azione da eseguire quando nessuna delle condizioni precedenti è stata soddisfatta. La presenza di un'istruzione <span class=code><span class=keyword>else</span></span> è facoltativa.
+
+<p><span class=code><span class=keyword>if</span> scelta == <span class=quote>'A'</span>:
+<br>&nbsp; FunzioneA()
+<br><span class=keyword>elif</span> scelta == <span class=quote>'B'</span>:
+<br>&nbsp; FunzioneB()
+<br><span class=keyword>elif</span> scelta == <span class=quote>'C'</span>:
+<br>&nbsp; FunzioneC()
+<br><span class=keyword>else</span>:
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"Scelta non valida"</span>
+<br></span></p>
+
+<p>
+Le condizioni sono controllate nell'ordine in cui sono state scritte. Se la prima è falsa viene provata la seconda e così via. Non appena una è verificata viene eseguito il ramo corrispondente e l'intera istruzione <span class=code><span class=keyword>if</span></span> viene conclusa. In ogni caso, anche se fossero vere altre condizioni, dopo l'esecuzione della prima queste vengono trascurate. Se nessuna condizione è vera ed è presente un <span class=code><span class=keyword>else</span></span> verrà eseguito il codice corrispondente; se non è presente non verrà eseguito niente.
+
+<blockquote><blockquote><i>Esercizio: scrivi due funzioni basate sugli esempi proposti, una che confronta x e y (<span class=code>Confronta(x, y)</span>) e l'altra che controlla se un valore passato come parametro appartiene ad una lista di valori validi (<span class=code>ElaboraScelta(scelta)</span>).</i>
+</blockquote>
+</blockquote>
+
+<a name=7></a>
+<h3>4.7 Condizioni annidate</h3>
+<p>
+Un'espressione condizionale può anche essere inserita nel corpo di un'altra 
+espressione condizionale: un'espressione di questo tipo viene detta 
+"condizione annidata".
+
+<p><span class=code><span class=keyword>if</span> x == y:
+<br>&nbsp; <span class=keyword>print</span> x, <span class=quote>"e"</span>, y, <span class=quote>"sono uguali"</span>
+<br><span class=keyword>else</span>:
+<br>&nbsp; <span class=keyword>if</span> x &lt; y:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> x, <span class=quote>"e' minore di"</span>, y
+<br>&nbsp; <span class=keyword>else</span>:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> x, <span class=quote>"e' maggiore di"</span>, y
+<br></span></p>
+
+<p>
+La prima condizione (<span class=code><span class=keyword>if</span> x == y</span>) contiene due rami: il primo è scelto quando x e y sono uguali, il secondo quando sono diversi. All'interno del secondo (subito sotto il primo <span class=code><span class=keyword>else</span>:</span>) troviamo un'altra istruzione <span class=code><span class=keyword>if</span></span>, che a sua volta prevede un'ulteriore ramificazione. Entrambi i rami del secondo <span class=code><span class=keyword>if</span></span> sono istruzioni di stampa ma potrebbero contenere a loro volta ulteriori istruzioni condizionali.
+<p>
+Sebbene l'indentazione delle istruzioni renda evidente la struttura dell'esempio, le istruzioni condizionali annidate in livelli sempre più profondi diventano sempre più difficili da leggere, quindi è una buona idea evitarle quando è possibile.
+<p>
+Gli operatori logici permettono un modo molto semplice di semplificare le espressioni condizionali annidate:
+
+<p><span class=code><span class=keyword>if</span> 0 &lt; x:
+<br>&nbsp; <span class=keyword>if</span> x &lt; 10:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> <span class=quote>"x e' un numero positivo."</span>
+<br></span></p>
+
+<p>
+L'istruzione di stampa <span class=code><span class=keyword>print</span></span> è eseguita solo se entrambe 
+le condizioni (<span class=code>x&gt;0</span> e <span class=code>x&lt;10</span>) sono verificate 
+contemporaneamente. Possiamo quindi usare l'operatore booleano 
+<span class=code><span class=keyword>and</span></span> per combinarle:
+
+<p><span class=code><span class=keyword>if</span> 0&lt;x <span class=keyword>and</span> x&lt;10:
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"x e' un numero positivo."</span>
+<br></span></p>
+
+<p>
+Questo tipo di condizione è così frequente che Python permette di usare una forma semplificata che ricorda da vicino quella corrispondente usata in matematica:
+
+<p><span class=code><span class=keyword>if</span> 0 &lt; x &lt; 10:
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"x e' un numero positivo."</span>
+<br></span></p>
+
+<p>
+A tutti gli effetti i tre esempi sono equivalenti per quanto riguarda la semantica (il significato) del programma.
+
+<a name=8></a>
+<h3>4.8 L'istruzione <span class=code><span class=keyword>return</span></span> </h3>
+<p>
+L'istruzione <span class=code><span class=keyword>return</span></span> ti permette di terminare l'esecuzione di una funzione prima di raggiungerne la fine. Questo può servire quando viene riconosciuta una condizione d'errore:
+
+<p><span class=code><span class=keyword>import</span> math
+<br>
+<br><span class=keyword>def</span> <span class=function>StampaLogaritmo</span>(x):
+<br>&nbsp; <span class=keyword>if</span> x &lt;= 0:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> <span class=quote>"Inserire solo numeri positivi!"</span>
+<br>&nbsp; &nbsp; <span class=keyword>return</span>
+<br>
+<br>&nbsp; risultato = math.log(x)
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"Il logaritmo di"</span>,x,<span class=quote>"e'"</span>, risultato
+<br></span></p>
+
+<p>
+La funzione <span class=code>StampaLogaritmo</span> accetta un parametro chiamato <span class=code>x</span>.  La prima operazione controlla che esso sia positivo; in caso contrario stampa un messaggio d'errore e termina prematuramente la funzione con <span class=code><span class=keyword>return</span></span>.
+<p>
+Ricorda che dovendo usare una funzione del modulo <span class=code>math</span> è necessario importare il modulo.
+
+<a name=9></a>
+<h3>4.9 Ricorsione</h3>
+<p>
+Abbiamo detto che è perfettamente lecito che una funzione ne chiami un'altra e di questo hai avuto modo di vedere parecchi esempi. Abbiamo invece trascurato di dirti che è anche lecito che una funzione possa chiamare sé stessa. Può non essere immediatamente ovvio il motivo per cui questo sia utile, ma questa è una delle cose più interessanti che un programma possa fare.
+Per fare un esempio dai un'occhiata a questa funzione:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>ContoAllaRovescia</span>(n):
+<br>&nbsp; <span class=keyword>if</span> n == 0:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> <span class=quote>"Partenza!"</span>
+<br>&nbsp; <span class=keyword>else</span>:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> n
+<br>&nbsp; &nbsp; ContoAllaRovescia(n-1)
+<br></span></p>
+
+<p>
+<span class=code>ContoAllaRovescia</span> si aspetta che il parametro sia un intero positivo. Se <span class=code>n</span> vale 0, viene stampata la scritta <span class=code>Partenza!</span>. Altrimenti stampa <span class=code>n</span> e poi chiama la funzione <span class=code>ContoAllaRovescia</span> (cioè sé stessa) con un argomento che vale <span class=code>n-1</span>.
+<p>
+Cosa succede quando chiamiamo una funzione come questa?
+
+<p><span class=code>&gt;&gt;&gt; ContoAllaRovescia(3)
+<br></span></p>
+
+<p>
+L'esecuzione di <span class=code>ContoAllaRovescia</span> inizia con <span class=code>n=3</span>. Dato che
+<span class=code>n</span> non è 0, essa stampa il valore 3, e poi richiama sé stessa... 
+
+<blockquote>L'esecuzione di <span class=code>ContoAllaRovescia</span> inizia con <span class=code>n=2</span>. Dato che
+<span class=code>n</span> non è 0, essa stampa il valore 2, poi richiama sé stessa...
+
+<blockquote>L'esecuzione di <span class=code>ContoAllaRovescia</span> inizia con <span class=code>n=1</span>. Dato che
+<span class=code>n</span> non è 0, essa stampa il valore 1, poi richiama sé stessa...
+
+<blockquote>L'esecuzione di <span class=code>ContoAllaRovescia</span> inizia con il valore di <span class=code>n=0</span>. 
+Dal momento che <span class=code>n</span> è 0, essa stampa il testo "Partenza!" e poi ritorna.
+</blockquote>
+<p>
+La funzione <span class=code>ContoAllaRovescia</span> che aveva <span class=code>n=1</span>; e
+poi ritorna.
+</blockquote>
+<p>
+La funzione <span class=code>ContoAllaRovescia</span> che aveva <span class=code>n=2</span>; e
+poi ritorna.
+</blockquote>
+<p>
+E quindi torna in <span class=code>__main__</span> (questo è un trucco). 
+Il risultato è questo:
+
+<p><span class=code>3
+<br>2
+<br>1
+<br>Partenza!
+<br></span></p>
+
+<p>
+Come secondo esempio torniamo alle funzioni <span class=code>UnaRigaVuota</span> e
+<span class=code>TreRigheVuote</span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>UnaRigaVuota</span>():
+<br>&nbsp; <span class=keyword>print
+<br>
+<br>def</span> TreRigheVuote():
+<br>&nbsp; UnaRigaVuota()
+<br>&nbsp; UnaRigaVuota()
+<br>&nbsp; UnaRigaVuota()
+<br></span></p>
+
+<p>
+Sebbene funzionino correttamente non sarebbero di molto aiuto nel momento in cui vogliamo stampare due righe vuote o magari 106. Una alternativa migliore potrebbe essere questa:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>NRigheVuote</span>(n):
+<br>&nbsp; <span class=keyword>if</span> n &gt; 0:
+<br>&nbsp; &nbsp; <span class=keyword>print</span>
+<br>&nbsp; &nbsp; NRigheVuote(n-1)
+<br></span></p>
+
+<p>
+Questo programma è simile a <span class=code>ContoAllaRovescia</span>: finché <span class=code>n</span> è maggiore di 0, la funzione stampa una riga vuota e poi chiama sé stessa con un argomento <span class=code>n</span> diminuito di 1.
+<p>
+Il processo di una funzione che richiama sé stessa è detto <b>ricorsione</b>, e la funzione è definita ricorsiva.
+
+<a name=10></a>
+<h3>4.10 Diagrammi di stack per funzioni ricorsive</h3>
+<p>
+Nella <a href="chap03.htm#11">sezione 3.11</a>, abbiamo usato un diagramma di stack per rappresentare lo stato di un programma durante una chiamata di funzione. Lo stesso tipo di diagramma può aiutare a capire come lavora una funzione ricorsiva.
+<p>
+Ogni volta che una funzione viene chiamata, Python crea un nuovo frame della funzione, contenente le variabili locali definite all'interno della funzione ed i suoi parametri. Nel caso di una funzione ricorsiva possono esserci più frame riguardanti una stessa funzione allo stesso tempo.
+<p>
+La figura mostra il diagramma dello stack della funzione <span class=code>ContoAllaRovescia</span> chiamata con <span class=code>n=3</span>:
+
+<p align="center"><img src="illustrations/i_stack2.png"></p>
+<p>
+Come al solito il livello superiore dello stack è il frame per <span class=code>__main__</span>. Questo frame è vuoto perché in questo caso non abbiamo creato alcuna variabile locale e non abbiamo passato alcun parametro.
+<p>
+I quattro frame di <span class=code>ContoAllaRovescia</span> hanno valori diversi per il parametro <span class=code>n</span>.  Il livello inferiore dello stack, quando <span class=code>n=0</span>, è chiamato lo <b>stato di base</b>.  Esso non effettua ulteriori chiamate ricorsive, così non ci sono ulteriori frame.
+
+<blockquote><i>Esercizio: disegna il diagramma dello stack per la 
+funzione <br> <span class=code>NRigheVuote</span> chiamata con <span class=code>n=4</span>.</i>
+</blockquote>
+
+<a name=11></a>
+<h3>4.11 Ricorsione infinita</h3>
+<p>
+Se una ricorsione non raggiunge mai il suo stato di base la chiamata alla funzione viene eseguita all'infinito ed in teoria il programma non giunge mai alla fine. Questa situazione è conosciuta come <b>ricorsione infinita</b> e non è generalmente considerata una buona cosa. Questo è un programma minimo che genera una ricorsione infinita:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Ricorsione</span>():
+<br>&nbsp; Ricorsione()
+<br></span></p>
+
+<p>
+Nella maggior parte degli ambienti un programma con una ricorsione infinita non viene eseguito senza fine, dato che ogni chiamata ad una funzione impegna un po' di memoria del computer e questa memoria prima o poi finisce. Python stampa un messaggio d'errore quando è stato raggiunto il massimo livello di ricorsione possibile:
+
+<p><span class=code>&nbsp; File <span class=quote>"&lt;stdin&gt;"</span>, line 2, <span class=keyword>in</span> Ricorsione
+<br>&nbsp; ...
+<br>&nbsp; File <span class=quote>"&lt;stdin&gt;"</span>, line 2, <span class=keyword>in</span> Ricorsione
+<br>RuntimeError: Maximum recursion depth exceeded
+<br></span></p>
+
+<p>
+Questa traccia è un po' più lunga di quella che abbiamo visto nel capitolo precedente. Quando è capitato l'errore c'erano moltissime ricorsioni nello stack.
+
+<blockquote><i>Esercizio: scrivi una funzione con ricorsione infinita ed eseguila nell'interprete Python. </i>
+</blockquote>
+
+<a name=12></a>
+<h3>4.12 Inserimento da tastiera</h3>
+<p>
+I programmi che abbiamo scritto finora sono piuttosto banali, nel senso che non accettano inserimenti di dati da parte dell'operatore, limitandosi a eseguire sempre le stesse operazioni.
+<p>
+Python fornisce un insieme di funzioni predefinite che permettono di inserire dati da tastiera. La più semplice di esse è <span class=code>raw_input</span>.  Quando questa funzione è chiamata il programma si ferma ed attende che l'operatore inserisca qualcosa, confermando poi l'inserimento con Invio (o Enter). A quel punto il programma riprende e <span class=code>raw_input</span> ritorna ciò che l'operatore ha inserito sotto forma di <span class=code>stringa</span>:
+
+<p><span class=code>&gt;&gt;&gt; Inserimento = raw_input ()
+<br>Testo inserito
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Inserimento
+<br>Testo inserito
+<br></span></p>
+
+<p>
+Prima di chiamare <span class=code>raw_input</span> è una buona idea stampare un messaggio che avvisa l'operatore di ciò che deve essere inserito. Questo messaggio è chiamato <b>prompt</b>.  L'operazione è così comune che il messaggio di prompt può essere passato come argomento a <span class=code>raw_input</span>:
+
+<p><span class=code>&gt;&gt;&gt; Nome = raw_input (<span class=quote>"Qual e' il tuo nome? "</span>)
+<br>Qual e' il tuo nome? Arturo
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Nome
+<br>Arturo
+<br></span></p>
+
+<p>
+Se il valore da inserire è un intero possiamo usare la funzione <span class=code>input</span>:
+
+<p><span class=code>Prompt = <span class=quote>"A che velocita'viaggia il treno?\n"</span>
+<br>Velocita = input(Prompt)
+<br></span></p>
+
+<p>
+Se l'operatore inserisce una serie di cifre questa è convertita in un intero ed assegnata a <span class=code>Velocita</span>. Sfortunatamente se i caratteri inseriti dall'operatore non rappresentano un numero, il programma stampa un messaggio d'errore e si blocca:
+
+<p><span class=code>&gt;&gt;&gt; Velocita = input (Prompt)
+<br>A che velocita<span class=quote>'viaggia il treno?
+<br>ottanta all'</span>ora
+<br>SyntaxError: invalid syntax
+<br></span></p>
+
+<p>
+Per evitare questo tipo di errori è generalmente meglio 
+usare la funzione \linebreak <span class=code>raw_input</span> per ottenere una stringa di 
+caratteri e poi usare le funzioni di conversione per ottenere gli altri tipi.
+
+<a name=13></a>
+<h3>4.13 Glossario</h3>
+
+<dl>
+<dt>Operatore modulo</dt>
+<dd>operatore matematico denotato con il segno di percentuale (<span class=code>%</span>) che restituisce il resto della divisione tra due operandi interi.</dd>
+<dt>Espressione booleana</dt>
+<dd>espressione che è o vera o falsa.</dd>
+<dt>Operatore di confronto</dt>
+<dd>uno degli operatori che confrontano due valori: <span class=code>==</span>, <span class=code>!=</span>, <span class=code>&gt;</span>, <span class=code>&lt;</span>, <span class=code>&gt;=</span> e <span class=code>&lt;=</span>.</dd>
+<dt>Operatore logico</dt>
+<dd>uno degli operatori che combina le espressioni booleane: <span class=code><span class=keyword>and</span></span>, <span class=code><span class=keyword>or</span></span> e <span class=code><span class=keyword>not</span></span>.</dd>
+<dt>Istruzione condizionale</dt>
+<dd>istruzione che controlla il flusso di esecuzione del programma a seconda del verificarsi di certe condizioni.</dd>
+<dt>Condizione</dt>
+<dd>espressione booleana in una istruzione condizionale che determina quale ramificazione debba essere seguita dal flusso di esecuzione.</dd>
+<dt>Istruzione composta</dt>
+<dd>istruzione che consiste di un'intestazione terminante con i due punti (:) e di un corpo composto di una o più istruzioni indentate rispetto all'intestazione.</dd>
+<dt>Blocco</dt>
+<dd>gruppo di istruzioni consecutive con la stessa indentazione.</dd>
+<dt>Corpo</dt>
+<dd>blocco che segue l'intestazione in un'istruzione composta.</dd>
+<dt>Annidamento</dt>
+<dd>particolare struttura di programma interna ad un'altra, come nel caso di una istruzione condizionale inserita all'interno di un'altra istruzione condizionale.</dd>
+<dt>Ricorsione</dt>
+<dd>richiamo di una funzione che è già in esecuzione.</dd>
+<dt>Stato di base</dt>
+<dd>ramificazione di un'istruzione condizionale 
+posta in una funzione ricorsiva e che non esegue alcuna chiamata ricorsiva.</dd>
+<dt>Ricorsione infinita</dt>
+<dd>funzione che chiama sé stessa ricorsivamente senza mai raggiungere lo stato di base. L'occupazione progressiva della memoria che avviene ad ogni successiva chiamata causa ad un certo punto un errore in esecuzione.</dd>
+<dt>Prompt</dt>
+<dd>suggerimento visivo che specifica il tipo di dati atteso come 
+inserimento da tastiera.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap05.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap03.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

@@ -1,0 +1,440 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 7: Stringhe</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap08.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap06.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 7</h2>
+
+
+
+<h1>Stringhe</h1>
+
+<a name=1></a>
+<h3>7.1 Tipi di dati composti</h3>
+<p>
+Finora abbiamo visto tre tipi di dati: <span class=code>int</span>, <span class=code>float</span> e <span class=code>string</span>.  Le stringhe sono qualitativamente diverse dagli altri tipi di dati poiché sono composte di unità più piccole: i caratteri.
+<p>
+I tipi di dati che sono fatti di elementi più piccoli sono detti <b>tipi di dati composti</b>.  A seconda di ciò che stiamo facendo possiamo avere la necessità di trattare un tipo composto come fosse una singola entità o possiamo voler agire sulle sue singole parti. Questa duplice possibilità è molto utile.
+<p>
+L'operatore porzione seleziona dei caratteri da una stringa:
+
+<p><span class=code>&gt;&gt;&gt; Frutto = <span class=quote>"banana"</span>
+<br>&gt;&gt;&gt; Lettera = Frutto[1]
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Lettera
+<br></span></p>
+
+<p>
+L'espressione <span class=code>Frutto[1]</span> seleziona il carattere numero 1 dalla stringa <span class=code>Frutto</span>.  La variabile <span class=code>Lettera</span> contiene il risultato. Quando stampiamo <span class=code>Lettera</span> abbiamo però una sorpresa:
+
+<p><span class=code>a
+<br></span></p>
+
+<p>
+La prima lettera di <span class=code><span class=quote>"banana"</span></span> logicamente non è <span class=code><span class=quote>"a"</span></span>: in informatica i conteggi partono spesso da 0 e non da 1 come potrebbe sembrare normale e per accedere al primo carattere di una stringa dobbiamo quindi richiedere il numero 0, per il secondo il numero 1 e così via. Sembra un po' illogico ma ci farai facilmente l'abitudine perché questo è il modo normale di contare in molti linguaggi di programmazione. Quindi se vogliamo sapere l'iniziale della stringa scriviamo:
+
+<p><span class=code>&gt;&gt;&gt; Lettera = Frutto[0]
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Lettera
+<br>b
+<br></span></p>
+
+<p>
+L'espressione tra parentesi quadrate è chiamata <b>indice</b>.  Un indice identifica un particolare elemento di un insieme ordinato che nel nostro caso è l'insieme dei caratteri di una stringa. L'indice può essere una qualsiasi espressione intera.
+
+<a name=2></a>
+<h3>7.2 Lunghezza</h3>
+<p>
+La funzione <span class=code>len</span> ritorna il numero di caratteri di una stringa:
+
+<p><span class=code>&gt;&gt;&gt; Frutto = <span class=quote>"banana"</span>
+<br>&gt;&gt;&gt; len(Frutto)
+<br>6
+<br></span></p>
+
+<p>
+Per ottenere l'ultimo carattere di una stringa potresti essere tentato di fare qualcosa di simile a:
+
+<p><span class=code>Lunghezza = len(Frutto)
+<br>Ultimo = Frutto[Lunghezza]&nbsp; &nbsp; &nbsp; &nbsp;<span class=comment># ERRORE!
+</span><br></span></p>
+
+<p>
+ma c'è qualcosa che non va: infatti ottieni un errore <span class=code>IndexError: string index out of range</span> dato che stai facendo riferimento all'indice 6 quando quelli validi vanno da 0 a 5. Per ottenere l'ultimo carattere dovrai quindi scrivere:
+
+<p><span class=code>Lunghezza = len(Frutto)
+<br>Ultimo = Frutto[Lunghezza-1]
+<br></span></p>
+
+<p>
+In alternativa possiamo usare indici negativi che in casi come questo sono più comodi, contando a partire dalla fine della stringa: l'espressione <span class=code>Frutto[-1]</span> ritorna l'ultimo carattere della stringa, <span class=code>Frutto[-2]</span> il penultimo e così via.
+
+<a name=3></a>
+<h3>7.3 Elaborazione trasversale e cicli <span class=code><span class=keyword>for</span></span> </h3>
+<p>
+Molti tipi di elaborazione comportano un'azione su una stringa un carattere per volta. Spesso queste elaborazioni iniziano dal primo carattere, selezionano un carattere per volta e continuano fino al completamento della stringa. Questo tipo di elaborazione è definita <b>elaborazione trasversale</b> o <b>attraversamento</b>, in quanto attraversa la stringa dall'inizio alla fine.  Un modo per implementare un'elaborazione trasversale è quello di usare un ciclo <span class=code><span class=keyword>while</span></span>:
+
+<p><span class=code>Indice = 0
+<br><span class=keyword>while</span> Indice &lt; len(Frutto):
+<br>&nbsp; Lettera = Frutto[Indice]
+<br>&nbsp; <span class=keyword>print</span> Lettera
+<br>&nbsp; Indice = Indice + 1
+<br></span></p>
+
+<p>
+Questo ciclo attraversa la stringa e ne mostra una lettera alla volta, una per riga. La condizione del ciclo è <span class=code>Indice &lt; len(Frutto)</span> così che quando <span class=code>Indice</span> è uguale alla lunghezza della stringa la condizione diventa falsa, il corpo del ciclo non è eseguito ed il ciclo termina. L'ultimo carattere cui si accede è quello con indice <span class=code>len(Frutto)-1</span> che è l'ultimo carattere della stringa.
+
+<blockquote><i>Esercizio: scrivi una funzione che prende una stringa come argomento e la stampa un carattere per riga partendo dall'ultimo carattere.</i>
+</blockquote>
+<p>
+Usare un indice per attraversare un insieme di valori è un'operazione così comune che Python fornisce una sintassi ancora più semplice: il ciclo <span class=code><span class=keyword>for</span></span>.
+
+<p><span class=code><span class=keyword>for</span> Lettera <span class=keyword>in</span> Frutto:
+<br>&nbsp; <span class=keyword>print</span> Lettera
+<br></span></p>
+
+<p>
+Ad ogni ciclo, <span class=code>Lettera</span> assume il valore del prossimo carattere della stringa <span class=code>Frutto</span>, così che <span class=code>Frutto</span> viene attraversata completamente finché non rimangono più caratteri da analizzare.
+<p>
+L'esempio seguente mostra come usare il concatenamento e un ciclo <span class=code><span class=keyword>for</span></span> per generare una serie alfabetica, e cioè una lista di valori nei quali gli elementi appaiono in ordine alfabetico.  Per esempio nel libro <i>Make Way for Ducklings</i> di Robert McCloskey i nomi dei protagonisti sono Jack, Kack, Lack, Mack, Nack, Ouack, Pack e Quack.  Questo ciclo  restituisce i nomi in ordine:
+
+<p><span class=code>Prefissi = <span class=quote>"JKLMNOPQ"</span>
+<br>Suffisso = <span class=quote>"ack"</span>
+<br>
+<br><span class=keyword>for</span> Lettera <span class=keyword>in</span> Prefissi:
+<br>&nbsp; <span class=keyword>print</span> Lettera + Suffisso
+<br></span></p>
+
+<p>
+Il risultato del programma è:
+
+<p><span class=code>Jack
+<br>Kack
+<br>Lack
+<br>Mack
+<br>Nack
+<br>Oack
+<br>Pack
+<br>Qack
+<br></span></p>
+
+<p>
+Non è del tutto corretto dato che <span class=code>Ouack</span> e <span class=code>Quack</span> sono scritti in modo errato.
+
+<blockquote><i>Esercizio: modifica il programma per correggere questo errore.</i>
+</blockquote>
+
+<a name=4></a>
+<h3>7.4 Porzioni di stringa</h3>
+<p>
+Un segmento di stringa è chiamato <b>porzione</b>.  La selezione di una porzione è simile alla selezione di un carattere:
+
+<p><span class=code>&gt;&gt;&gt; s = <span class=quote>"Pietro, Paolo e Maria"</span>
+<br>&gt;&gt;&gt; <span class=keyword>print</span> s[0:6]
+<br>Pietro
+<br>&gt;&gt;&gt; <span class=keyword>print</span> s[8:13]
+<br>Paolo
+<br>&gt;&gt;&gt; <span class=keyword>print</span> s[16:21]
+<br>Maria
+<br></span></p>
+
+<p>
+L'operatore <span class=code>[n:m]</span> ritorna la stringa a partire dall' "n-esimo" carattere incluso fino all' "m-esimo" escluso. Questo comportamento non è intuitivo, e per comprenderlo è meglio immaginare i puntatori <i>tra</i> i caratteri, come nel diagramma seguente:
+
+<p align="center"><img src="illustrations/i_banana.png"></p>
+<p>
+Se non è specificato il primo indice (prima dei due punti <span class=code>:</span>) la porzione parte dall'inizio della stringa. Senza il secondo indice la porzione finisce con il termine della stringa:
+
+<p><span class=code>&gt;&gt;&gt; Frutto = <span class=quote>"banana"</span>
+<br>&gt;&gt;&gt; Frutto[:3]
+<br><span class=quote>'ban'</span>
+<br>&gt;&gt;&gt; Frutto[3:]
+<br><span class=quote>'ana'</span>
+<br></span></p>
+
+<p>
+Secondo te cosa significa <span class=code>Frutto[:]</span>?
+
+<a name=5></a>
+<h3>7.5 Confronto di stringhe</h3>
+<p>
+Gli operatori di confronto operano anche sulle stringhe. Per vedere se due stringhe sono uguali:
+
+<p><span class=code><span class=keyword>if</span> Parola == <span class=quote>"BANANA"</span>:
+<br>&nbsp; <span class=keyword>print</span>&nbsp; <span class=quote>"stai parlando di un frutto!"</span>
+<br></span></p>
+
+<p>
+Altri operatori di confronto sono utili per mettere le parole in ordine alfabetico:
+
+<p><span class=code><span class=keyword>if</span> Parola &lt; <span class=quote>"BANANA"</span>:
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"la tua parola"</span> + Parola + <span class=quote>"viene prima di BANANA."</span>
+<br><span class=keyword>elif</span> Parola &gt; <span class=quote>"BANANA"</span>:
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"la tua parola"</span> + Parola + <span class=quote>"viene dopo BANANA."</span>
+<br><span class=keyword>else</span>:
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"hai inserito la parola BANANA"</span>
+<br></span></p>
+
+<p>
+Devi comunque fare attenzione al fatto che Python non gestisce le parole maiuscole e minuscole come facciamo noi in modo intuitivo: in un confronto le lettere maiuscole vengono sempre prima delle minuscole, così che:
+
+<p><span class=code><span class=quote>"BANANA"</span> &lt; <span class=quote>"BAnana"</span> &lt; <span class=quote>"Banana"</span> &lt; <span class=quote>"bANANA"</span> &lt; <span class=quote>"banana"</span>
+<br><span class=quote>"ZEBRA"</span> &lt; <span class=quote>"banana"</span>
+<br></span></p>
+
+<p>
+Un modo pratico per aggirare il problema è quello di convertire le stringhe ad un formato standard (tutto maiuscole o tutto minuscole) prima di effettuare il confronto.
+
+<a name=6></a>
+<h3>7.6 Le stringhe sono immutabili</h3>
+<p>
+Si può essere tentati di usare l'operatore porzione 
+<span class=code>[]</span> alla sinistra di un'assegnazione, con l'intenzione 
+di cambiare un carattere di una stringa:
+
+<p><span class=code>Saluto = <span class=quote>"Ciao!"</span>
+<br>Saluto[0] = <span class=quote>'M'</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <span class=comment># ERRORE!
+</span><br><span class=keyword>print</span> Saluto
+<br></span></p>
+
+<p>
+Invece di ottenere  <span class=code>Miao!</span> questo codice stampa il messaggio d'errore <span class=code>TypeError: object doesn't support item assignment</span>.
+<p>
+Le stringhe sono infatti <b>immutabili</b> e ciò significa che non puoi cambiare una stringa esistente. L'unica cosa che puoi eventualmente fare è creare una nuova stringa come variante di quella originale:
+
+<p><span class=code>Saluto = <span class=quote>"Ciao!"</span>
+<br>NuovoSaluto = <span class=quote>'M'</span> + Saluto[1:]
+<br><span class=keyword>print</span> NuovoSaluto
+<br></span></p>
+
+<p>
+Abbiamo concatenato la nuova prima lettera ad una porzione di <span class=code>Saluto</span>, e questa operazione non ha avuto alcun effetto sulla stringa originale.
+
+<a name=7></a>
+<h3>7.7 Funzione <span class=code>Trova</span> </h3>
+<p>
+Secondo te cosa fa questa funzione?
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Trova</span>(Stringa, Carattere):
+<br>&nbsp; Indice = 0
+<br>&nbsp; <span class=keyword>while</span> Indice &lt; len(Stringa):
+<br>&nbsp; &nbsp; <span class=keyword>if</span> Stringa[Indice] == Carattere:
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>return</span> Indice
+<br>&nbsp; &nbsp; Indice = Indice + 1
+<br>&nbsp; <span class=keyword>return</span> -1
+<br></span></p>
+
+<p>
+In un certo senso questa funzione <span class=code>Trova</span> è l'opposto dell'operatore porzione <span class=code>[]</span>: invece di prendere un indice e trovare il carattere corrispondente cerca in una stringa la posizione dove appare un carattere e ne restituisce l'indice. Se il carattere non è presente la funzione restituisce <span class=code>-1</span>.
+<p>
+Questo è il primo esempio di <span class=code><span class=keyword>return</span></span> all'interno di un ciclo. Se <span class=code>Stringa[Indice] == Carattere</span> il ciclo viene interrotto prematuramente. Se il carattere non fa parte della stringa il programma termina normalmente e ritorna <span class=code>-1</span>.
+
+<blockquote><i>Esercizio: modifica la funzione <span class=code>Trova</span> per accettare un terzo parametro che rappresenta la posizione dove si deve cominciare a cercare all'interno della stringa.</i>
+</blockquote>
+
+<a name=8></a>
+<h3>7.8 Cicli e contatori</h3>
+<p>
+Questo programma conta il numero di volte in cui la lettera <span class=code><span class=quote>'a'</span></span> compare in una stringa, usando un <b>contatore</b>:
+
+<p><span class=code>Frutto = <span class=quote>"banana"</span>
+<br>Conteggio = 0
+<br><span class=keyword>for</span> Carattere <span class=keyword>in</span> Frutto:
+<br>&nbsp; <span class=keyword>if</span> Carattere == <span class=quote>'a'</span>:
+<br>&nbsp; &nbsp; Conteggio = Conteggio + 1
+<br><span class=keyword>print</span> Conteggio
+<br></span></p>
+
+<p>
+La variabile <span class=code>Conteggio</span> è inizializzata a 0 e poi incrementata ogni volta che è trovata una <span class=code><span class=quote>'a'</span></span> (<b>incrementare</b> significa aumentare di 1; è l'opposto di <b>decrementare</b>). Al termine del ciclo <span class=code>Conteggio</span> contiene il risultato e cioè il numero totale di lettere <span class=code>a</span> nella stringa.
+
+<blockquote><i>Esercizio: incapsula questo codice in una funzione <span class=code>ContaLettera</span> e fai in modo che questa accetti sia la stringa che la lettera da cercare come parametri.</i>
+</blockquote>
+
+<blockquote><i>Esercizio: riscrivi la funzione <span class=code>ContaLettera</span> in modo che invece di elaborare completamente la stringa faccia uso della versione a tre parametri di <span class=code>Trova</span>.</i>
+</blockquote>
+
+<a name=9></a>
+<h3>7.9 Il modulo <span class=code>string</span> </h3>
+<p>
+Il modulo <span class=code>string</span> contiene funzioni molto utili per la manipolazione delle stringhe.  Come abbiamo già visto prima di poter usare un modulo lo dobbiamo importare:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>import</span> string
+<br></span></p>
+
+
+\fussy
+Il modulo <span class=code>string</span> include una funzione chiamata <span class=code>find</span> che fa le 
+stesse cose della nostra funzione <span class=code>Trova</span>. Per poterla usare, dopo 
+avere importato il modulo, dobbiamo chiamarla usando la notazione punto <br>
+(<i>NomeDelModulo.NomeDellaFunzione</i>):
+
+<p><span class=code>&gt;&gt;&gt; Frutto = <span class=quote>"banana"</span>
+<br>&gt;&gt;&gt; Posizione = string.find(Frutto, <span class=quote>"a"</span>)
+<br>&gt;&gt;&gt; <span class=keyword>print</span> Posizione
+<br>1
+<br></span></p>
+
+<p>
+In realtà <span class=code>string.find</span> è più generale della nostra <span class=code>Trova</span>. In primo luogo possiamo usarla per cercare stringhe e non soltanto caratteri:
+
+<p><span class=code>&gt;&gt;&gt; string.find(<span class=quote>"banana"</span>, <span class=quote>"na"</span>)
+<br>2
+<br></span></p>
+
+<p>
+Inoltre ammette un argomento ulteriore per specificare da dove vogliamo iniziare la nostra ricerca:
+
+<p><span class=code>&gt;&gt;&gt; string.find(<span class=quote>"banana"</span>, <span class=quote>"na"</span>, 3)
+<br>4
+<br></span></p>
+
+<p>
+Ancora, può prendere due argomenti che specificano il dominio di ricerca, cioè la porzione di stringa originale dove vogliamo effettuare la ricerca: 
+<p><span class=code>&gt;&gt;&gt; string.find(<span class=quote>"bob"</span>, <span class=quote>"b"</span>, 1, 2)
+<br>-1
+<br></span></p>
+
+<p>
+In questo esempio la ricerca fallisce perché la lettera <span class=code><span class=quote>'b'</span></span> non appare nel dominio definito dagli indici <span class=code>1</span> e <span class=code>2</span> (da <span class=code>1</span> incluso fino a <span class=code>2</span> escluso).
+
+<a name=10></a>
+<h3>7.10 Classificazione dei caratteri</h3>
+<p>
+È spesso necessario esaminare un carattere e controllare se questo è maiuscolo, minuscolo, o se si tratta di una cifra o di uno spazio bianco. A questo scopo il modulo <span class=code>string</span> fornisce parecchie costanti molto utili.
+<p>
+La stringa <span class=code>string.lowercase</span> contiene tutti i caratteri che il sistema considera minuscoli. Allo stesso modo <span class=code>string.uppercase</span> contiene tutti i caratteri maiuscoli. Guarda cosa contengono queste stringhe:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> string.lowercase
+<br>&gt;&gt;&gt; <span class=keyword>print</span> string.uppercase
+<br>&gt;&gt;&gt; <span class=keyword>print</span> string.digits
+<br></span></p>
+
+<p>
+Possiamo usare queste costanti e la funzione <span class=code>find</span> per classificare i caratteri. Per esempio se <span class=code>find(string.lowercase, Carattere)</span> ritorna un valore diverso da <span class=code>-1</span> allora <span class=code>Carattere</span> è minuscolo (un valore diverso da -1 indicherebbe infatti la posizione del carattere trovato):
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Minuscolo</span>(Carattere):
+<br>&nbsp; <span class=keyword>return</span> string.find(string.lowercase, Carattere) != -1
+<br></span></p>
+
+<p>
+In alternativa possiamo usare l'operatore <span class=code><span class=keyword>in</span></span> che determina se un carattere compare in una stringa:
+<p>
+ 
+<p><span class=code><span class=keyword>def</span> <span class=function>Minuscolo</span>(Carattere):
+<br>&nbsp; <span class=keyword>return</span> Carattere <span class=keyword>in</span> string.lowercase
+<br></span></p>
+
+<p>
+o il consueto operatore di confronto:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Minuscolo</span>(Carattere):
+<br>&nbsp; <span class=keyword>return</span> <span class=quote>'a'</span> &lt;= Carattere &lt;= <span class=quote>'z'</span>
+<br></span></p>
+
+<p>
+Se <span class=code>Carattere</span> è compreso tra <span class=code><span class=quote>'a'</span></span> e <span class=code><span class=quote>'z'</span></span> deve per forza trattarsi di una lettera minuscola.
+
+<blockquote><i>Esercizio: prova a determinare quale di queste versioni è la più veloce. Puoi pensare ad altre ragioni, a parte la velocità, per preferire una versione piuttosto che un'altra? </i>
+</blockquote>
+<p>
+Un'altra costante definita nel modulo <span class=code>string</span> può sorprenderti quando provi a stamparla:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> string.whitespace
+<br></span></p>
+
+<p>
+I caratteri <b>spazi bianchi</b> infatti muovono il cursore senza stampare nulla: sono questi che creano lo spazio bianco tra i caratteri visibili. La costante <span class=code>string.whitespace</span> contiene tutti gli spazi bianchi inclusi lo spazio, la tabulazione (<span class=code>\t</span>) ed il ritorno a capo (<span class=code>\n</span>).
+<p>
+Ci sono molte altre utili funzioni nel modulo <span class=code>string</span> ma questo libro non è inteso per essere un manuale di riferimento come invece lo è la <i>Python Library Reference</i>, disponibile al sito ufficiale del linguaggio Python <a href="http://www.python.org">www.python.org</a>.
+
+<a name=11></a>
+<h3>7.11 Glossario</h3>
+
+<dl>
+<dt>Tipo di dati composto</dt>
+<dd>un tipo di dati costruito con componenti che sono essi stessi dei valori.</dd>
+<dt>Attraversare</dt>
+<dd>elaborare tutti gli elementi di un insieme dal primo all'ultimo effettuando su tutti la stessa operazione.</dd>
+<dt>Indice</dt>
+<dd>variabile o valore usati per selezionare un elemento di un insieme ordinato come un carattere in una stringa.</dd>
+<dt>Porzione</dt>
+<dd>parte di una stringa specificata da due indici.</dd>
+<dt>Mutabile</dt>
+<dd>tipo di dati composto al quale possono essere assegnati nuovi valori.</dd>
+<dt>Contatore</dt>
+<dd>variabile usata per contare qualcosa, di solito inizializzata a 0 e successivamente incrementata.</dd>
+<dt>Incrementare</dt>
+<dd>aumentare di 1 il valore di una variabile.</dd>
+<dt>Decrementare</dt>
+<dd>diminuire di 1 il valore di una variabile.</dd>
+<dt>Spazio bianco</dt>
+<dd>ciascuno dei caratteri che se stampato si limita a muovere il cursore senza stampare caratteri visibili. La costante <span class=code>string.whitespace</span> contiene tutti gli spazi bianchi.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap08.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap06.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

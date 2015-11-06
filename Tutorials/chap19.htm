@@ -1,0 +1,367 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 19: Code</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap20.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap18.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 19</h2>
+
+
+
+<h1>Code</h1>
+<p>
+Questo capitolo presenta due tipi di dati astratti (TDA): la Coda e la Coda con priorità. Nella vita reale un esempio di <b>coda</b> può essere la linea di clienti in attesa di un servizio di qualche tipo. Nella maggior parte dei casi il primo cliente della fila è quello che sarà servito per primo, anche se ci possono essere delle eccezioni. All'aeroporto ai clienti il cui volo sta per partire può essere concesso di passare davanti a tutti, indipendentemente dalla loro posizione nella fila. Al supermercato un cliente può scambiare per cortesia il suo posto con qualcuno che deve pagare solo pochi prodotti.
+<p>
+La regola che determina chi sarà il prossimo ad essere servito si chiama
+<b>politica di accodamento</b>.  Quella più semplice è la <b>FIFO</b> ("first in, first out") dove il primo che arriva è il primo ad essere servito.
+La politica di accodamento più generale è l' <b>accodamento con priorità</b> dove a ciascun cliente è assegnata una priorità ed il cliente con la massima priorità viene servito per primo indipendentemente dall'ordine di arrivo.
+Diciamo che questa politica di accodamento è la più generale perché la priorità può essere basata su qualsiasi fattore: l'orario di partenza dell'aereo, la quantità di prodotti da pagare ad una cassa, l'importanza del cliente (!), la gravità dello stato di un paziente al pronto soccorso. Logicamente non tutte le politiche di accodamento sono "giuste"...
+<p>
+I tipi di dati astratti Coda e Coda con priorità condividono lo stesso insieme di operazioni. La differenza sta soltanto nella loro semantica: una Coda usa la politica FIFO, mentre la Coda con priorità, come suggerisce il nome stesso, usa la politica di accodamento con priorità.
+
+<a name=1></a>
+<h3>19.1 Il TDA Coda</h3>
+<p>
+Il TDA Coda è definito dalle operazioni seguenti:
+
+<dl>
+<dt><span class=code>__init__</span></dt>
+<dd>Inizializza una nuova coda vuota.</dd>
+<dt><span class=code>Inserimento</span></dt>
+<dd>Aggiunge un nuovo elemento alla coda.</dd>
+<dt><span class=code>Rimozione</span></dt>
+<dd>Rimuove e ritorna un elemento dalla coda. L'elemento ritornato è il primo inserito nella coda in ordine di tempo.</dd>
+<dt><span class=code>EVuota</span></dt>
+<dd>Controlla se la coda è vuota.</dd>
+</dl>
+
+<a name=2></a>
+<h3>19.2 Coda linkata</h3>
+<p>
+La prima implementazione del TDA Coda a cui guarderemo è chiamata <b>coda linkata</b> perché è composta di oggetti <span class=code>Nodo</span> linkati.  Ecco una definizione della classe:
+
+<p><span class=code><span class=keyword>class</span> Coda:
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__init__</span>(self):
+<br>&nbsp; &nbsp; self.Lunghezza = 0
+<br>&nbsp; &nbsp; self.Testa = None
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>EVuota</span>(self):
+<br>&nbsp; &nbsp; <span class=keyword>return</span> (self.Lunghezza == 0)
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>Inserimento</span>(self, Contenuto):
+<br>&nbsp; &nbsp; NodoAggiunto = Nodo(Contenuto)
+<br>&nbsp; &nbsp; NodoAggiunto.ProssimoNodo = None
+<br>&nbsp; &nbsp; <span class=keyword>if</span> self.Testa == None:
+<br>&nbsp; &nbsp; &nbsp; <span class=comment># se la lista e' vuota il nodo e' il primo
+</span><br>&nbsp; &nbsp; &nbsp; self.Testa = Nodo
+<br>&nbsp; &nbsp; <span class=keyword>else</span>:
+<br>&nbsp; &nbsp; &nbsp; <span class=comment># trova l'ultimo nodo della lista
+</span><br>&nbsp; &nbsp; &nbsp; Ultimo = self.Testa
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>while</span> Ultimo.ProssimoNodo: Ultimo = Ultimo.ProssimoNodo
+<br>&nbsp; &nbsp; &nbsp; <span class=comment># aggiunge il nuovo nodo
+</span><br>&nbsp; &nbsp; &nbsp; Ultimo.ProssimoNodo = NodoAggiunto
+<br>&nbsp; &nbsp; self.Lunghezza = self.Lunghezza + 1
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>Rimozione</span>(self):
+<br>&nbsp; &nbsp; Contenuto = self.Testa.Contenuto
+<br>&nbsp; &nbsp; self.Testa = self.Testa.ProssimoNodo
+<br>&nbsp; &nbsp; self.Lunghezza = self.Lunghezza - 1
+<br>&nbsp; &nbsp; <span class=keyword>return</span> Contenuto
+<br></span></p>
+
+<p>
+I metodi <span class=code>EVuota</span> e <span class=code>Rimozione</span> sono identici a quelli usati in
+<span class=code>ListaLinkata</span>. Il metodo <span class=code>Inserimento</span> è nuovo ed un po' più complicato.
+<p>
+Vogliamo inserire nuovi elementi alla fine della lista: se la coda è vuota facciamo in modo che <span class=code>Testa</span> si riferisca al nuovo nodo.
+<p>
+Altrimenti attraversiamo la lista fino a raggiungere l'ultimo nodo e attacchiamo a questo il nuovo nodo. Possiamo identificare facilmente l'ultimo nodo della lista perché è l'unico il cui attributo <span class=code>ProssimoNodo</span> vale <span class=code>None</span>.
+<p>
+Ci sono due invarianti per un oggetto <span class=code>Coda</span> ben formato: il valore di <span class=code>Lunghezza</span> dovrebbe essere il numero di nodi nella coda e l'ultimo nodo dovrebbe avere l'attributo <span class=code>ProssimoNodo</span> uguale a <span class=code>None</span>.  Prova a studiare il metodo implementato verificando che entrambi gli invarianti siano sempre soddisfatti.
+
+<a name=3></a>
+<h3>19.3 Performance</h3>
+<p>
+Normalmente quando invochiamo un metodo non ci interessa quali siano i dettagli della sua implementazione. Ma c'è uno di questi dettagli che invece dovrebbe interessarci: le performance del metodo. Quanto impiega ad essere eseguito? Come cambia il tempo di esecuzione man mano che la collezione aumenta di dimensioni?
+<p>
+Diamo un'occhiata a <span class=code>Rimozione</span>.
+Non ci sono cicli o chiamate a funzione, e ciò suggerisce che il tempo di esecuzione sarà lo stesso ogni volta. Questo tipo di metodo è definito <b>operazione a tempo costante</b>.
+In realtà il metodo potrebbe essere leggermente più veloce quando la lista è vuota dato che tutto il corpo della condizione viene saltato, ma la differenza in questo caso non è molto significativa e può essere tranquillamente trascurata.
+<p>
+La performance di <span class=code>Inserimento</span> è molto diversa. Nel caso generale dobbiamo attraversare completamente la lista per trovarne l'ultimo elemento.
+<p>
+Questo attraversamento impiega un tempo che è proporzionale alla grandezza della lista: dato che il tempo di esecuzione in funzione lineare rispetto alla lunghezza, diciamo che questo metodo è un'<b>operazione a tempo lineare</b>.  Se confrontato ad un'operazione a tempo costante il suo comportamento è decisamente peggiore.
+
+<a name=4></a>
+<h3>19.4 Lista linkata migliorata</h3>
+<p>
+Logicamente un'implementazione del TDA Coda che può eseguire tutte le operazioni in un tempo costante è preferibile, dato che in questo caso il tempo di esecuzione è indipendente dalla grandezza della lista elaborata. Un modo per fare questo è quello di modificare la classe Coda per fare in modo che venga tenuta traccia tanto del primo che dell'ultimo elemento della lista, come mostrato in questa figura:
+
+<p align="center"><img src="illustrations/i_queue1.png"></p>
+<p>
+L'implementazione di <span class=code>CodaMigliorata</span> potrebbe essere:
+
+<p><span class=code><span class=keyword>class</span> CodaMigliorata:
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__init__</span>(self):
+<br>&nbsp; &nbsp; self.Lunghezza = 0
+<br>&nbsp; &nbsp; self.Testa = None
+<br>&nbsp; &nbsp; self.UltimoNodo = None
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>EVuota</span>(self):
+<br>&nbsp; &nbsp; <span class=keyword>return</span> (self.Lunghezza == 0)
+<br></span></p>
+
+<p>
+Finora l'unico cambiamento riguarda l'aggiunta dell'attributo <span class=code>UltimoNodo</span>. <br>
+Questo attributo è usato dai metodi <span class=code>Inserimento</span> e <span class=code>Rimozione</span>:
+
+<p><span class=code><span class=keyword>class</span> CodaMigliorata:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>Inserimento</span>(self, Contenuto):
+<br>&nbsp; &nbsp; NodoAggiunto = Nodo(Contenuto)
+<br>&nbsp; &nbsp; NodoAggiunto.ProssimoNodo = None
+<br>&nbsp; &nbsp; <span class=keyword>if</span> self.Lunghezza == 0:
+<br>&nbsp; &nbsp; &nbsp; <span class=comment># se la lista e' vuota il nuovo nodo e' 
+</span><br>&nbsp; &nbsp; &nbsp; <span class=comment># sia la testa che la coda
+</span><br>&nbsp; &nbsp; &nbsp; self.Testa = self.UltimoNodo = NodoAggiunto
+<br>&nbsp; &nbsp; <span class=keyword>else</span>:
+<br>&nbsp; &nbsp; &nbsp; <span class=comment># trova l'ultimo nodo
+</span><br>&nbsp; &nbsp; &nbsp; Ultimo = self.UltimoNodo
+<br>&nbsp; &nbsp; &nbsp; <span class=comment># aggiunge il nuovo nodo
+</span><br>&nbsp; &nbsp; &nbsp; Ultimo.ProssimoNodo = NodoAggiunto
+<br>&nbsp; &nbsp; &nbsp; self.UltimoNodo = NodoAggiunto
+<br>&nbsp; &nbsp; self.Lunghezza = self.Lunghezza + 1
+<br></span></p>
+
+<p>
+Dato che <span class=code>UltimoNodo</span> tiene traccia dell'ultimo nodo non dobbiamo più attraversare la lista per cercarlo. Come risultato abbiamo fatto diventare questo metodo un'operazione a tempo costante.
+<p>
+Comunque dobbiamo pagare un prezzo per questa modifica: quando 
+dobbiamo rimuovere l'ultimo nodo con <span class=code>Rimozione</span> dovremo 
+assegnare <span class=code>None</span> a <span class=code>UltimoNodo</span>:
+
+<p><span class=code><span class=keyword>class</span> CodaMigliorata:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>Rimozione</span>(self):
+<br>&nbsp; &nbsp; Contenuto = self.Testa.Contenuto
+<br>&nbsp; &nbsp; self.Testa = self.Testa.ProssimoNodo
+<br>&nbsp; &nbsp; self.Lunghezza = self.Lunghezza - 1
+<br>&nbsp; &nbsp; <span class=keyword>if</span> self.Lunghezza == 0:
+<br>&nbsp; &nbsp; &nbsp; self.UltimoNodo = None
+<br>&nbsp; &nbsp; <span class=keyword>return</span> Contenuto
+<br></span></p>
+
+<p>
+Questa implementazione è più complessa di quella della coda linkata ed è più difficile dimostrare che è corretta, Il vantaggio che abbiamo comunque ottenuto  è l'aver reso sia <span class=code>Inserimento</span> che <span class=code>Rimozione</span> operazioni a tempo costante.
+
+<blockquote><i>Esercizio: scrivi un'implementazione del TDA Coda usando una lista di Python. Confronta le performance di questa implementazione con quelle di <span class=code>CodaMigliorata</span> per una serie di lunghezze diverse della coda.</i>
+</blockquote>
+
+<a name=5></a>
+<h3>19.5 Coda con priorità</h3>
+<p>
+Il TDA <i>Coda con priorità</i> ha la stessa interfaccia del TDA <i>Coda</i> ma una semantica diversa. L'interfaccia è sempre:
+
+<dl>
+<dt><span class=code>__init__</span></dt>
+<dd>Inizializza una nuova coda vuota.</dd>
+<dt><span class=code>Inserimento</span></dt>
+<dd>Aggiungi un elemento alla coda.</dd>
+<dt><span class=code>Rimozione</span></dt>
+<dd>Rimuovi un elemento dalla coda. L'elemento da rimuovere e ritornare è quello con la priorità più alta.</dd>
+<dt><span class=code>EVuota</span></dt>
+<dd>Controlla se la coda è vuota.</dd>
+</dl>
+<p>
+La differenza di semantica è che l'elemento da rimuovere non è necessariamente il primo inserito in coda, ma quello che ha la priorità più alta. Cosa siano le priorità e come siano implementate sono fatti non specificati dall'implementazione, dato che questo dipende dal genere di elementi che compongono la coda.
+<p>
+Per esempio se gli elementi nella coda sono delle stringhe potremmo estrarle in ordine alfabetico. Se sono punteggi del bowling dal più alto al più basso, e viceversa nel caso del golf. In ogni caso possiamo rimuovere l'elemento con la priorità più alta da una coda soltanto se i suoi elementi sono confrontabili tra di loro.
+<p>
+Questa è un'implementazione di una coda con priorità che usa una lista Python come attributo per contenere gli elementi della coda:
+
+<p><span class=code><span class=keyword>class</span> CodaConPriorita:
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__init__</span>(self):
+<br>&nbsp; &nbsp; self.Elementi = []
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>EVuota</span>(self):
+<br>&nbsp; &nbsp; <span class=keyword>return</span> self.Elementi == []
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>Inserimento</span>(self, Elemento):
+<br>&nbsp; &nbsp; self.Elementi.append(Elemento)
+<br></span></p>
+
+<p>
+I metodi <span class=code>__init__</span>, <span class=code>EVuota</span> e <span class=code>Inserimento</span> sono tutte maschere delle operazioni su liste. L'unico metodo "interessante" è <span class=code>Rimozione</span>:
+
+<p><span class=code><span class=keyword>class</span> CodaConPriorita:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>Rimozione</span>(self):
+<br>&nbsp; &nbsp; Indice = 0
+<br>&nbsp; &nbsp; <span class=keyword>for</span> i <span class=keyword>in</span> range(1,len(self.Elementi)):
+<br>&nbsp; &nbsp; &nbsp; <span class=keyword>if</span> self.Elementi[i] &gt; self.Elementi[Indice]:
+<br>&nbsp; &nbsp; &nbsp; &nbsp; Indice = i
+<br>&nbsp; &nbsp; Elemento = self.Elementi[Indice]
+<br>&nbsp; &nbsp; self.Elementi[Indice:Indice+1] = []
+<br>&nbsp; &nbsp; <span class=keyword>return</span> Elemento
+<br></span></p>
+
+<p>
+All'inizio di ogni iterazione <span class=code>Indice</span> contiene l'indice dell'elemento con priorità massima. Ad ogni ciclo viene confrontato questo elemento con l'<span class=code>i</span>-esimo elemento della lista: se il nuovo elemento ha priorità maggiore (nel nostro caso è maggiore), il valore di <span class=code>Indice</span> diventa <span class=code>i</span>.
+<p>
+Quando il ciclo <span class=code><span class=keyword>for</span></span> è stato completato <span class=code>Indice</span> è l'indice dell'elemento con priorità massima.  Questo elemento è rimosso dalla lista e ritornato.
+<p>
+Testiamo l'implementazione:
+
+<p><span class=code>&gt;&gt;&gt; q = CodaConPriorita()
+<br>&gt;&gt;&gt; q.Inserimento(11)
+<br>&gt;&gt;&gt; q.Inserimento(12)
+<br>&gt;&gt;&gt; q.Inserimento(14)
+<br>&gt;&gt;&gt; q.Inserimento(13)
+<br>&gt;&gt;&gt; <span class=keyword>while not</span> q.EVuota(): <span class=keyword>print</span> q.Rimozione()
+<br>14
+<br>13
+<br>12
+<br>11
+<br></span></p>
+
+<p>
+Se la coda contiene solo numeri o stringhe questi vengono rimossi in ordine numerico o alfabetico, dal più alto al più basso. Python può sempre trovare il numero o la stringa più grande perché può confrontare coppie di questi operandi con operatori di confronto predefiniti.
+<p>
+Se la coda contenesse un oggetto di tipo non predefinito è necessario fornire anche un metodo <span class=code>__cmp__</span> per poter effettuare il confronto.  Quando <span class=code>Rimozione</span> usa l'operatore <span class=code>&gt;</span> per confrontare gli elementi in realtà invoca <span class=code>__cmp__</span> per uno degli operandi e passa l'altro come parametro. La Coda con priorità funziona come ci si aspetta solo se il metodo <span class=code>__cmp__</span> opera correttamente.
+
+<a name=6></a>
+<h3>19.6 La classe <span class=code>Golf</span></h3>
+<p>
+Come esempio di oggetto con una definizione inusuale di priorità implementiamo una classe chiamata <span class=code>Golf</span> che tiene traccia dei nomi e dei punteggi di un gruppo di golfisti.  Partiamo con la definizione di <span class=code>__init__</span> e <span class=code>__str__</span>:
+
+<p><span class=code><span class=keyword>class</span> Golf:
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__init__</span>(self, Nome, Punteggio):
+<br>&nbsp; &nbsp; self.Nome = Nome
+<br>&nbsp; &nbsp; self.Punteggio = Punteggio
+<br>
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__str__</span>(self):
+<br>&nbsp; &nbsp; <span class=keyword>return</span> <span class=quote>"%-16s: %d"</span> % (self.Nome, self.Punteggio)
+<br></span></p>
+
+<p>
+<span class=code>__str__</span> usa l'operatore di formato per stampare i nomi ed i punteggi in forma tabellare su colonne ordinate.
+<p>
+Poi definiamo una versione di <span class=code>__cmp__</span> dove il punteggio minore ottiene la priorità più alta: come abbiamo già visto in precedenza <span class=code>__cmp__</span> ritorna 1 se <span class=code>self</span> è più grande di <span class=code>Altro</span>, -1 se <span class=code>self</span>
+è minore di <span class=code>Altro</span>, e 0 se i due valori sono uguali.
+
+<p><span class=code><span class=keyword>class</span> Golf:
+<br>&nbsp; ...
+<br>&nbsp; <span class=keyword>def</span> <span class=function>__cmp__</span>(self, Altro):
+<br>&nbsp; &nbsp; <span class=keyword>if</span> self.Punteggio &lt; Altro.Punteggio: <span class=keyword>return</span>&nbsp; 1
+<br>&nbsp; &nbsp; <span class=keyword>if</span> self.Punteggio &gt; Altro.Punteggio: <span class=keyword>return</span> -1
+<br>&nbsp; &nbsp; <span class=keyword>return</span> 0
+<br></span></p>
+
+<p>
+Ora siamo pronti a testare la coda con priorità sulla classe <span class=code>Golf</span>:
+
+<p><span class=code>&gt;&gt;&gt; tiger = Golf(<span class=quote>"Tiger Woods"</span>,&nbsp; &nbsp; 61)
+<br>&gt;&gt;&gt; phil&nbsp; = Golf(<span class=quote>"Phil Mickelson"</span>, 72)
+<br>&gt;&gt;&gt; hal&nbsp; &nbsp;= Golf(<span class=quote>"Hal Sutton"</span>,&nbsp; &nbsp; &nbsp;69)
+<br>&gt;&gt;&gt;
+<br>&gt;&gt;&gt; pq = CodaConPriorità()
+<br>&gt;&gt;&gt; pq.Inserimento(tiger)
+<br>&gt;&gt;&gt; pq.Inserimento(phil)
+<br>&gt;&gt;&gt; pq.Inserimento(hal)
+<br>&gt;&gt;&gt; <span class=keyword>while not</span> pq.EVuota(): <span class=keyword>print</span> pq.Rimozione()
+<br>Tiger Woods&nbsp; &nbsp; : 61
+<br>Hal Sutton&nbsp; &nbsp; &nbsp;: 69
+<br>Phil Mickelson : 72
+<br></span></p>
+
+
+<blockquote><i>Esercizio: scrivi un'implementazione di un TDA Coda con priorità facendo uso di una lista linkata. Dovrai tenere la lista sempre ordinata per fare in modo che la rimozione di un elemento sia un'operazione a tempo costante. Confronta le performance di questa implementazione con l'implementazione delle liste in Python.</i>
+</blockquote>
+
+<a name=7></a>
+<h3>19.7 Glossario</h3>
+
+<dl>
+<dt>Coda</dt>
+<dd>insieme di oggetti in attesa di un servizio di qualche tipo; abbiamo implementato un TDA Coda che esegue le comuni operazioni su una coda.</dd>
+<dt>Politica di accodamento</dt>
+<dd>regole che determinano quale elemento di una coda debba essere rimosso per primo.</dd>
+<dt>FIFO</dt>
+<dd>"First In, First Out" (primo inserito, primo rimosso) politica di accodamento nella quale il primo elemento a essere rimosso è il primo ad essere stato inserito.</dd>
+<dt>Coda con priorità</dt>
+<dd>politica di accodamento nella quale ogni elemento ha una priorità determinata da fattori esterni. L'elemento con la priorità più alta è il primo ad essere rimosso. Abbiamo implementato un TDA Coda con priorità che definisce le comuni operazioni richieste da una coda con priorità.</dd>
+<dt>Coda linkata</dt>
+<dd>implementazione di una coda realizzata usando una lista linkata.</dd>
+<dt>Operazione a tempo costante</dt>
+<dd>elaborazione il cui tempo di esecuzione non dipende (o dipende in minima parte) dalla dimensione della struttura di dati da elaborare.</dd>
+<dt>Operazione a tempo lineare</dt>
+<dd>elaborazione il cui tempo di esecuzione è proporzionale alla dimensione della struttura di dati da elaborare.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap20.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap18.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

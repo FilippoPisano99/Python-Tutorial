@@ -1,0 +1,529 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 5: Funzioni produttive</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap06.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap04.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 5</h2>
+
+
+
+<h1>Funzioni produttive</h1>
+
+<a name=1></a>
+<h3>5.1 Valori di ritorno</h3>
+<p>
+Alcune delle funzioni predefinite che abbiamo usato finora producono dei risultati: la chiamata della funzione con un particolare argomento genera un nuovo valore che viene in seguito assegnato ad una variabile o viene usato come parte di un'espressione.
+
+<p><span class=code>e = math.exp(1.0)
+<br>Altezza = Raggio * math.sin(Angolo)
+<br></span></p>
+
+<p>
+Nessuna delle funzioni che abbiamo scritto sino a questo momento ha ritornato un valore.
+<p>
+In questo capitolo scriveremo funzioni che ritornano un valore e che chiamiamo <b>funzioni produttive</b>. \
+Il primo esempio è <span class=code>AreaDelCerchio</span> che ritorna l'area di un cerchio per un dato raggio:
+
+<p><span class=code><span class=keyword>import</span> math
+<br>
+<br><span class=keyword>def</span> <span class=function>AreaDelCerchio</span>(Raggio):
+<br>&nbsp; temp = math.pi * Raggio**2
+<br>&nbsp; <span class=keyword>return</span> temp
+<br></span></p>
+
+<p>
+Abbiamo già visto l'istruzione <span class=code><span class=keyword>return</span></span>, ma nel caso di una funzione produttiva questa istruzione prevede un <b>valore di ritorno</b>.  Questa istruzione significa: "ritorna immediatamente da questa funzione a quella chiamante e usa questa espressione come valore di ritorno".
+L'espressione che rappresenta il valore di ritorno può essere anche complessa, così che l'esempio visto in precedenza può essere riscritto in modo più conciso:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>AreaDelCerchio</span>(raggio):
+<br>&nbsp; <span class=keyword>return</span> math.pi * Raggio**2
+<br></span></p>
+
+<p>
+D'altra parte una <b>variabile temporanea</b> come <span class=code>temp</span> spesso rende il programma più leggibile e ne semplifica il debug.
+<p>
+Talvolta è necessario prevedere delle istruzioni di ritorno multiple, ciascuna all'interno di una ramificazione di un'istruzione condizionale:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>ValoreAssoluto</span>(x):
+<br>&nbsp; <span class=keyword>if</span> x &lt; 0:
+<br>&nbsp; &nbsp; <span class=keyword>return</span> -x
+<br>&nbsp; <span class=keyword>else</span>:
+<br>&nbsp; &nbsp; <span class=keyword>return</span> x
+<br></span></p>
+
+<p>
+Dato che queste istruzioni <span class=code><span class=keyword>return</span></span> sono in rami diversi della condizione solo una di esse verrà effettivamente eseguita.
+<p>
+Il codice che è posto dopo un'istruzione <span class=code><span class=keyword>return</span></span>, o in ognuno dei posti dove non può essere raggiunto dal flusso di esecuzione, è denominato <b>codice morto</b>.
+<p>
+In una funzione produttiva è una buona idea assicurarci che ognuna delle ramificazioni possibili porti ad un'uscita dalla funzione con un'istruzione di <span class=code><span class=keyword>return</span></span>.  Per esempio:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>ValoreAssoluto</span>(x):
+<br>&nbsp; <span class=keyword>if</span> x &lt; 0:
+<br>&nbsp; &nbsp; <span class=keyword>return</span> -x
+<br>&nbsp; <span class=keyword>elif</span> x &gt; 0:
+<br>&nbsp; &nbsp; <span class=keyword>return</span> x
+<br></span></p>
+
+<p>
+Questo programma non è corretto in quanto non è prevista un'uscita con <span class=code><span class=keyword>return</span></span> nel caso <span class=code>x</span> sia 0. In questo caso il valore di ritorno è un valore speciale chiamato <span class=code>None</span>:
+
+<p><span class=code>&gt;&gt;&gt; <span class=keyword>print</span> ValoreAssoluto(0)
+<br>None
+<br></span></p>
+
+
+<blockquote><blockquote><i>Esercizio: scrivi una funzione <span class=code>Confronto</span> che ritorna <span class=code>1</span> se <span class=code>x&gt;y</span>, <span class=code>0</span> se <span class=code>x==y</span> e <span class=code>-1</span> se <span class=code>x&lt;y</span>.</i>
+</blockquote>
+</blockquote>
+
+<a name=2></a>
+<h3>5.2 Sviluppo del programma</h3>
+<p>
+A questo punto sei già in grado di leggere funzioni complete e capire cosa fanno. Inoltre se hai fatto gli esercizi che ti ho suggerito hai già scritto qualche piccola funzione. A mano a mano che scriverai funzioni di complessità maggiore comincerai ad incontrare qualche difficoltà soprattutto con gli errori di semantica e di esecuzione.
+<p>
+Per fare fronte a questi programmi via via più complessi ti suggerisco una tecnica chiamata <b>sviluppo incrementale</b>.  Lo scopo dello sviluppo incrementale è evitare lunghe sessioni di debug, aggiungendo e testando continuamente piccole parti di codice alla volta.
+<p>
+Come programma di esempio supponiamo che tu voglia trovare la distanza tra due punti conoscendone le coordinate <tt>(x<sub>1</sub>, y<sub>1</sub>)</tt> e <tt>(x<sub>2</sub>, y<sub>2</sub>)</tt>. Con il teorema di Pitagora sappiamo che la distanza è
+
+<p>
+<table align=center><tr><td><tt>
+distanza = <table style="display: inline; vertical-align: middle;"><tr><td rowspan=2 valign=bottom><font size=5>&radic;</font></td><td><hr noshade color=black></td></tr><tr><td>(x<sub>2</sub> - x<sub>1</sub>)<sup>2</sup> + (y<sub>2</sub> - y<sub>1</sub>)<sup>2</sup></tr></table> 
+</tt></td></tr></table>
+
+
+<p>
+La prima cosa da considerare è l'aspetto che la funzione <span class=code>DistanzaTraDuePunti</span> deve avere in Python chiarendo subito quali siano i parametri che si vogliono passare alla funzione e quale sia il risultato da ottenere: quest'ultimo può essere tanto un valore numerico da utilizzare all'interno di una espressione o da assegnare ad una variabile, tanto una stampa a video o altro.
+<p>
+Nel nostro caso è chiaro che le coordinate dei due punti sono i nostri parametri, e la distanza calcolata un valore numerico in virgola mobile.
+<p>
+Possiamo così delineare un primo abbozzo di funzione:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>DistanzaTraDuePunti</span>(x1, y1, x2, y2):
+<br>&nbsp; <span class=keyword>return</span> 0.0
+<br></span></p>
+
+<p>
+Ovviamente questa prima versione non calcola distanze, in quanto ritorna sempre 0. Ma è già una funzione sintatticamente corretta e può essere eseguita: è il caso di eseguire questo primo test prima di procedere a renderla più complessa.
+<p>
+Per testare la nuova funzione proviamo a chiamarla con dei semplici valori:
+
+<p><span class=code>&gt;&gt;&gt; DistanzaTraDuePunti(1, 2, 4, 6)
+<br>0.0
+<br></span></p>
+
+<p>
+Abbiamo scelto questi valori così che la loro distanza orizzontale è 3 e quella verticale è 4. Con il teorema di Pitagora è facile vedere che il valore atteso è pari a 5 (5 è la lunghezza dell'ipotenusa di un triangolo rettangolo i cui cateti sono 3 e 4). Quando testiamo una funzione è sempre utile conoscere il risultato di qualche caso particolare per verificare se stiamo procedendo sulla strada giusta.
+<p>
+A questo punto abbiamo verificato che la funzione è sintatticamente corretta e possiamo così cominciare ad aggiungere linee di codice. Dopo ogni aggiunta la testiamo ancora per vedere che non ci siano problemi evidenti. Dovesse presentarsi un problema almeno sapremo che questo è dovuto alle linee inserite dopo l'ultimo test che ha avuto successo.
+<p>
+Un passo logico per risolvere il nostro problema è quello di trovare le differenze <tt>x<sub>2</sub>-x<sub>1</sub></tt> e <tt>y<sub>2</sub>-y<sub>1</sub></tt>.  Memorizzeremo queste differenze in variabili temporanee chiamate <span class=code>dx</span> e <span class=code>dy</span> e le stamperemo a video.
+
+<p><span class=code><span class=keyword>def</span> <span class=function>DistanzaTraDuePunti</span>(x1, y1, x2, y2):
+<br>&nbsp; dx = x2 - x1
+<br>&nbsp; dy = y2 - y1
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"dx vale"</span>, dx
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"dy vale"</span>, dy
+<br>&nbsp; <span class=keyword>return</span> 0.0
+<br></span></p>
+
+<p>
+Se la funzione lavora correttamente, quando la richiamiamo con i valori di prima dovremmo trovare che <span class=code>dx</span> e <span class=code>dy</span> valgono rispettivamente 3 e 4. Se i risultati coincidono siamo sicuri che la funzione carica correttamente i parametri ed elabora altrettanto correttamente le prime righe. Nel caso il risultato non fosse quello atteso, dovremo concentrarci solo sulle poche righe aggiunte dall'ultimo test e non sull'intera funzione.
+<p>
+Proseguiamo con il calcolo della somma dei quadrati di <span class=code>dx</span> e <span class=code>dy</span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>DistanzaTraDuePunti</span>(x1, y1, x2, y2):
+<br>&nbsp; dx = x2 - x1
+<br>&nbsp; dy = y2 - y1
+<br>&nbsp; DistQuadrata = dx**2 + dy**2
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"DistQuadrata vale "</span>, DistQuadrata
+<br>&nbsp; <span class=keyword>return</span> 0.0
+<br></span></p>
+
+<p>
+Nota come i due <span class=code><span class=keyword>print</span></span> che avevamo usato prima siano stati rimossi in quanto ci sono serviti per testare quella parte di programma ma adesso sarebbero inutili. Un codice come questo è chiamato <b>codice temporaneo</b> perché è utile durante la costruzione del programma ma alla fine deve essere rimosso in quanto non fa parte delle funzioni richieste alla versione definitiva della nostra funzione.
+<p>
+Ancora una volta eseguiamo il programma. Se tutto funziona dovremmo trovare un risultato pari a 25 (la somma dei quadrati costruiti sui cateti di lato 3 e 4).
+<p>
+Non ci resta che calcolare la radice quadrata. Se abbiamo importato il modulo matematico <span class=code>math</span> possiamo usare la funzione <span class=code>sqrt</span> per elaborare il risultato:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>DistanzaTraDuePunti</span>(x1, y1, x2, y2):
+<br>&nbsp; dx = x2 - x1
+<br>&nbsp; dy = y2 - y1
+<br>&nbsp; DistQuadrata = dx**2 + dy**2
+<br>&nbsp; Risultato = math.sqrt(DistQuadrata)
+<br>&nbsp; <span class=keyword>return</span> Risultato
+<br></span></p>
+
+<p>
+Stavolta se tutto va bene abbiamo finito. Potresti anche stampare il valore di <span class=code>Risultato</span> prima di uscire dalla funzione con <span class=code><span class=keyword>return</span></span>.
+<p>
+Soprattutto all'inizio non dovresti mai aggiungere più di poche righe di programma alla volta. Man mano che la tua esperienza di programmatore cresce ti troverai a scrivere pezzi di codice sempre più grandi. In ogni caso nelle prime fasi il processo di sviluppo incrementale ti farà risparmiare un bel po' di tempo.
+<p>
+Ecco gli aspetti chiave del processo di sviluppo incrementale:
+
+<ol>
+<li>Inizia con un programma funzionante e fai piccoli cambiamenti: questo ti permetterà di scoprire facilmente dove siano localizzati gli eventuali errori.</li>
+<li>Usa variabili temporanee per memorizzare i valori intermedi, così da poterli stampare e controllare.</li>
+<li>Quando il programma funziona perfettamente rimuovi le istruzioni temporanee e consolida le istruzioni in espressioni composite, sempre che questo non renda il programma difficile da leggere.</li>
+</ol>
+
+<blockquote><i>Esercizio: usa lo sviluppo incrementale per scrivere una funzione chiamata <span class=code>Ipotenusa</span> che ritorna la lunghezza dell'ipotenusa di un triangolo rettangolo, passando i due cateti come parametri. Registra ogni passo del processo di sviluppo man mano che esso procede.</i>
+</blockquote>
+
+<a name=3></a>
+<h3>5.3 Composizione</h3>
+<p>
+È possibile chiamare una funzione dall'interno di un'altra funzione. Questa capacità è chiamata <b>composizione</b>.
+<p>
+Scriveremo ora una funzione che accetta come parametri il centro ed un punto sulla circonferenza di un cerchio e calcola l'area del cerchio.
+<p>
+Il centro del cerchio è memorizzato nelle variabili <span class=code>xc</span> e <span class=code>yc</span> e le coordinate del punto sulla circonferenza in <span class=code>xp</span> e <span class=code>yp</span>. Il primo passo è trovare il raggio del cerchio, che è equivalente alla distanza tra i due punti: la funzione <span class=code>DistanzaTraDuePunti</span> che abbiamo appena scritto servirà proprio a questo:
+
+<p><span class=code>Raggio = DistanzaTraDuePunti(xc, yc, xp, yp)
+<br></span></p>
+
+<p>
+Il secondo passo è trovare l'area del cerchio e restituirla:
+
+<p><span class=code>Risultato = AreaDelCerchio(Raggio)
+<br><span class=keyword>return</span> Risultato
+<br></span></p>
+
+<p>
+Assemblando il tutto in una funzione abbiamo:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>AreaDelCerchio2</span>(xc, yc, xp, yp):
+<br>&nbsp; Raggio = DistanzaTraDuePunti(xc, yc, xp, yp)
+<br>&nbsp; Risultato = AreaDelCerchio(Raggio)
+<br>&nbsp; <span class=keyword>return</span> Risultato
+<br></span></p>
+
+<p>
+Abbiamo chiamato questa funzione <span class=code>AreaDelCerchio2</span> per distinguerla dalla funzione <span class=code>AreaDelCerchio</span> definita in precedenza.  Non possono esistere due funzioni con lo stesso nome all'interno di un modulo.
+<p>
+Le variabili temporanee <span class=code>Raggio</span> e <span class=code>Risultato</span> sono utili per lo sviluppo e il debug ma quando il programma funziona possiamo riscrivere la funzione in modo più conciso componendo le chiamate alle funzioni:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>AreaDelCerchio2</span>(xc, yc, xp, yp):
+<br>&nbsp; <span class=keyword>return</span> AreaDelCerchio(DistanzaTraDuePunti(xc, yc, xp, yp))
+<br></span></p>
+
+
+<blockquote><i>Esercizio: scrivi una funzione <span class=code>Pendenza(x1, y1, x2, y2)</span>
+che ritorna il valore della pendenza della retta passante per i punti <tt>(x1, y1)</tt> e <tt>(x2, y2)</tt>.  Poi usa questa funzione in una seconda funzione chiamata <span class=code>IntercettaY(x1, y1, x2, y2)</span> che ritorna il valore delle ordinate quando la retta determinata dagli stessi punti ha X uguale a zero. </i>
+</blockquote>
+
+<a name=4></a>
+<h3>5.4 Funzioni booleane</h3>
+<p>
+Le funzioni possono anche ritornare valori booleani (<i>vero</i> o <i>falso</i>) e questo è molto utile per mascherare al loro interno test anche complicati.
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Divisibile</span>(x, y):
+<br>&nbsp; <span class=keyword>if</span> x % y == 0:
+<br>&nbsp; &nbsp; <span class=keyword>return</span> 1&nbsp; &nbsp; &nbsp; &nbsp;<span class=comment># x e' divisibile per y: ritorna vero
+</span><br>&nbsp; <span class=keyword>else</span>:
+<br>&nbsp; &nbsp; <span class=keyword>return</span> 0&nbsp; &nbsp; &nbsp; &nbsp;<span class=comment># x non e' divisibile per y: ritorna falso
+</span><br></span></p>
+
+<p>
+Il nome di questa funzione è <span class=code>Divisibile</span> (sarebbe comodo poterla 
+chiamare <span class=code>E`Divisibile</span> ma purtroppo gli accenti e le lettere accentate non sono caratteri validi nei nomi di variabili e di funzioni).  È consuetudine assegnare dei nomi che sembrano domande con risposta si/no alle funzioni booleane: Divisibile? Bisestile? NumeroPari? 
+Nel nostro caso <span class=code>Divisibile</span> ritorna <span class=code>1</span> o <span class=code>0</span> per indicare se <span class=code>x</span> è divisibile o meno per <span class=code>y</span>. Vale il discorso già fatto in precedenza: 0 indica <i>falso</i>, qualsiasi valore diverso da 0 <i>vero</i>.
+<p>
+Possiamo rendere le funzioni ancora più concise avvantaggiandoci del fatto che la condizione nell'istruzione <span class=code><span class=keyword>if</span></span> è anch'essa di tipo booleano:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Divisibile</span>(x, y):
+<br>&nbsp; <span class=keyword>return</span> x%y == 0
+<br></span></p>
+
+<p>
+Questa sessione mostra la nuova funzione in azione:
+
+<p><span class=code>&gt;&gt;&gt;&nbsp; &nbsp;Divisibile(6, 4)
+<br>0
+<br>&gt;&gt;&gt;&nbsp; &nbsp;Divisibile(6, 3)
+<br>1
+<br></span></p>
+
+<p>
+Le funzioni booleane sono spesso usate in istruzioni condizionali:
+
+<p><span class=code><span class=keyword>if</span> Divisibile(x, y):
+<br>&nbsp; <span class=keyword>print</span> x, <span class=quote>"e' divisibile per"</span>, y
+<br><span class=keyword>else</span>:
+<br>&nbsp; <span class=keyword>print</span> x, <span class=quote>"non e' divisibile per"</span>, y
+<br></span></p>
+
+
+<blockquote><i>Esercizio: scrivi una funzione <span class=code>CompresoTra(x,y,z)</span> che ritorna 1 se <tt>yle xle z</tt>, altrimenti ritorna 0.</i>
+</blockquote>
+
+<a name=5></a>
+<h3>5.5 Ancora ricorsione</h3>
+<p>
+Finora hai imparato una piccola parte di Python, ma potrebbe interessarti sapere che questo sottoinsieme è già di per sé un linguaggio di programmazione <i>completo</i>: questo significa che con gli elementi che già conosci puoi esprimere qualsiasi tipo di elaborazione. Aggiungendo solo qualche comando di controllo per gestire tastiera, mouse, dischi, ecc. qualsiasi tipo di programma potrebbe già essere riscritto usando solo le caratteristiche del linguaggio che hai imparato finora.
+<p>
+La prova di questa affermazione è un esercizio non banale e  fu dimostrata per la prima volta da Alan Turing, uno dei primi teorici dell'informatica (qualcuno potrebbe obiettare che in realtà era un matematico, ma molti degli informatici di allora erano dei matematici). Di conseguenza la dimostrazione è chiamata Teorema di Turing.
+<p>
+Per darti un'idea di che cosa puoi fare con ciò che hai imparato finora proveremo a valutare un po' di funzioni matematiche definite ricorsivamente. Una funzione ricorsiva è simile ad una definizione circolare, nel senso che la sua definizione contiene un riferimento alla cosa che viene definita. Una definizione circolare non è poi troppo utile, tanto che se ne trovassi una consultando un vocabolario ciò ti darebbe fastidio:
+
+<dl>
+<dt>zurloso</dt>
+<dd>aggettivo usato per descrivere qualcosa di zurloso.</dd>
+</dl>
+<p>
+D'altra parte se guardi la definizione della funzione matematica fattoriale (indicata da un numero seguito da un punto esclamativo) ti accorgi che la somiglianza è notevole:
+
+<p>
+<table align=center><tr><td><tt>
+0! = 1 <br>n! = n (n-1)!
+</tt></td></tr></table>
+
+
+<p>
+Questa definizione stabilisce che il fattoriale di 0 è 1 e che il fattoriale di ogni altro valore <tt>n</tt> è <tt>n</tt> moltiplicato per il fattoriale di <tt>n-1</tt>.
+<p>
+Così <tt>3!</tt> è 3 moltiplicato <tt>2!</tt>, che a sua volta è 2 moltiplicato <tt>1!</tt>, che a sua volta è 1 moltiplicato <tt>0!</tt>, che per definizione è 1. Mettendo tutto assieme <tt>3!</tt> è uguale a 3 per 2 per 1, e cioè pari a 6.
+<p>
+Se scrivi una definizione ricorsiva, solitamente puoi anche scrivere un programma Python per valutarla. Il primo passo è quello di decidere quali siano i parametri da passare alla funzione.
+<p>
+<span class=code>Fattoriale</span> ha un solo parametro:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Fattoriale</span>(n):
+<br></span></p>
+
+<p>
+Se l'argomento è 0 dobbiamo ritornare il valore 1:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Fattoriale</span>(n):
+<br>&nbsp; <span class=keyword>if</span> n == 0:
+<br>&nbsp; &nbsp; <span class=keyword>return</span> 1
+<br></span></p>
+
+<p>
+Altrimenti, e questa è la parte interessante, dobbiamo fare una chiamata ricorsiva per trovare il fattoriale di <tt>n-1</tt> e poi moltiplicare questo valore per <tt>n</tt>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Fattoriale</span>(n):
+<br>&nbsp; <span class=keyword>if</span> n == 0:
+<br>&nbsp; &nbsp; <span class=keyword>return</span> 1
+<br>&nbsp; <span class=keyword>else</span>:
+<br>&nbsp; &nbsp; FattorialeMenoUno = Fattoriale(n-1)
+<br>&nbsp; &nbsp; Risultato = n * FattorialeMenoUno
+<br>&nbsp; &nbsp; <span class=keyword>return</span> Risultato
+<br></span></p>
+
+<p>
+Il flusso di esecuzione del programma è simile a quello di <span class=code>ContoAllaRovescia</span> nella <a href="chap04.htm#9">sezione 4.9</a>.  Se chiamiamo <span class=code>Fattoriale</span> con il valore 3:
+<p>
+Dato che 3 non è 0, seguiamo il ramo <span class=code><span class=keyword>else</span></span> e calcoliamo il fattoriale di <span class=code>n=3-1=2</span>...
+
+<blockquote>Dato che 2 non è 0, seguiamo il ramo <span class=code><span class=keyword>else</span></span> e calcoliamo il fattoriale di <span class=code>n=2-1=1</span>...
+
+<blockquote>Dato che 1 non è 0, seguiamo il ramo <span class=code><span class=keyword>else</span></span> e calcoliamo il fattoriale di <span class=code>n=1-1=0</span>...
+
+<blockquote>Dato che 0 <i>è</i> 0 ritorniamo 1 senza effettuare ulteriori chiamate ricorsive.
+</blockquote>
+<p>
+Il valore di ritorno (1) è moltiplicato per <tt>n</tt> (1) e il risultato (1) restituito alla funzione chiamante.
+</blockquote>
+<p>
+Il valore di ritorno (1) è moltiplicato per <tt>n</tt> (2) e il risultato (2) restituito alla funzione chiamante.
+</blockquote>
+<p>
+Il valore di ritorno (2) è moltiplicato per <tt>n</tt> (3) e il risultato (6) diventa il valore di ritorno della funzione che ha fatto partire l'intero processo.
+<p>
+Questo è il diagramma di stack per l'intera serie di funzioni:
+
+<p align="center"><img src="illustrations/i_stack3.png"></p>
+<p>
+I valori di ritorno sono mostrati mentre vengono passati di chiamata in chiamata verso l'alto. In ogni frame il valore di ritorno è <span class=code>Risultato</span>, che è il prodotto di <span class=code>n</span> per <span class=code>FattorialeMenoUno</span>.
+<p>
+Nota come nell'ultimo frame le variabili locali <span class=code>FattorialeMenoUno</span> e <span class=code>Risultato</span> non esistono, perché il ramo che le crea non viene eseguito.
+
+<a name=6></a>
+<h3>5.6 Accettare con fiducia</h3>
+<p>
+Seguire il flusso di esecuzione è un modo di leggere i programmi, ma può dimostrarsi piuttosto difficile da seguire man mano che le dimensioni del codice aumentano.
+Un modo alternativo è ciò che potremmo chiamare <i>accettazione con fiducia</i>: quando  arrivi ad una chiamata di funzione invece di seguire il flusso di esecuzione <i>parti dal presupposto</i> che la funzione chiamata si comporti correttamente e che ritorni il valore che ci si attende.
+<p>
+In ogni modo stai già praticando questa <i>accettazione con fiducia</i> quando usi le funzioni predefinite: quando chiami <span class=code>math.cos</span> o <span class=code>math.exp</span> non vai a controllare l'implementazione delle funzioni, assumendo che chi le ha scritte fosse un buon programmatore e che le funzioni siano corrette.
+<p>
+Lo stesso si può dire per le funzioni che scrivi tu stesso: quando abbiamo scritto la funzione <span class=code>Divisibile</span>, che controlla se un numero è divisibile per un altro, e abbiamo verificato che la funzione è corretta controllando il codice possiamo usarla senza doverla ricontrollare ancora.
+<p>
+Quando hai chiamate ricorsive invece di seguire il flusso di programma puoi partire dal presupposto che la chiamata ricorsiva funzioni (producendo il risultato corretto) chiedendoti in seguito: "Supponendo che si riesca a trovare il fattoriale di <tt>n-1</tt>, posso calcolare il fattoriale di <tt>n</tt>?"  In questo caso è chiaro che puoi farlo moltiplicandolo per <tt>n</tt>. È certamente strano partire dal presupposto che una funzione lavori correttamente quando non è ancora stata finita, non è vero?
+
+<a name=7></a>
+<h3>5.7 Un esempio ulteriore</h3>
+<p>
+Nell'esempio precedente abbiamo usato delle variabili temporanee per identificare meglio i singoli passaggi e per facilitare la lettura del codice, ma avremmo potuto risparmiare qualche riga:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Fattoriale</span>(n):
+<br>&nbsp; <span class=keyword>if</span> n == 0:
+<br>&nbsp; &nbsp; <span class=keyword>return</span> 1
+<br>&nbsp; <span class=keyword>else</span>:
+<br>&nbsp; &nbsp; <span class=keyword>return</span> n * Fattoriale(n-1)
+<br></span></p>
+
+<p>
+D'ora in poi in questo libro tenderemo ad usare la forma più concisa, ma ti consiglio di usare quella più esplicita finché non avrai un po' di esperienza nello sviluppo del codice.
+<p>
+Dopo il <span class=code>Fattoriale</span>, l'esempio di funzione ricorsiva più comune è la funzione <span class=code>Fibonacci</span> che ha questa definizione:
+
+<p>
+<table align=center><tr><td><tt>
+fibonacci(0) = 1 <br>fibonacci(1) = 1 <br>fibonacci(n) = fibonacci(n-1) + fibonacci(n-2);
+</tt></td></tr></table>
+
+
+<p>
+Tradotta in Python:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Fibonacci</span> (n):
+<br>&nbsp; <span class=keyword>if</span> n == 0 <span class=keyword>or</span> n == 1:
+<br>&nbsp; &nbsp; <span class=keyword>return</span> 1
+<br>&nbsp; <span class=keyword>else</span>:
+<br>&nbsp; &nbsp; <span class=keyword>return</span> Fibonacci(n-1) + Fibonacci(n-2)
+<br></span></p>
+
+<p>
+Con una funzione del genere il flusso di esecuzione diventa praticamente impossibile da seguire anche per piccoli valori di <tt>n</tt>. In questo caso ed in casi analoghi vale la pena di adottare l'accettazione con fiducia partendo dal presupposto che le due chiamate ricorsive funzionino correttamente e che quindi la somma dei loro valori di ritorno sia corretta.
+
+<a name=8></a>
+<h3>5.8 Controllo dei tipi</h3>
+<p>
+Cosa succede se chiamiamo <span class=code>Fattoriale</span> e passiamo 1.5 come argomento?
+
+<p><span class=code>&gt;&gt;&gt; Fattoriale(1.5)
+<br>RuntimeError: Maximum recursion depth exceeded
+<br></span></p>
+
+<p>
+A prima vista sembra una ricorsione infinita. Ma come può accadere? C'è un caso base (quando <span class=code>n==0</span>) che dovrebbe fermare la ricorsione, ma il problema è che non tutti i possibili valori di <span class=code>n</span> verificano la condizione di fermata prevista dal caso base.
+<p>
+Se proviamo a seguire il flusso di esecuzione, alla prima chiamata il valore di <span class=code>n</span> passa a 0.5. Alla successiva diventa -0.5. Da lì in poi, sottraendo 1 di volta in volta, il valore passato alla funzione è sempre più piccolo ma non sarà mai lo 0 che ci aspettiamo nel caso base.
+<p>
+Abbiamo due scelte: possiamo generalizzare la funzione <span class=code>Fattoriale</span> per farla lavorare anche nel caso di numeri in virgola mobile, o possiamo far controllare alla funzione dopo la sua chiamata se il parametro passato è del tipo corretto. La prima possibilità è chiamata in matematica <i>funzione gamma</i> (il fattoriale definito nei numeri reali) ed è decisamente al di là degli scopi di questo libro, così sceglieremo la seconda alternativa.
+<p>
+Possiamo usare <span class=code>type</span> per controllare se il parametro è di tipo intero. Già che ci siamo mettiamo anche un controllo per essere sicuri che il numero sia positivo:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Fattoriale</span>(n):
+<br>&nbsp; <span class=keyword>if</span> type(n) != type(1):
+<br>&nbsp; &nbsp; <span class=keyword>print</span> <span class=quote>"Il fattoriale è definito solo per i valori interi."</span>
+<br>&nbsp; &nbsp; <span class=keyword>return</span> -1
+<br>&nbsp; <span class=keyword>elif</span> n &lt; 0:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> <span class=quote>"Il fattoriale è definito solo per interi positivi."</span>
+<br>&nbsp; &nbsp; <span class=keyword>return</span> -1
+<br>&nbsp; <span class=keyword>elif</span> n == 0:
+<br>&nbsp; &nbsp; <span class=keyword>return</span> 1
+<br>&nbsp; <span class=keyword>else</span>:
+<br>&nbsp; &nbsp; <span class=keyword>return</span> n * Fattoriale(n-1)
+<br></span></p>
+
+<p>
+Nel primo confronto abbiamo confrontato il "tipo di <span class=code>n</span>" con il "tipo del numero intero 1" per vedere se <span class=code>n</span> è intero.
+<p>
+Ora abbiamo tre casi: il primo blocca i valori non interi; il secondo gli interi negativi ed il terzo calcola il fattoriale di un numero che a questo punto è sicuramente un intero positivo o uguale a zero. Nei primi due casi dato che il calcolo non è possibile viene stampato un messaggio d'errore e la funzione ritorna il valore -1, per indicare che qualcosa non ha funzionato:
+
+<p><span class=code>&gt;&gt;&gt; Fattoriale(<span class=quote>"AAA"</span>)
+<br>Il fattoriale è definito solo per i valori interi.
+<br>-1
+<br>&gt;&gt;&gt; Fattoriale (-2)
+<br>Il fattoriale è definito solo per gli interi positivi.
+<br>-1
+<br></span></p>
+
+<p>
+Se il flusso di programma passa attraverso entrambi i controlli siamo certi che <span class=code>n</span> è un intero positivo e sappiamo che la ricorsione avrà termine.
+<p>
+Questo programma mostra il funzionamento di una <b>condizione di guardia</b>. I primi due controlli agiscono da "guardiani", proteggendo il codice che segue da circostanze che potrebbero causare errori. Le condizioni di guardia rendono possibile provare la correttezza del codice in modo estremamente semplice ed affidabile.
+
+<a name=9></a>
+<h3>5.9 Glossario</h3>
+
+<dl>
+<dt>Funzione produttiva</dt>
+<dd>funzione che produce un valore.</dd>
+<dt>Valore di ritorno</dt>
+<dd>valore restituito da una funzione.</dd>
+<dt>Variabile temporanea</dt>
+<dd>variabile usata per memorizzare un risultato intermedio durante un calcolo complesso.</dd>
+<dt>Codice morto</dt>
+<dd>parte di un programma che non può mai essere eseguita, spesso perché compare dopo un'istruzione di <span class=code><span class=keyword>return</span></span>.</dd>
+<dt>Valore <span class=code>None</span></dt>
+<dd>valore speciale ritornato da una funzione che non ha un'istruzione <span class=code><span class=keyword>return</span></span>, o se l'istruzione <span class=code><span class=keyword>return</span></span> non specifica un valore di ritorno.</dd>
+<dt>Sviluppo incrementale</dt>
+<dd>sistema di sviluppo del programma inteso ad evitare lunghe sessioni di debug alla ricerca degli errori aggiungendo e testando solo piccole porzioni di codice alla volta.</dd>
+<dt>Codice temporaneo</dt>
+<dd>codice inserito solo nella fase di sviluppo del programma e che non è richiesto nella versione finale.</dd>
+<dt>Condizione di guardia</dt>
+<dd>condizione che controlla e gestisce le circostanze che possono causare un errore.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap06.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap04.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

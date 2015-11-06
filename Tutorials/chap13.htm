@@ -1,0 +1,317 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 13: Classi e funzioni</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap14.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap12.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 13</h2>
+
+
+
+<h1>Classi e funzioni</h1>
+
+<a name=1></a>
+<h3>13.1 Tempo</h3>
+<p>
+Definiamo ora una classe chiamata <span class=code>Tempo</span> che permette di registrare un'ora del giorno:
+
+<p><span class=code><span class=keyword>class</span> Tempo:
+<br>&nbsp; <span class=keyword>pass</span>
+<br></span></p>
+
+<p>
+Possiamo creare un nuovo oggetto <span class=code>Tempo</span> assegnando gli attributi per le ore, i minuti e i secondi:
+
+<p><span class=code>Time = Tempo()
+<br>Time.Ore = 11
+<br>Time.Minuti = 59
+<br>Time.Secondi = 30
+<br></span></p>
+
+<p>
+Il diagramma di stato per l'oggetto <span class=code>Time</span> è:
+
+<p align="center"><img src="illustrations/i_time.png"></p>
+
+<blockquote><i>Esercizio: scrivi una funzione <span class=code>StampaTempo</span> che prende un oggetto 
+<span class=code>Tempo</span> come argomento e ne stampa il risultato nella classica 
+forma <span class=code>ore:minuti:secondi</span>.</i>
+</blockquote>
+
+<blockquote><i>Esercizio: scrivi una funzione booleana <span class=code>Dopo</span> che prende come argomenti due oggetti <span class=code>Tempo</span> (<span class=code>Tempo1</span> e <span class=code>Tempo2</span>) e ritorna <i>vero</i> se <span class=code>Tempo1</span> segue cronologicamente <span class=code>Tempo2</span> e <i>falso</i> in caso contrario.</i>
+</blockquote>
+
+<a name=2></a>
+<h3>13.2 Funzioni pure</h3>
+<p>
+Nelle prossime funzioni scriveremo due versioni di una funzione che chiameremo 
+<span class=code>SommaTempi</span> che calcola la somma di due oggetti <span class=code>Tempo</span>. 
+Questo permetterà di mostrare due tipi di funzioni: le funzioni pure e i 
+modificatori.
+<p>
+Questa è una versione grezza di <span class=code>SommaTempi</span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>SommaTempi</span>(T1, T2):
+<br>&nbsp; Somma = Tempo()
+<br>&nbsp; Somma.Ore = T1.Ore + T2.Ore
+<br>&nbsp; Somma.Minuti = T1.Minuti + T2.Minuti
+<br>&nbsp; Somma.Secondi = T1.Secondi + T2.Secondi
+<br>&nbsp; <span class=keyword>return</span> Somma
+<br></span></p>
+
+<p>
+La funzione crea un nuovo oggetto <span class=code>Tempo</span>, inizializza i suoi attributi e ritorna un riferimento al nuovo oggetto. Questa viene chiamata <b>funzione pura</b> perché non modifica in alcun modo gli oggetti passati come suoi parametri e non ha effetti collaterali (del tipo richiedere l'immissione di un valore da parte dell'operatore o stampare un valore a video).
+<p>
+Ecco un esempio che mostra come usare questa funzione: creiamo due oggetti <span class=code>Tempo</span>, <span class=code>OraCorrente</span> che contiene l'ora corrente e <span class=code>TempoCottura</span> che indica il tempo necessario a preparare un pasto. Se non hai ancora scritto <span class=code>StampaTempo</span> guarda la <a href="chap14.htm#2">sezione 14.2</a> prima di continuare:
+
+<p><span class=code>&gt;&gt;&gt; OraCorrente = Tempo()
+<br>&gt;&gt;&gt; OraCorrente.Ore = 9
+<br>&gt;&gt;&gt; OraCorrente.Minuti = 14
+<br>&gt;&gt;&gt; OraCorrente.Secondi=&nbsp; 30
+<br>
+<br>&gt;&gt;&gt; TempoCottura = Tempo()
+<br>&gt;&gt;&gt; TempoCottura.Ore =&nbsp; 3
+<br>&gt;&gt;&gt; TempoCottura.Minuti = 35
+<br>&gt;&gt;&gt; TempoCottura.Secondi = 0
+<br>
+<br>&gt;&gt;&gt; PastoPronto = SommaTempi(OraCorrente, TempoCottura)
+<br>&gt;&gt;&gt; StampaTempo(PastoPronto)
+<br></span></p>
+
+<p>
+La stampa di questo programma è <span class=code>12:49:30</span> ed il risultato è corretto. D'altra parte ci sono dei casi in cui il risultato è sbagliato: riesci a pensarne uno?
+<p>
+Il problema è che nella nostra funzione non abbiamo tenuto conto del fatto che le somme dei secondi e dei minuti possono andare oltre il 59. Quando capita questo dobbiamo conteggiare il riporto come facciamo con le normali addizioni.
+<p>
+Ecco una seconda versione corretta della funzione:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>SommaTempi</span>(T1, T2):
+<br>&nbsp; Somma = Tempo()
+<br>&nbsp; Somma.Ore = T1.Ore + T2.Ore
+<br>&nbsp; Somma.Minuti = T1.Minuti + T2.Minuti
+<br>&nbsp; Somma.Secondi = T1.Secondi + T2.Secondi
+<br>
+<br>&nbsp; <span class=keyword>if</span> Somma.Secondi &gt;= 60:
+<br>&nbsp; &nbsp; Somma.Secondi = Somma.Secondi - 60
+<br>&nbsp; &nbsp; Somma.Minuti = Somma.Minuti + 1
+<br>
+<br>&nbsp; <span class=keyword>if</span> Somma.Minuti &gt;= 60:
+<br>&nbsp; &nbsp; Somma.Minuti = Somma.Minuti - 60
+<br>&nbsp; &nbsp; Somma.Ore = Somma.Ore + 1
+<br>
+<br>&nbsp; <span class=keyword>return</span> Somma
+<br></span></p>
+
+<p>
+Questa funzione è corretta e comincia ad avere una certa lunghezza. In seguito ti mostreremo un approccio alternativo che ti permetterà di ottenere un codice più corto.
+
+<a name=3></a>
+<h3>13.3 Modificatori</h3>
+<p>
+Ci sono dei casi in cui è utile una funzione che possa modificare gli oggetti passati come suoi parametri. Quando questo si verifica la funzione è detta <b>modificatore</b>.
+<p>
+La funzione <span class=code>Incremento</span> che somma un certo numero di secondi a <span class=code>Tempo</span> può essere scritta in modo molto intuitivo come modificatore. La prima stesura potrebbe essere questa:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Incremento</span>(Tempo, Secondi):
+<br>&nbsp; Tempo.Secondi = Tempo.Secondi + Secondi
+<br>
+<br>&nbsp; <span class=keyword>if</span> Tempo.Secondi &gt;= 60:
+<br>&nbsp; &nbsp; Tempo.Secondi = Tempo.Secondi - 60
+<br>&nbsp; &nbsp; Tempo.Minuti = Tempo.Minuti + 1
+<br>
+<br>&nbsp; <span class=keyword>if</span> Tempo.Minuti &gt;= 60:
+<br>&nbsp; &nbsp; Tempo.Minuti = Tempo.Minuti - 60
+<br>&nbsp; &nbsp; Tempo.Ore = Tempo.Ore + 1
+<br></span></p>
+
+<p>
+La prima riga calcola il valore mentre le successive controllano che il risultato sia nella gamma di valori accettabili come abbiamo già visto.
+<p>
+Questa funzione è corretta? Cosa succede se il parametro <span class=code>Secondi</span> è molto più grande di 60? In questo caso non è abbastanza il riporto 1  tra secondi e minuti, e quindi dobbiamo riscrivere il controllo per fare in modo di continuarlo finché <span class=code>Secondi</span> non diventa minore di 60. Una possibile soluzione è quella di sostituire l'istruzione <span class=code><span class=keyword>if</span></span> con un ciclo <span class=code><span class=keyword>while</span></span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Incremento</span>(Tempo, Secondi):
+<br>&nbsp; Tempo.Secondi = Tempo.Secondi + Secondi
+<br>
+<br>&nbsp; <span class=keyword>while</span> Tempo.Secondi &gt;= 60:
+<br>&nbsp; &nbsp; Tempo.Secondi = Tempo.Secondi - 60
+<br>&nbsp; &nbsp; Tempo.Minuti = Tempo.Minuti + 1
+<br>
+<br>&nbsp; <span class=keyword>while</span> Tempo.Minuti &gt;= 60:
+<br>&nbsp; &nbsp; Tempo.Minuti = Tempo.Minuti - 60
+<br>&nbsp; &nbsp; Tempo.Ore = Tempo.Ore + 1
+<br></span></p>
+
+<p>
+La funzione è corretta, ma certamente non si tratta ancora della soluzione più efficiente possibile.
+
+<blockquote><i>Esercizio: riscrivi questa funzione facendo in modo di non usare alcun tipo di ciclo.</i>
+</blockquote>
+
+<blockquote><i>Esercizio: riscrivi <span class=code>Incremento</span> come funzione pura e scrivi delle chiamate di funzione per entrambe le versioni.</i>
+</blockquote>
+
+<a name=4></a>
+<h3>13.4 Qual è la soluzione migliore?</h3>
+<p>
+Qualsiasi cosa che può essere fatta con i modificatori può anche essere fatta con le funzioni pure e alcuni linguaggi di programmazione non prevedono addirittura i modificatori. Si può affermare che le funzioni pure sono più veloci da sviluppare e portano ad un minor numero di errori, anche se in qualche caso può essere utile fare affidamento sui modificatori.
+<p>
+In generale raccomandiamo di usare funzioni pure quando possibile e usare i modificatori come ultima risorsa solo se c'è un evidente vantaggio nel farlo. Questo tipo di approccio può essere definito <b>stile di programmazione funzionale</b>.
+
+<a name=5></a>
+<h3>13.5 Sviluppo prototipale e sviluppo pianificato</h3>
+<p>
+In questo capitolo abbiamo mostrato un approccio allo sviluppo del programma che possiamo chiamare <b>sviluppo prototipale</b>: siamo partiti con lo stendere una versione grezza (prototipo) che poteva effettuare solo i calcoli di base, migliorandola e correggendo gli errori man mano che questi venivano trovati.
+<p>
+Sebbene questo approccio possa essere abbastanza efficace può portare a scrivere un codice inutilmente complesso (perché ha a che fare con molti casi speciali) e inaffidabile (dato che è difficile sapere se tutti gli errori sono stati rimossi).
+<p>
+Un'alternativa è lo <b>sviluppo pianificato</b> nel quale lo studio preventivo del problema da affrontare rende la programmazione molto più semplice. Nel nostro caso potremmo accorgerci che a tutti gli effetti l'oggetto <span class=code>Tempo</span> è rappresentabile da tre cifre in base numerica 60.
+<p>
+Quando abbiamo scritto <span class=code>SommaTempi</span> e <span class=code>Incremento</span> stavamo effettivamente calcolando una somma in base 60 e questo è il motivo per cui dovevamo gestire il riporto tra secondi e minuti, e tra minuti e ore quando la somma era maggiore di 59.
+<p>
+Questa osservazione ci suggerisce un altro tipo di approccio al problema: possiamo convertire l'oggetto <span class=code>Tempo</span> in un numero singolo ed avvantaggiarci del fatto che il computer lavora bene con le operazioni aritmetiche. Questa funzione converte un oggetto <span class=code>Tempo</span> in un intero:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>ConverteInSecondi</span>(Orario):
+<br>&nbsp; Minuti = Orario.Ore * 60 + Orario.Minuti
+<br>&nbsp; Secondi = Minuti * 60 + Orario.Secondi
+<br>&nbsp; <span class=keyword>return</span> Secondi
+<br></span></p>
+
+<p>
+Tutto quello che ci serve è ora un modo per convertire da un intero ad un oggetto <span class=code>Tempo</span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>ConverteInTempo</span>(Secondi):
+<br>&nbsp; Orario = Tempo()
+<br>&nbsp; Orario.Ore = Secondi/3600
+<br>&nbsp; Secondi = Secondi - Orario.Ore * 3600
+<br>&nbsp; Orario.Minuti = Secondi/60
+<br>&nbsp; Secondi = Secondi - Orario.Minuti * 60
+<br>&nbsp; Orario.Secondi = Secondi
+<br>&nbsp; <span class=keyword>return</span> Orario
+<br></span></p>
+
+<p>
+Forse dovrai pensarci un po' su per convincerti che questa tecnica per convertire un numero da una base all'altra è formalmente corretta. Comunque ora puoi usare queste funzioni per riscrivere <span class=code>SommaTempi</span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>SommaTempi</span>(T1, T2):
+<br>&nbsp; Secondi = ConverteInSecondi(T1) + ConverteInSecondi(T2)
+<br>&nbsp; <span class=keyword>return</span> ConverteInTempo(Secondi)
+<br></span></p>
+
+<p>
+Questa versione è molto più concisa dell'originale e ed è molto più facile dimostrare la sua correttezza.
+
+<blockquote><i>Esercizio: riscrivi <span class=code>Incremento</span> usando lo stesso principio.</i>
+</blockquote>
+
+<a name=6></a>
+<h3>13.6 Generalizzazione</h3>
+<p>
+Sicuramente la conversione numerica da base 10 a base 60 e viceversa è meno intuitiva da capire, data la sua astrazione. Il nostro intuito ci aveva portato a lavorare con i tempi in un modo molto più comprensibile anche se meno efficace.
+<p>
+Malgrado lo sforzo iniziale abbiamo progettato il nostro programma facendo in modo di trattare i tempi come numeri in base 60, il tempo investito nello scrivere le funzioni di conversione viene abbondantemente recuperato quando riusciamo a scrivere un programma molto più corto, facile da leggere e correggere, e soprattutto più affidabile.
+<p>
+Se il programma è progettato in modo oculato è anche più facile aggiungere nuove caratteristiche. Per esempio immagina di sottrarre due tempi per determinare l'intervallo trascorso. L'approccio iniziale avrebbe portato alla necessità di dover implementare una sottrazione con il prestito. Con le funzioni di conversione, scritte una sola volta ma riutilizzate in varie funzioni, è molto più facile e rapido avere un programma funzionante anche in questo caso.
+<p>
+Talvolta il fatto di rendere un problema più generale e quindi leggermente più difficile da implementare permette di gestirlo in modo più semplice dato che ci sono meno casi speciali da gestire e di conseguenza minori possibilità di errore.
+
+<a name=7></a>
+<h3>13.7 Algoritmi</h3>
+<p>
+Quando trovi una soluzione ad una classe di problemi, invece che ad un singolo problema, hai a che fare con un <b>algoritmo</b>.  Abbiamo già usato questa parola in precedenza ma non l'abbiamo propriamente definita ed il motivo risiede nel fatto che non è facile trovare una definizione. Proveremo un paio di approcci.
+<p>
+Consideriamo qualcosa che non è un algoritmo: quando hai imparato a moltiplicare due numeri di una cifra hai sicuramente memorizzato la tabella della moltiplicazione. In effetti si è trattato di memorizzare 100 soluzioni specifiche: questo tipo di lavoro non è un algoritmo.
+<p>
+Ma se sei stato "pigro" probabilmente hai trovato delle scorciatoie che ti hanno permesso di alleggerire il lavoro. Per fare un esempio per moltiplicare <tt>n</tt> per 9 potevi scrivere <tt>n-1</tt> come prima cifra, seguito da <tt>10-n</tt> come seconda cifra. Questo sistema è una soluzione generale per moltiplicare ogni numero di una cifra maggiore di zero per 9: in questo caso ci troviamo a che fare con un algoritmo.
+<p>
+Le varie tecniche che hai imparato per calcolare la somma col riporto, la sottrazione con il prestito, la moltiplicazione, la divisione sono tutti algoritmi. Una delle caratteristiche degli algoritmi è che non richiedono intelligenza per essere eseguiti in quanto sono processi meccanici nei quali ogni passo segue il precedente secondo un insieme di regole più o meno semplice.
+<p>
+D'altro canto la progettazione di algoritmi è molto interessante ed intellettualmente stimolante rappresentando il fulcro di ciò che chiamiamo programmazione.
+<p>
+Alcune delle cose più semplici che facciamo naturalmente, senza difficoltà o pensiero cosciente, sono tra le cose più difficili da esprimere sotto forma di algoritmo. Comprendere un linguaggio naturale è un buon esempio: lo sappiamo fare tutti ma finora nessuno è stato in grado di spiegare <i>come</i> ci riusciamo esprimendolo sotto forma di algoritmo.
+
+<a name=8></a>
+<h3>13.8 Glossario</h3>
+
+<dl>
+<dt>Funzione pura</dt>
+<dd>funzione che non modifica gli oggetti ricevuti come parametri. La maggior parte delle funzioni pure sono produttive.</dd>
+<dt>Modificatore</dt>
+<dd>funzione che cambia uno o più oggetti ricevuti come parametri. La maggior parte dei modificatori non restituisce valori di ritorno.</dd>
+<dt>Stile di programmazione funzionale</dt>
+<dd>stile di programmazione dove la 
+maggior parte delle funzioni è pura.</dd>
+<dt>Sviluppo prototipale</dt>
+<dd>tipo di sviluppo del programma a partire da un prototipo che viene gradualmente testato, esteso e migliorato.</dd>
+<dt>Sviluppo pianificato</dt>
+<dd>tipo di sviluppo del programma che prevede uno studio preventivo del problema da risolvere.</dd>
+<dt>Algoritmo</dt>
+<dd>serie di passi per risolvere una classe di problemi in modo meccanico.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap14.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap12.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>

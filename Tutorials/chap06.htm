@@ -1,0 +1,542 @@
+<html><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Chapter 6: Iterazione</title>
+
+<style type="text/css">
+<!--
+body {background-color: white; color: black;}
+a {background-color: white; color: blue; text-decoration: underline;}
+a:hover {text-decoration: none;}
+td.head,td.headcenter {background-color: #99ccff; color: black;}
+td.headcenter {width: 100%; text-align: center;}
+img {border-style: none;}
+-->
+</style>
+
+
+<style type="text/css">
+<!--
+.code {font-family: Courier; font-size: 85%;}
+.keyword {color: #0000ff;}
+.comment {color: #008000;}
+.quote {color: #ff0000;}
+.function {color: #ffc400;}
+-->
+</style>
+
+</head>
+
+<body>
+
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap07.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap05.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+
+<h2>Chapter 6</h2>
+
+
+
+<h1>Iterazione</h1>
+
+<a name=1></a>
+<h3>6.1 Assegnazione e confronto</h3>
+<p>
+Come puoi avere già scoperto è possibile assegnare più valori ad una stessa variabile, con la variabile che assume sempre l'ultimo valore assegnato:
+
+<p><span class=code>Numero = 5
+<br><span class=keyword>print</span> Numero,
+<br>Numero = 7
+<br><span class=keyword>print</span> Numero
+<br></span></p>
+
+<p>
+La stampa di questo programma è <span class=code>5 7</span>, perché la prima volta che <span class=code>Numero</span> è stampato il suo valore è 5, la seconda 7. La virgola dopo la prima istruzione <span class=code><span class=keyword>print</span></span> evita il ritorno a capo dopo la stampa così che entrambi i valori appaiono sulla stessa riga.
+<p>
+Questo è il diagramma di stato per quest'assegnazione:
+
+<p align="center"><img src="illustrations/i_assign2.png"></p>
+<p>
+Nel caso di assegnazioni ripetute è particolarmente importante distinguere tra operazioni di assegnazione e controlli di uguaglianza. Python usa (<span class=code>=</span>) per l'assegnazione e si potrebbe essere tentati di interpretare l'istruzione <span class=code>a = b</span> come un controllo di equivalenza, ma non lo è!
+<p>
+In primo luogo l'equivalenza è commutativa mentre l'assegnazione non lo è: in matematica se <tt>a = 7</tt> allora <tt>7 = a</tt>; in Python l'istruzione <span class=code>a=7</span> è legale mentre <span class=code>7=a</span> produce un errore di sintassi.
+<p>
+Inoltre in matematica un'uguaglianza è sempre vera: se <tt>a = b</tt>, <tt>a</tt> sarà sempre uguale a <tt>b</tt>.  In Python un'assegnazione può rendere due variabili uguali ma raramente l'uguaglianza sarà mantenuta a lungo:
+
+<p><span class=code>a = 5
+<br>b = a&nbsp; &nbsp; <span class=comment># a e b sono uguali
+</span><br>a = 3&nbsp; &nbsp; <span class=comment># ora a e b sono diversi
+</span><br></span></p>
+
+<p>
+La terza riga cambia il valore di <span class=code>a</span> ma non cambia il valore di <span class=code>b</span>. In qualche linguaggio di programmazione sono usati simboli diversi per l'assegnazione, tipo <span class=code>&lt;-</span> o <span class=code>:=</span>, per evitare ogni malinteso.
+
+<a name=2></a>
+<h3>6.2 L'istruzione <span class=code><span class=keyword>while</span></span> </h3>
+<p>
+I computer sono spesso usati per automatizzare compiti ripetitivi: il noiosissimo compito di ripetere operazioni identiche o simili un gran numero di volte senza fare errori è qualcosa che riesce bene ai computer.
+<p>
+Abbiamo visto due programmi, <span class=code>NRigheVuote</span> e <span class=code>ContoAllaRovescia</span>, che usano la ricorsione per eseguire una ripetizione. Questa ripetizione è più comunemente chiamata <b>iterazione</b>.
+Dato che l'iterazione è così comune, Python fornisce vari sistemi per renderla più semplice da implementare. Il primo sistema è l'istruzione <span class=code><span class=keyword>while</span></span>.
+<p>
+Ecco come <span class=code>ContoAllaRovescia</span> viene riscritto usando l'istruzione <span class=code><span class=keyword>while</span></span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>ContoAllaRovescia</span>(n):
+<br>&nbsp; <span class=keyword>while</span> n &gt; 0:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> n
+<br>&nbsp; &nbsp; n = n-1
+<br>&nbsp; <span class=keyword>print</span> <span class=quote>"Partenza!"</span>
+<br></span></p>
+
+<p>
+La chiamata ricorsiva è stata rimossa e quindi questa funzione ora non è più ricorsiva.
+<p>
+Puoi leggere il programma con l'istruzione <span class=code><span class=keyword>while</span></span> come fosse scritto in un linguaggio naturale: "Finché (while) <span class=code>n</span> è più grande di 0 stampa il valore di <span class=code>n</span> e poi diminuiscilo di 1.  Quando arrivi a 0 stampa la stringa <span class=code>Partenza!</span>".
+<p>
+In modo più formale ecco il flusso di esecuzione di un'istruzione <span class=code><span class=keyword>while</span></span>:
+
+<ol>
+<li>Valuta la condizione controllando se essa è vera (<span class=code>1</span>) o falsa (<span class=code>0</span>).</li>
+<li>Se la condizione è falsa esci dal ciclo <span class=code><span class=keyword>while</span></span> e continua l'esecuzione dalla prima istruzione che lo segue.</li>
+<li>Se la condizione è vera esegui tutte le istruzioni nel corpo del <span class=code><span class=keyword>while</span></span> e torna al passo 1.</li>
+</ol>
+<p>
+Il corpo del ciclo <span class=code><span class=keyword>while</span></span> consiste di tutte le istruzioni che seguono l'intestazione e che hanno la stessa indentazione.
+<p>
+Questo tipo di flusso è chiamato <b>ciclo</b> o loop.  Nota che se la condizione è falsa al primo controllo, le istruzioni del corpo non sono mai eseguite.
+<p>
+Il corpo del ciclo dovrebbe cambiare il valore di una o più variabili così che la condizione possa prima o poi diventare falsa e far così terminare il ciclo. In caso contrario il ciclo si ripeterebbe all'infinito, determinando un <b>ciclo infinito</b>.
+<p>
+Nel caso di <span class=code>ContoAllaRovescia</span> possiamo essere certi che il ciclo è destinato a terminare visto che <span class=code>n</span> è finito ed il suo valore diventa via via più piccolo così da diventare, prima o poi, pari a zero. In altri casi può non essere così facile stabilire se un ciclo avrà termine:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>Sequenza</span>(n):
+<br>&nbsp; <span class=keyword>while</span> n != 1:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> n,
+<br>&nbsp; &nbsp; <span class=keyword>if</span> n%2 == 0:&nbsp; &nbsp; &nbsp; &nbsp; <span class=comment># se n e' pari
+</span><br>&nbsp; &nbsp; &nbsp; n = n/2
+<br>&nbsp; &nbsp; <span class=keyword>else</span>:&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class=comment># se n e' dispari
+</span><br>&nbsp; &nbsp; &nbsp; n = n*3+1
+<br></span></p>
+
+<p>
+La condizione per questo ciclo è <span class=code>n!=1</span> cosicché il ciclo si ripeterà finché <span class=code>n</span> è diverso da <span class=code>1</span>.
+<p>
+Ogni volta che viene eseguito il ciclo il programma stampa il valore di <span class=code>n</span> e poi controlla se è pari o dispari. Se è pari, <span class=code>n</span> viene diviso per 2.  Se dispari, è moltiplicato per 3 e gli viene sommato 1. Se il valore passato è 3, la sequenza risultante è 3, 10, 5, 16, 8, 4, 2, 1.
+<p>
+Dato che <span class=code>n</span> a volte sale e a volte scende in modo abbastanza casuale non c'è una prova ovvia che <span class=code>n</span> raggiungerà 1 in modo da far terminare il ciclo.  Per qualche particolare valore di <span class=code>n</span> possiamo facilmente determinare a priori il suo termine (per esempio per le potenze di 2) ma per gli altri nessuno è mai riuscito a trovare la dimostrazione che il ciclo ha termine.
+
+<blockquote><i>Esercizio: riscrivi la funzione <span class=code>NRigheVuote</span> della <a href="chap04.htm#9">sezione 4.9</a> usando un'iterazione invece che la ricorsione.</i>
+</blockquote>
+
+<a name=3></a>
+<h3>6.3 Tabelle</h3>
+<p>
+Una delle cose per cui sono particolarmente indicati i cicli è la generazione di tabulati. Prima che i computer fossero comunemente disponibili si dovevano calcolare a mano logaritmi, seni, coseni e i valori di tante altre funzioni matematiche. Per rendere più facile il compito i libri di matematica contenevano lunghe tabelle di valori la cui stesura comportava enormi quantità di lavoro molto noioso e grosse possibilità di errore.
+<p>
+Quando apparvero i computer l'idea iniziale fu quella di usarli per generare tabelle prive di errori. La cosa che non si riuscì a prevedere fu il fatto che i computer sarebbero diventati così diffusi e disponibili a tutti da rendere quei lunghi tabulati cartacei del tutto inutili. Per alcune operazioni i computer usano ancora tabelle simili in modo del tutto nascosto dall'operatore: vengono usate per ottenere risposte approssimate che poi vengono rifinite per migliorarne la precisione. In qualche caso ci sono stati degli errori in queste tabelle "interne", il più famoso dei quali ha avuto come protagonista il Pentium Intel con un errore nel calcolo delle divisioni in virgola mobile.
+<p>
+Sebbene la tabella dei logaritmi non sia più utile come lo era in passato rimane tuttavia un buon esempio di iterazione. Il programma seguente stampa una sequenza di valori nella colonna di sinistra e il loro logaritmo in quella di destra:
+
+<p><span class=code>x = 1.0
+<br><span class=keyword>while</span> x &lt; 10.0:
+<br>&nbsp; <span class=keyword>print</span> x, <span class=quote>'\t'</span>, math.log(x)
+<br>&nbsp; x = x + 1.0
+<br></span></p>
+
+<p>
+La stringa <span class=code><span class=quote>'\t'</span></span> rappresenta un carattere di <b>tabulazione</b>.
+<p>
+A mano a mano che caratteri e stringhe sono mostrati sullo schermo un marcatore invisibile chiamato <b>cursore</b> tiene traccia di dove andrà stampato il carattere successivo. Dopo un'istruzione <span class=code><span class=keyword>print</span></span> il cursore normalmente si posiziona all'inizio della riga successiva.
+<p>
+Il carattere di tabulazione sposta il cursore a destra finché quest'ultimo raggiunge una delle posizione di stop delle tabulazioni. Queste posizioni si ripetono a distanze regolari, tipicamente ogni 4 o 8 caratteri.
+Le tabulazioni sono utili per allineare in modo semplice le colonne di testo. Ecco il prodotto del programma appena visto:
+
+<p><span class=code>1.0&nbsp; &nbsp; &nbsp;0.0
+<br>2.0&nbsp; &nbsp; &nbsp;0.69314718056
+<br>3.0&nbsp; &nbsp; &nbsp;1.09861228867
+<br>4.0&nbsp; &nbsp; &nbsp;1.38629436112
+<br>5.0&nbsp; &nbsp; &nbsp;1.60943791243
+<br>6.0&nbsp; &nbsp; &nbsp;1.79175946923
+<br>7.0&nbsp; &nbsp; &nbsp;1.94591014906
+<br>8.0&nbsp; &nbsp; &nbsp;2.07944154168
+<br>9.0&nbsp; &nbsp; &nbsp;2.19722457734
+<br></span></p>
+
+<p>
+Se questi valori sembrano strani ricorda che la funzione <span class=code>log</span> usa il logaritmo dei numeri naturali <i>e</i>. Dato che le potenze di due sono così importanti in informatica possiamo avere la necessità di calcolare il logaritmo in base 2. Per farlo usiamo questa formula:
+
+<p>
+<table align=center><tr><td><tt>
+log<sub>2</sub> x = <table style="display: inline; align: center; vertical-align: middle;"><tr><td>log<sub>e</sub> x</td></tr><tr><td><hr noshade color=black></td></tr><tr><td>log<sub>e</sub> 2</td></tr></table>
+</tt></td></tr></table>
+
+
+<p>
+Modificando una sola riga di programma:
+
+<p><span class=code>&nbsp; &nbsp;<span class=keyword>print</span> x, <span class=quote>'\t'</span>,&nbsp; math.log(x)/math.log(2.0)
+<br></span></p>
+
+<p>
+otteniamo:
+
+<p><span class=code>1.0&nbsp; &nbsp; &nbsp;0.0
+<br>2.0&nbsp; &nbsp; &nbsp;1.0
+<br>3.0&nbsp; &nbsp; &nbsp;1.58496250072
+<br>4.0&nbsp; &nbsp; &nbsp;2.0
+<br>5.0&nbsp; &nbsp; &nbsp;2.32192809489
+<br>6.0&nbsp; &nbsp; &nbsp;2.58496250072
+<br>7.0&nbsp; &nbsp; &nbsp;2.80735492206
+<br>8.0&nbsp; &nbsp; &nbsp;3.0
+<br>9.0&nbsp; &nbsp; &nbsp;3.16992500144
+<br></span></p>
+
+<p>
+Possiamo vedere che 1, 2, 4 e 8 sono potenze di due perché i loro logaritmi in base 2 sono numeri interi.
+<p>
+Per continuare con le modifiche, invece di sommare qualcosa a <span class=code>x</span> ad ogni ciclo e ottenere così una serie aritmetica, possiamo moltiplicare <span class=code>x</span> per qualcosa ottenendo una serie geometrica. Se vogliamo trovare il logaritmo di altre potenze di due possiamo modificare ancora il programma:
+
+<p><span class=code>x = 1.0
+<br><span class=keyword>while</span> x &lt; 100.0:
+<br>&nbsp; <span class=keyword>print</span> x, <span class=quote>'\t'</span>, math.log(x)/math.log(2.0)
+<br>&nbsp; x = x * 2.0
+<br></span></p>
+
+<p>
+Il risultato in questo caso è:
+
+<p><span class=code>1.0&nbsp; &nbsp; &nbsp;0.0
+<br>2.0&nbsp; &nbsp; &nbsp;1.0
+<br>4.0&nbsp; &nbsp; &nbsp;2.0
+<br>8.0&nbsp; &nbsp; &nbsp;3.0
+<br>16.0&nbsp; &nbsp; 4.0
+<br>32.0&nbsp; &nbsp; 5.0
+<br>64.0&nbsp; &nbsp; 6.0
+<br></span></p>
+
+<p>
+Il carattere di tabulazione fa in modo che la posizione della seconda colonna non dipenda dal numero di cifre del valore nella prima.
+<p>
+Anche se i logaritmi possono non essere più così utili per un informatico, conoscere le potenze di due è fondamentale.
+
+<blockquote><i>Esercizio: modifica questo programma per fare in modo che esso produca le potenze di due fino a 65536 (cioè <tt>2<sup>16</sup></tt>). Poi stampale e imparale a memoria!</i>
+</blockquote>
+<p>
+Il carattere di backslash <span class=code>'\'</span> in <span class=code><span class=quote>'\t'</span></span> indica l'inizio di una <b>sequenza di escape</b>.  Le sequenze di escape sono usate per rappresentare caratteri invisibili come la tabulazione (<span class=code><span class=quote>'\t'</span></span>) e il ritorno a capo (<span class=code><span class=quote>'\n'</span></span>).
+Può comparire in qualsiasi punto di una stringa: nell'esempio appena visto la tabulazione è l'unica cosa presente nella stringa del print.
+<p>
+Secondo te, com'è possibile rappresentare un carattere di backslash in una stringa?
+
+<blockquote><i>Esercizio: scrivi una stringa singola che quando stampata
+
+<p><span class=code>produca
+<br>&nbsp; &nbsp; &nbsp; &nbsp; questo
+<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; risultato.
+<br></span></p>
+
+<p>
+</i>
+</blockquote>
+
+<a name=4></a>
+<h3>6.4 Tabelle bidimensionali </h3>
+<p>
+Una tabella bidimensionale è una tabella dove leggi un valore all'intersezione tra una riga ed una colonna, la tabella della moltiplicazione ne è un buon esempio.
+Immaginiamo che tu voglia stampare la tabella della moltiplicazione per i numeri da 1 a 6.
+<p>
+Un buon modo per iniziare è scrivere un ciclo che stampa i multipli di 2 tutti su di una stessa riga:
+
+<p><span class=code>i = 1
+<br><span class=keyword>while</span> i &lt;= 6:
+<br>&nbsp; <span class=keyword>print</span> 2*i, <span class=quote>'&nbsp; &nbsp;'</span>,
+<br>&nbsp; i = i + 1
+<br><span class=keyword>print</span>
+<br></span></p>
+
+<p>
+La prima riga inizializza una variabile chiamata <span class=code>i</span> che agisce come contatore o <b>indice del ciclo</b>.  Man mano che il ciclo viene eseguito <span class=code>i</span> passa da 1 a 6.  Quando <span class=code>i</span> è 7 la condizione non è più soddisfatta ed il ciclo termina. Ad ogni ciclo viene mostrato il valore di <span class=code>2*i</span> seguito da tre spazi.
+<p>
+Ancora una volta vediamo come la virgola in <span class=code><span class=keyword>print</span></span> faccia in modo che il cursore rimanga sulla stessa riga evitando un ritorno a capo.
+Quando il ciclo sui sei valori è stato completato una seconda istruzione <span class=code><span class=keyword>print</span></span> ha lo scopo di portare il cursore a capo su una nuova riga.
+<p>
+Il risultato del programma è:
+
+<p><span class=code>2&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 10&nbsp; &nbsp; &nbsp;12
+<br></span></p>
+
+
+<a name=5></a>
+<h3>6.5 Incapsulamento e generalizzazione</h3>
+<p>
+L'<span class=code>incapsulamento</span>  è il processo di inserire un pezzo di codice all'interno di una funzione così da permetterti di godere dei vantaggi delle funzioni. Hai già visto due esempi di incapsulamento: <span class=code>StampaParita</span> nella <a href="chap04.htm#5">sezione 4.5</a> e <span class=code>Divisibile</span> nella <a href="chap05.htm#4">sezione 5.4</a>.
+<p>
+<span class=code>Generalizzare</span> significa prendere qualcosa di specifico per farlo diventare generale:  nel nostro caso prendere il programma che calcola i multipli di 2 e fargli calcolare i multipli di un qualsiasi numero intero.
+<p>
+Questa funzione incapsula il ciclo visto in precedenza e lo generalizza per stampare i primi 6 multipli di <span class=code>n</span>:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>StampaMultipli</span>(n):
+<br>&nbsp; i = 1
+<br>&nbsp; <span class=keyword>while</span> i &lt;= 6:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> n*i, <span class=quote>'\t'</span>,
+<br>&nbsp; &nbsp; i = i + 1
+<br>&nbsp; <span class=keyword>print</span>
+<br></span></p>
+
+<p>
+Per incapsulare dobbiamo solo aggiungere la prima linea che dichiara il nome della funzione e la lista dei parametri. Per generalizzare dobbiamo sostituire il valore 2 con il parametro <span class=code>n</span>.
+<p>
+Se chiamiamo la funzione con l'argomento 2 otteniamo lo stesso risultato di prima. Con l'argomento 3 il risultato è:
+
+<p><span class=code>3&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;15&nbsp; &nbsp; &nbsp;18
+<br></span></p>
+
+<p>
+Con l'argomento 4:
+
+<p><span class=code>4&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;16&nbsp; &nbsp; &nbsp;20&nbsp; &nbsp; &nbsp;24
+<br></span></p>
+
+<p>
+Avrai certamente indovinato come stampare la tabella della moltiplicazione. Chiamiamo ripetutamente <span class=code>StampaMultipli</span> con argomenti diversi all'interno di un secondo ciclo:
+
+<p><span class=code>i = 1
+<br><span class=keyword>while</span> i &lt;= 6:
+<br>&nbsp; StampaMultipli(i)
+<br>&nbsp; i = i + 1
+<br></span></p>
+
+<p>
+Nota come siano simili questo ciclo e quello all'interno di <span class=code>StampaMultipli</span>: tutto quello che abbiamo fatto è stato sostituire l'istruzione <span class=code><span class=keyword>print</span></span> con una chiamata di funzione.
+<p>
+Il risultato di questo programma è la tabella della moltiplicazione:
+
+<p><span class=code>1&nbsp; &nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp; 6
+<br>2&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 10&nbsp; &nbsp; &nbsp;12
+<br>3&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;15&nbsp; &nbsp; &nbsp;18
+<br>4&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;16&nbsp; &nbsp; &nbsp;20&nbsp; &nbsp; &nbsp;24
+<br>5&nbsp; &nbsp; &nbsp; 10&nbsp; &nbsp; &nbsp;15&nbsp; &nbsp; &nbsp;20&nbsp; &nbsp; &nbsp;25&nbsp; &nbsp; &nbsp;30
+<br>6&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;18&nbsp; &nbsp; &nbsp;24&nbsp; &nbsp; &nbsp;30&nbsp; &nbsp; &nbsp;36
+<br></span></p>
+
+
+<a name=6></a>
+<h3>6.6 Ancora incapsulamento</h3>
+<p>
+Per provare ancora con l'incapsulamento andiamo a prendere il codice della sezione precedente e inseriamolo in una funzione:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>TabellaMoltiplicazione6x6</span>():
+<br>&nbsp; i = 1
+<br>&nbsp; <span class=keyword>while</span> i &lt;= 6:
+<br>&nbsp; &nbsp; StampaMultipli(i)
+<br>&nbsp; &nbsp; i = i + 1
+<br></span></p>
+
+<p>
+Il processo appena illustrato è un <b>piano di sviluppo</b> piuttosto comune: si sviluppa del codice controllando poche righe in ambiente interprete; solo quando queste righe sono perfettamente funzionanti le inseriamo in una funzione.
+<p>
+Questo modo di procedere è particolarmente utile se all'inizio della stesura del tuo programma non sai come lo dividerai in funzioni. Questo tipo di approccio ti permette di progettare il codice mentre procedi con la stesura.
+
+<a name=7></a>
+<h3>6.7 Variabili locali</h3>
+<p>
+Potresti chiederti com'è possibile che si possa usare la stessa variabile <span class=code>i</span> 
+sia in <span class=code>StampaMultipli</span> che in <span class=code>TabellaMoltiplicazione6x6</span>.  Non ci sono 
+problemi quando una funzione cambia il valore della variabile?
+<p>
+La risposta è no dato che la variabile <span class=code>i</span> usata in <span class=code>StampaMultipli</span> e la <span class=code>i</span> in <span class=code>TabellaMoltiplicazione6x6</span> <i>non sono</i> la stessa variabile.
+<p>
+Le variabili create all'interno della definizione di una funzione sono locali e non puoi accedere al valore di una variabile locale al di fuori della funzione che la ospita. Ciò significa che sei libero di avere variabili con lo stesso nome sempre che non si trovino all'interno di una stessa funzione.
+<p>
+Il diagramma di stack per questo programma mostra che le due variabili chiamate <span class=code>i</span> non sono la stessa variabile.  Si riferiscono a valori diversi e cambiandone una l'altra resta invariata.
+
+<p align="center"><img src="illustrations/i_stack4.png"></p>
+<p>
+Il valore di <span class=code>i</span> in <span class=code>TabellaMoltiplicazione6x6</span> va da 1 a 6.  Nel diagramma ha valore 3 e al prossimo ciclo varrà 4. Ad ogni ciclo <span class=code>TabellaMoltiplicazione6x6</span> chiama <span class=code>StampaMultipli</span> con il valore corrente di <span class=code>i</span> come argomento.  Quel valore viene assegnato al parametro <span class=code>n</span>.
+<p>
+All'interno di <span class=code>StampaMultipli</span> il valore di <span class=code>i</span> copre l'intervallo che 
+va da 1 a 6. Nel 
+diagramma è 2 e cambiandolo non ci sono effetti collaterali per la variabile 
+<span class=code>i</span> in <span class=code>TabellaMoltiplicazione6x6</span>.
+<p>
+È comune e perfettamente legale avere variabili locali con lo stesso nome. In particolare nomi come <span class=code>i</span> e <span class=code>j</span> sono usati frequentemente come indici per i cicli.
+
+<a name=8></a>
+<h3>6.8 Ancora generalizzazione</h3>
+<p>
+Se vogliamo generalizzare ulteriormente <span class=code>TabellaMoltiplicazione6x6</span> potremmo estendere il risultato ad una tabella di moltiplicazione di qualsiasi grandezza, e non solo fino al 6x6. A questo punto dobbiamo anche passare un argomento per stabilire la grandezza desiderata:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>TabellaMoltiplicazioneGenerica</span>(Grandezza):
+<br>&nbsp; i = 1
+<br>&nbsp; <span class=keyword>while</span> i &lt;= Grandezza:
+<br>&nbsp; &nbsp; StampaMultipli(i)
+<br>&nbsp; &nbsp; i = i + 1
+<br></span></p>
+
+<p>
+Abbiamo sostituito il valore 6 con il parametro <span class=code>Grandezza</span>.  Se chiamiamo <span class=code>TabellaMoltiplicazioneGenerica</span> con l'argomento 7 il risultato è:
+
+<p><span class=code>1&nbsp; &nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp; 6
+<br>2&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 10&nbsp; &nbsp; &nbsp;12
+<br>3&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;15&nbsp; &nbsp; &nbsp;18
+<br>4&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;16&nbsp; &nbsp; &nbsp;20&nbsp; &nbsp; &nbsp;24
+<br>5&nbsp; &nbsp; &nbsp; 10&nbsp; &nbsp; &nbsp;15&nbsp; &nbsp; &nbsp;20&nbsp; &nbsp; &nbsp;25&nbsp; &nbsp; &nbsp;30
+<br>6&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;18&nbsp; &nbsp; &nbsp;24&nbsp; &nbsp; &nbsp;30&nbsp; &nbsp; &nbsp;36
+<br>7&nbsp; &nbsp; &nbsp; 14&nbsp; &nbsp; &nbsp;21&nbsp; &nbsp; &nbsp;28&nbsp; &nbsp; &nbsp;35&nbsp; &nbsp; &nbsp;42
+<br></span></p>
+
+<p>
+Il risultato è corretto fatta eccezione per il fatto che sarebbe meglio avere lo stesso numero di righe e di colonne. Per farlo dobbiamo modificare <span class=code>StampaMultipli</span> per specificare quante colonne la tabella debba avere.
+<p>
+Tanto per essere originali chiamiamo anche questo parametro <span class=code>Grandezza</span>, dimostrando ancora una volta che possiamo avere parametri con lo stesso nome all'interno di funzioni diverse. Ecco l'intero programma:
+
+<p><span class=code><span class=keyword>def</span> <span class=function>StampaMultipli</span>(n, Grandezza):
+<br>&nbsp; i = 1
+<br>&nbsp; <span class=keyword>while</span> i &lt;= Grandezza:
+<br>&nbsp; &nbsp; <span class=keyword>print</span> n*i, <span class=quote>'\t'</span>,
+<br>&nbsp; &nbsp; i = i + 1
+<br>&nbsp; <span class=keyword>print
+<br>
+<br>def</span> TabellaMoltiplicazioneGenerica(Grandezza):
+<br>&nbsp; i = 1
+<br>&nbsp; <span class=keyword>while</span> i &lt;= Grandezza:
+<br>&nbsp; &nbsp; StampaMultipli(i, Grandezza)
+<br>&nbsp; &nbsp; i = i + 1
+<br></span></p>
+
+<p>
+Quando abbiamo aggiunto il nuovo parametro abbiamo cambiato la prima riga della funzione (l'intestazione) ed il posto dove la funzione è chiamata in <span class=code>TabellaMoltiplicazioneGenerica</span>.
+<p>
+Questo programma genera correttamente la tabella 7x7:
+
+<p><span class=code>1&nbsp; &nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 7
+<br>2&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 10&nbsp; &nbsp; &nbsp;12&nbsp; &nbsp; &nbsp;14
+<br>3&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;15&nbsp; &nbsp; &nbsp;18&nbsp; &nbsp; &nbsp;21
+<br>4&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;16&nbsp; &nbsp; &nbsp;20&nbsp; &nbsp; &nbsp;24&nbsp; &nbsp; &nbsp;28
+<br>5&nbsp; &nbsp; &nbsp; 10&nbsp; &nbsp; &nbsp;15&nbsp; &nbsp; &nbsp;20&nbsp; &nbsp; &nbsp;25&nbsp; &nbsp; &nbsp;30&nbsp; &nbsp; &nbsp;35
+<br>6&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;18&nbsp; &nbsp; &nbsp;24&nbsp; &nbsp; &nbsp;30&nbsp; &nbsp; &nbsp;36&nbsp; &nbsp; &nbsp;42
+<br>7&nbsp; &nbsp; &nbsp; 14&nbsp; &nbsp; &nbsp;21&nbsp; &nbsp; &nbsp;28&nbsp; &nbsp; &nbsp;35&nbsp; &nbsp; &nbsp;42&nbsp; &nbsp; &nbsp;49
+<br></span></p>
+
+<p>
+Quando generalizzi una funzione nel modo più appropriato, spesso ottieni 
+capacità che inizialmente non erano state previste. Per esempio dato 
+che <tt>ab = ba</tt>, tutti i numeri compresi nella tabella (fatta eccezione per 
+quelli della diagonale) sono presenti due volte. In caso di necessità puoi 
+modificare una linea in <span class=code>TabellaMoltiplicazioneGenerica</span> 
+per stamparne solo metà. Cambia :
+
+<p><span class=code>&nbsp; &nbsp; StampaMultipli(i, Grandezza)
+<br></span></p>
+
+<p>
+in
+
+<p><span class=code>&nbsp; &nbsp; StampaMultipli(i, i)
+<br></span></p>
+
+<p>
+per ottenere
+
+<p><span class=code>1
+<br>2&nbsp; &nbsp; &nbsp; 4
+<br>3&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 9
+<br>4&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;16
+<br>5&nbsp; &nbsp; &nbsp; 10&nbsp; &nbsp; &nbsp;15&nbsp; &nbsp; &nbsp;20&nbsp; &nbsp; &nbsp;25
+<br>6&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;18&nbsp; &nbsp; &nbsp;24&nbsp; &nbsp; &nbsp;30&nbsp; &nbsp; &nbsp;36
+<br>7&nbsp; &nbsp; &nbsp; 14&nbsp; &nbsp; &nbsp;21&nbsp; &nbsp; &nbsp;28&nbsp; &nbsp; &nbsp;35&nbsp; &nbsp; &nbsp;42&nbsp; &nbsp; &nbsp;49
+<br></span></p>
+
+
+<blockquote>
+Esercizio: il compito consiste nel tracciare l'esecuzione di questa 
+versione 
+
+ TabellaMoltiplicazioneGenerica 
+ 
+
+e cerca di capire come funziona.
+
+</blockquote>
+
+<a name=9></a>
+<h3>6.9 Funzioni</h3>
+<p>
+Abbiamo già menzionato i motivi per cui è consigliato l'uso delle funzioni, senza però entrare nel merito. Adesso ti starai chiedendo a che cosa ci stessimo riferendo. Eccone qualcuno:
+
+<ul>
+<li>Dare un nome ad una sequenza di istruzioni per rendere il tuo programma più semplice da leggere e correggere.</li>
+<li>Dividere un grosso programma in tante piccole parti che possono essere testate singolarmente e poi ricomposte in un tutto unico.</li>
+<li>Facilitare sia la ricorsione che l'iterazione.</li>
+<li>Riutilizzare parti di programma: quando una funzione è stata scritta e testata può essere riutilizzata anche in altri programmi.</li>
+</ul>
+
+<a name=10></a>
+<h3>6.10 Glossario</h3>
+
+<dl>
+<dt>Assegnazione ripetuta</dt>
+<dd>assegnazione alla stessa variabile di più valori nel corso del programma.</dd>
+<dt>Iterazione</dt>
+<dd>ripetizione di una serie di istruzioni usando una funzione ricorsiva o un ciclo.</dd>
+<dt>Ciclo</dt>
+<dd>istruzione o gruppo di istruzioni che vengono eseguite ripetutamente finché è soddisfatta una condizione.</dd>
+<dt>Ciclo infinito</dt>
+<dd>ciclo nel quale la condizione di terminazione non è mai soddisfatta.</dd>
+<dt>Corpo</dt>
+<dd>gruppo di istruzioni all'interno di un ciclo.</dd>
+<dt>Indice del ciclo</dt>
+<dd>variabile usata nella condizione di terminazione di un ciclo.</dd>
+<dt>Tabulazione</dt>
+<dd>carattere speciale (<span class=code><span class=quote>'\t'</span></span>) che in un'istruzione di stampa sposta il cursore alla prossima posizione di stop nella riga corrente.</dd>
+<dt>Ritorno a capo</dt>
+<dd>carattere speciale (<span class=code><span class=quote>'\n'</span></span>) che in un'istruzione di stampa sposta il cursore all'inizio della prossima riga.</dd>
+<dt>Cursore</dt>
+<dd>marcatore non visibile che tiene traccia di dove andrà stampato il prossimo carattere.</dd>
+<dt>Sequenza di escape</dt>
+<dd>carattere (<span class=code>\\</span>) seguito da uno o più caratteri, usato per designare dei caratteri non stampabili.</dd>
+<dt>Incapsulare</dt>
+<dd>dividere un programma complesso in componenti più semplici, tipo le funzioni, e isolarne i componenti uno dall'altro usando variabili locali.</dd>
+<dt>Generalizzare</dt>
+<dd>sostituire qualcosa di specifico (come un valore costante) con qualcosa di più generale (come un parametro o una variabile).</dd>
+<dt>Piano di sviluppo</dt>
+<dd>processo per lo sviluppo di un programma. In questo capitolo abbiamo mostrato uno stile di sviluppo basato sulla scrittura di un semplice programma capace di svolgere un compito specifico, per poi estenderlo con l'incapsulamento e la generalizzazione.</dd>
+</dl>
+<p>
+
+<p>
+<hr>
+<table width="100%" cellpadding="0" cellspacing="2" border="0">
+  <tr>
+    <td width="20" class=head><a href="chap07.htm"><img border="0" alt="Next" src="images/next.png"></a></td>
+    <td width="20" class=head><a href="index.htm"><img border="0" alt="Up" src="images/up.png"></a></td>
+    <td width="20" class=head><a href="chap05.htm"><img border="0" alt="Previous" src="images/prev.png"></a></td>
+    <td width="100%" class=headcenter><img border="0" alt="Hi" src="images/headertitle.png"></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+    <td width="20" class=head><a href="dex.htm"><img border="0" alt="Index" src="images/index.png"></a></td>
+    <td width="20" class=head><img border="0" alt="" src="images/blank.png"></td>
+  </tr>
+</table>
+<hr>
+
+<script language="Javascript">
+<!--
+function fn(str)
+{
+  var w = window.open("","newwin","height=200,width=200");
+  w.document.write("<html><head><title>Note</title><\/head><body bgcolor=white>" + str + "<p><a href=\"javascript:self.close();\"><small><font color=blue><b>Close window</b></small></font></a></p></body></html>");
+}
+//-->
+</script>
+</body>
+</html>
