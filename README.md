@@ -1,3 +1,4 @@
 # Python-Tutorial
 
-Python tutorial
+Diritti riservati a:
+http://www.python.it
